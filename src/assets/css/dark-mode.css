@@ -1,0 +1,210 @@
+/* Dark mode theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Mode Colors */
+        --color-background: #1a1a1a;
+        --color-background-light: #2d2d2d;
+        --color-background-dark: #000000;
+        
+        --color-spiritual: #4a5d70;
+        --color-spiritual-light: rgba(74, 93, 112, 0.6);
+        --color-warm-gold: #ffd700;
+        --color-soft-gray: #2d2d2d;
+        --color-text: #ffffff;
+        --color-text-light: #e0e0e0;
+        --color-muted: #a0a0a0;
+        --color-border: #404040;
+        
+        /* Dark Mode Shadows */
+        --shadow-spiritual: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        --shadow-warm: 0 8px 25px -8px rgba(255, 215, 0, 0.2);
+        --shadow-gentle: 0 4px 20px -4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Specific dark mode overrides */
+    body {
+        background-color: var(--color-background);
+        color: var(--color-text);
+    }
+
+    /* Headers */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--color-text-light);
+    }
+
+    /* Links */
+    a {
+        color: var(--color-warm-gold);
+    }
+
+    a:hover {
+        color: var(--color-spiritual-light);
+    }
+
+    /* Buttons */
+    .btn {
+        background-color: var(--color-background-light);
+        border-color: var(--color-border);
+        color: var(--color-text);
+    }
+
+    .btn:hover {
+        background-color: var(--color-spiritual);
+        border-color: var(--color-spiritual-light);
+    }
+
+    .btn-primary {
+        background-color: var(--color-warm-gold);
+        color: var(--color-background-dark);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-spiritual);
+        color: var(--color-text);
+    }
+
+    /* Cards */
+    .card {
+        background-color: var(--color-background-light);
+        border-color: var(--color-border);
+    }
+
+    /* Event Cards */
+    .event-card {
+        background-color: var(--color-background-light);
+        border-color: var(--color-border);
+    }
+
+    .event-date {
+        background-color: var(--color-spiritual);
+        color: var(--color-text-light);
+    }
+
+    /* Forms */
+    input, select, textarea {
+        background-color: var(--color-background-light);
+        border-color: var(--color-border);
+        color: var(--color-text);
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: var(--color-warm-gold);
+        box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+    }
+
+    /* Placeholders */
+    ::placeholder {
+        color: var(--color-muted);
+    }
+
+    /* Images */
+    img {
+        filter: brightness(0.8);
+    }
+
+    /* Navigation */
+    .nav-menu {
+        background-color: var(--color-background-dark);
+    }
+
+    .nav-link {
+        color: var(--color-text-light);
+    }
+
+    .nav-link:hover, .nav-link.active {
+        color: var(--color-warm-gold);
+    }
+
+    /* Sections */
+    .section-alt {
+        background-color: var(--color-background-light);
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background-color: var(--color-background-dark);
+    }
+
+    .hero-content {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* Footer */
+    footer {
+        background-color: var(--color-background-dark);
+        border-top-color: var(--color-border);
+    }
+
+    /* Overlays and Modals */
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Social Media Icons */
+    .social-icon {
+        color: var(--color-text-light);
+    }
+
+    .social-icon:hover {
+        color: var(--color-warm-gold);
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+        background-color: var(--color-background-light);
+        color: var(--color-text-light);
+    }
+
+    .back-to-top:hover {
+        background-color: var(--color-warm-gold);
+        color: var(--color-background-dark);
+    }
+
+    /* Tables */
+    table {
+        border-color: var(--color-border);
+    }
+
+    th, td {
+        border-color: var(--color-border);
+    }
+
+    tr:nth-child(even) {
+        background-color: var(--color-background-light);
+    }
+
+    /* Code Blocks */
+    pre, code {
+        background-color: var(--color-background-dark);
+        border-color: var(--color-border);
+    }
+
+    /* Blockquotes */
+    blockquote {
+        border-left-color: var(--color-warm-gold);
+        background-color: var(--color-background-light);
+    }
+
+    /* Loading States */
+    .loading::before {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--color-background-dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-muted);
+        border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-warm-gold);
+    }
+}

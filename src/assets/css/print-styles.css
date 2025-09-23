@@ -1,0 +1,154 @@
+/* Print Styles */
+@media print {
+    /* Reset backgrounds and colors */
+    * {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        filter: none !important;
+    }
+
+    /* Hide non-essential elements */
+    header,
+    nav,
+    footer,
+    .back-to-top,
+    .mobile-menu,
+    .social-links,
+    .hero-buttons,
+    .contact-form,
+    video,
+    audio,
+    iframe,
+    button:not(.print-button) {
+        display: none !important;
+    }
+
+    /* Basic layout adjustments */
+    body {
+        margin: 0;
+        padding: 0;
+        font-size: 12pt;
+        line-height: 1.4;
+        width: 100%;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0.5cm;
+    }
+
+    /* Page breaks */
+    h1, h2, h3 {
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+
+    img {
+        page-break-inside: avoid;
+        max-width: 100% !important;
+    }
+
+    /* URL display for links */
+    a[href^="http"]:after {
+        content: " (" attr(href) ")";
+        font-size: 90%;
+    }
+
+    /* Sermon notes specific styles */
+    .sermon-notes {
+        margin: 1cm 0;
+        page-break-before: always;
+    }
+
+    .sermon-notes h2 {
+        font-size: 18pt;
+        margin-bottom: 0.5cm;
+    }
+
+    .sermon-notes .scripture-reference {
+        font-style: italic;
+        margin: 0.3cm 0;
+    }
+
+    .sermon-notes .key-points {
+        margin: 0.5cm 0;
+    }
+
+    .sermon-notes .key-points li {
+        margin-bottom: 0.2cm;
+    }
+
+    /* Event details specific styles */
+    .event-card {
+        page-break-inside: avoid;
+        border: 1px solid #000;
+        padding: 0.5cm;
+        margin: 0.5cm 0;
+    }
+
+    .event-card h3 {
+        font-size: 14pt;
+        margin-bottom: 0.3cm;
+    }
+
+    .event-card .date-time {
+        font-weight: bold;
+        margin: 0.2cm 0;
+    }
+
+    .event-card .location {
+        margin: 0.2cm 0;
+    }
+
+    .event-card .description {
+        margin-top: 0.3cm;
+    }
+
+    /* QR Code for digital version */
+    .print-qr-code {
+        display: block !important;
+        margin: 1cm auto;
+        text-align: center;
+    }
+
+    .print-qr-code img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .print-qr-code-label {
+        display: block;
+        margin-top: 0.2cm;
+        font-size: 9pt;
+    }
+
+    /* Header and footer for printed pages */
+    @page {
+        margin: 2cm;
+    }
+
+    @page :first {
+        margin-top: 3cm;
+    }
+
+    /* Additional print information */
+    .print-info {
+        display: block !important;
+        text-align: center;
+        font-size: 9pt;
+        margin-top: 1cm;
+        border-top: 1px solid #000;
+        padding-top: 0.5cm;
+    }
+
+    .print-date {
+        display: block !important;
+        font-size: 8pt;
+        text-align: right;
+        margin-top: 0.3cm;
+    }
+}

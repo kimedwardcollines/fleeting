@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Laver Transformation Ministries</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="src/assets/css/loading-states.css">
+    <link rel="stylesheet" href="src/assets/css/print-styles.css" media="print">
+    <link rel="stylesheet" href="src/assets/css/image-optimization.css">
+    <link rel="stylesheet" href="src/assets/css/social-share.css">
+    <link rel="stylesheet" href="src/assets/css/mobile-menu.css">
+    <link rel="stylesheet" href="src/assets/css/dark-mode.css">
+    <link rel="stylesheet" href="src/assets/css/church-hero.css">
+    <link rel="stylesheet" href="src/assets/css/nav-styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Add IntersectionObserver polyfill for older browsers -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"></script>
+
+    <!-- JavaScript Components -->
+    <script src="src/assets/js/nav-script.js" defer></script>
+    <script src="src/assets/js/loading-states.js" defer></script>
+    <script src="src/assets/js/mobile-menu.js" defer></script>
+    <script src="src/assets/js/image-optimization.js" defer></script>
+    <script src="src/assets/js/social-share.js" defer></script>
+    <script src="src/assets/js/about-section.js" defer></script>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="nav-container">
+        <div class="scroll-progress"></div>
+        <nav class="nav" id="main-nav">
+            <a href="#home" class="logo">
+                <i class="fas fa-church logo-icon"></i>
+                <span class="logo-text">Laver Transformation</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li class="nav-dropdown">
+                    <a href="#ministries">Ministries</a>
+                    <div class="dropdown-content">
+                        <a href="#youth">Youth Ministry</a>
+                        <a href="#worship">Worship</a>
+                        <a href="#outreach">Community Outreach</a>
+                        <a href="#prayer">Prayer Groups</a>
+                    </div>
+                </li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li class="nav-dropdown">
+                    <a href="#services">Services</a>
+                    <div class="dropdown-content">
+                        <a href="#sunday">Sunday Service</a>
+                        <a href="#wednesday">Wednesday Bible Study</a>
+                        <a href="#prayer">Prayer Meeting</a>
+                    </div>
+                </li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#sermons">Sermons</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-buttons">
+                <a href="#services" class="nav-btn nav-btn-primary">Join Us Sunday</a>
+            </div>
+
+            <button class="mobile-menu" aria-label="Toggle Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Church Hero Section -->
+    <section id="home" class="church-hero" data-lazy-load>
+        <img 
+            src="src/church-image.jpg" 
+            alt="Laver Transformation Ministries at sunset" 
+            class="church-hero__image"
+            loading="lazy"
+            data-optimized
+        >
+        <div class="church-hero__overlay"></div>
+        <div class="church-hero__content" data-sharable data-share-title="Welcome to Laver Transformation Ministries" data-share-description="A place of spiritual growth, transformation, and community where lives are changed through God's love and grace.">
+            <h1>Welcome to <span class="highlight">Laver Transformation Ministries</span></h1>
+            <p>A place of spiritual growth, transformation, and community where lives are changed through God's love and grace.</p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">Join Us This Sunday</a>
+                <a href="#about" class="btn btn-secondary">Learn More About Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About Our Church</h2>
+                <p>Laver Transformation Ministries is a vibrant community of believers dedicated to spiritual transformation and serving our community in Wamala.</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="mission">
+                    <h3>Our Mission</h3>
+                    <p>We are committed to transforming lives through the power of God's Word and love. Our church serves as a beacon of hope and transformation in the Wamala community, where people from all walks of life come together to worship, learn, and grow.</p>
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Wamala, along Wamala Katoke Road</span>
+                    </div>
+                </div>
+
+                <div class="features">
+                    <div class="feature-card">
+                        <i class="fas fa-heart"></i>
+                        <h4>Loving Community</h4>
+                        <p>A welcoming family where everyone belongs and grows together in faith.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-book-open"></i>
+                        <h4>Biblical Teaching</h4>
+                        <p>Grounded in Scripture with practical application for daily living and spiritual growth.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Active Ministry</h4>
+                        <p>Engaging ministries for all ages, especially our vibrant youth community.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ministries Section -->
+    <section id="ministries" class="ministries">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Ministries</h2>
+                <p>Discover ways to grow, serve, and connect through our various ministry programs designed to nurture spiritual growth and community engagement.</p>
+            </div>
+
+            <div class="ministries-grid">
+                <div class="ministry-card featured">
+                    <i class="fas fa-users"></i>
+                    <h3>Youth Ministry</h3>
+                    <p>Empowering young people through worship, fellowship, and discipleship.</p>
+                    <ul class="ministry-features">
+                        <li>Weekly Youth Service</li>
+                        <li>Leadership Training</li>
+                        <li>Community Outreach</li>
+                        <li>Summer Camps</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline">Learn More</a>
+                </div>
+
+                <div class="ministry-card">
+                    <i class="fas fa-child"></i>
+                    <h3>Children's Ministry</h3>
+                    <p>Nurturing the next generation with age-appropriate biblical teaching.</p>
+                    <ul class="ministry-features">
+                        <li>Sunday School</li>
+                        <li>Children's Church</li>
+                        <li>Holiday Programs</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline">Learn More</a>
+                </div>
+
+                <div class="ministry-card">
+                    <i class="fas fa-music"></i>
+                    <h3>Worship Ministry</h3>
+                    <p>Creating an atmosphere of praise through music and creative expression.</p>
+                    <ul class="ministry-features">
+                        <li>Choir Ministry</li>
+                        <li>Instrumental Team</li>
+                        <li>Dance Ministry</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="leadership">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Leadership Team</h2>
+                <p>Meet the dedicated pastors and leaders who guide our church family with wisdom, love, and commitment to God's calling.</p>
+            </div>
+
+            <div class="leadership-grid">
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <div class="leader-initials">MN</div>
+                    </div>
+                    <h3>Pastor Milly Nankabirwa</h3>
+                    <p class="leader-title">Senior Pastor</p>
+                    <p class="leader-description">Leading our congregation with wisdom, compassion, and a heart for transformation.</p>
+                    <div class="leader-specialties">
+                        <span>Leadership</span>
+                        <span>Teaching</span>
+                        <span>Pastoral Care</span>
+                    </div>
+                </div>
+
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <div class="leader-initials">YP</div>
+                    </div>
+                    <h3>Youth Pastor</h3>
+                    <p class="leader-title">Youth Ministry Leader</p>
+                    <p class="leader-description">Dedicated to empowering and mentoring the next generation.</p>
+                    <div class="leader-specialties">
+                        <span>Youth Ministry</span>
+                        <span>Mentorship</span>
+                        <span>Community Outreach</span>
+                    </div>
+                </div>
+
+                <div class="leader-card">
+                    <div class="leader-image">
+                        <div class="leader-initials">DW</div>
+                    </div>
+                    <h3>Pastor Emmanuel</h3>
+                    <p class="leader-title">Worship Pastor</p>
+                    <p class="leader-description">Leading our congregation in heartfelt worship and praise.</p>
+                    <div class="leader-specialties">
+                        <span>Worship</span>
+                        <span>Music</span>
+                        <span>Arts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Service Times</h2>
+                <p>Join us for worship, prayer, and fellowship. All are welcome to experience God's love and transformation in our community.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-church"></i>
+                    <h3>Sunday Main Service</h3>
+                    <p class="service-time">9:00 AM - 11:30 AM</p>
+                    <p>Our main worship service featuring uplifting music, biblical teaching, and community fellowship.</p>
+                </div>
+
+                <div class="service-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Youth Service</h3>
+                    <p class="service-time">Sunday 2:00 PM - 4:00 PM</p>
+                    <p>High-energy worship and relevant teaching designed specifically for teenagers and young adults.</p>
+                </div>
+
+                <div class="service-card">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Bible Study</h3>
+                    <p class="service-time">Wednesday 7:00 PM - 8:30 PM</p>
+                    <p>Dive deeper into God's Word through interactive Bible study and small group discussions.</p>
+                </div>
+
+                <div class="service-card">
+                    <i class="fas fa-pray"></i>
+                    <h3>Prayer Meeting</h3>
+                    <p class="service-time">Friday 6:00 PM - 7:30 PM</p>
+                    <p>Come together for powerful prayer, intercession, and spiritual breakthrough.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get In Touch</h2>
+                <p>We'd love to hear from you! Whether you have questions, prayer requests, or want to learn more about our church.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Our Location</h3>
+                        <p>Wamala, along Wamala Katoke Road<br>Wamala District, Uganda</p>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-phone"></i>
+                        <h3>Phone</h3>
+                        <p>+256 XXX XXX XXX</p>
+                        <span>Call us for prayer requests or information</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email</h3>
+                        <p>info@lavertransformation.org</p>
+                        <span>We'll respond within 24 hours</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Office Hours</h3>
+                        <p>Monday - Friday: 9:00 AM - 5:00 PM<br>
+                           Saturday: 10:00 AM - 2:00 PM<br>
+                           Sunday: Service Days</p>
+                    </div>
+                </div>
+
+                <div class="contact-form" role="region" aria-labelledby="contact-form-title">
+                    <h3 id="contact-form-title">Send Us A Message</h3>
+                    <form id="contactForm" novalidate aria-label="Contact form">
+                        <div class="form-status" role="alert" aria-live="polite"></div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="firstName" class="required">First Name</label>
+                                <input 
+                                    type="text" 
+                                    id="firstName" 
+                                    name="firstName"
+                                    required
+                                    aria-required="true"
+                                    minlength="2"
+                                    pattern="[A-Za-z]+"
+                                    placeholder="Your first name"
+                                    aria-describedby="firstName-error">
+                                <div id="firstName-error" class="error-message" role="alert"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="required">Last Name</label>
+                                <input 
+                                    type="text" 
+                                    id="lastName" 
+                                    name="lastName"
+                                    required
+                                    aria-required="true"
+                                    minlength="2"
+                                    pattern="[A-Za-z]+"
+                                    placeholder="Your last name"
+                                    aria-describedby="lastName-error">
+                                <div id="lastName-error" class="error-message" role="alert"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="required">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email"
+                                required
+                                aria-required="true"
+                                placeholder="your.email@example.com"
+                                aria-describedby="email-error">
+                            <div id="email-error" class="error-message" role="alert"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject" class="required">Subject</label>
+                            <select 
+                                id="subject" 
+                                name="subject"
+                                required
+                                aria-required="true"
+                                aria-describedby="subject-error">
+                                <option value="">Please select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="prayer">Prayer Request</option>
+                                <option value="youth">Youth Ministry</option>
+                                <option value="service">Service Information</option>
+                                <option value="pastoral">Pastoral Care</option>
+                            </select>
+                            <div id="subject-error" class="error-message" role="alert"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="required">Message</label>
+                            <textarea 
+                                id="message" 
+                                name="message"
+                                rows="5" 
+                                required
+                                aria-required="true"
+                                minlength="10"
+                                placeholder="How can we help you? Share your prayer requests, questions, or comments..."
+                                aria-describedby="message-error"></textarea>
+                            <div id="message-error" class="error-message" role="alert"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" aria-label="Submit contact form">
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giving Section -->
+    <section id="giving" class="giving">
+        <div class="container">
+            <div class="section-header">
+                <h2>Giving & Stewardship</h2>
+                <p>Support our ministry and make a difference in our community</p>
+            </div>
+
+            <div class="giving-intro">
+                <blockquote class="scripture">
+                    <p>"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."</p>
+                    <cite>- 2 Corinthians 9:7</cite>
+                </blockquote>
+            </div>
+
+            <div class="giving-grid">
+                <div class="giving-info">
+                    <h3>Why We Give</h3>
+                    <p>Your generous giving helps us:</p>
+                    <ul class="giving-list">
+                        <li>
+                            <i class="fas fa-hands-helping"></i>
+                            <span>Support community outreach programs</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-church"></i>
+                            <span>Maintain and improve our facilities</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Fund youth education and development</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-globe-africa"></i>
+                            <span>Support missionary work</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="giving-options">
+                    <h3>Ways to Give</h3>
+                    <div class="giving-cards">
+                        <div class="giving-card">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h4>Mobile Giving</h4>
+                            <p>Give securely through our mobile app or website</p>
+                            <button class="btn btn-primary" disabled>Coming Soon</button>
+                        </div>
+
+                        <div class="giving-card">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>Online Giving</h4>
+                            <p>Set up one-time or recurring donations online</p>
+                            <button class="btn btn-primary" disabled>Coming Soon</button>
+                        </div>
+
+                        <div class="giving-card">
+                            <i class="fas fa-envelope"></i>
+                            <h4>Traditional Giving</h4>
+                            <p>Give during service or mail your offering</p>
+                            <a href="#contact" class="btn btn-outline">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="giving-faq">
+                <h3>Common Questions About Giving</h3>
+                <div class="faq-list compact">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            Is my donation tax-deductible?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, all donations to our church are tax-deductible. We provide annual giving statements for tax purposes.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How can I track my giving?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Once our online giving platform is launched, you'll be able to create an account to track all your donations. For now, contact our office for giving statements.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            What payment methods do you accept?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Currently, we accept cash and checks during services. Online payment options will be available soon.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about our church, services, and beliefs</p>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-group">
+                    <h3>About Our Church</h3>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                What time are your Sunday services?
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Our main Sunday service starts at 9:00 AM and typically runs until 12:00 PM. We also have a youth service at 2:00 PM.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                How do I become a member?
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We offer a monthly membership class that introduces you to our church's vision, beliefs, and opportunities to serve. The class is held on the first Sunday of each month after service.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                Do you have programs for children?
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Yes! We have age-appropriate programs for children from nursery through high school. Our children's ministry runs concurrent with the main service.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-group">
+                    <h3>Our Beliefs</h3>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                What do you believe about baptism?
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We practice believer's baptism by immersion as a public declaration of faith in Jesus Christ. Baptism services are held quarterly.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                How can I get involved in ministry?
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We have various ministry opportunities available. After attending our membership class, you can join our ministry teams based on your gifts and interests.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                What Bible translation do you use?
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>We primarily use the New International Version (NIV) in our services, but we welcome all translations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Church History & Vision Section -->
+    <section id="history" class="history">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our History & Vision</h2>
+                <p>The journey of faith that brought us here and the path that lies ahead</p>
+            </div>
+            
+            <div class="history-timeline">
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>2010 - Our Humble Beginnings</h3>
+                        <p>Starting as a small prayer group in a living room, our founding members came together with a shared vision of creating a welcoming spiritual community in Wamala.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3>2015 - Growing Community</h3>
+                        <p>As our congregation grew, we moved to our first dedicated building and established our core ministries, focusing on youth development and community outreach.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>2020 - New Sanctuary</h3>
+                        <p>God blessed us with the opportunity to build our current sanctuary, providing more space for worship and ministry activities.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3>2024 - Present Day</h3>
+                        <p>Today, we continue to grow and serve, reaching out to our community through various programs and ministries.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vision-section">
+                <div class="vision-grid">
+                    <div class="vision-card">
+                        <i class="fas fa-cross"></i>
+                        <h3>Our Mission</h3>
+                        <p>To transform lives through Christ's love, build strong families, and serve our community with compassion and grace.</p>
+                    </div>
+                    
+                    <div class="vision-card">
+                        <i class="fas fa-eye"></i>
+                        <h3>Our Vision</h3>
+                        <p>To be a beacon of hope and transformation in Wamala, empowering people to live out their God-given purpose.</p>
+                    </div>
+                    
+                    <div class="vision-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Our Values</h3>
+                        <ul class="values-list">
+                            <li>Biblical Teaching</li>
+                            <li>Authentic Worship</li>
+                            <li>Community Service</li>
+                            <li>Family Focus</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="future-goals">
+                    <h3>Looking Ahead: Our 2025 Vision</h3>
+                    <div class="goals-grid">
+                        <div class="goal-item">
+                            <i class="fas fa-hands-helping"></i>
+                            <h4>Community Impact</h4>
+                            <p>Establish new outreach programs and partnerships with local organizations</p>
+                        </div>
+                        <div class="goal-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h4>Discipleship</h4>
+                            <p>Launch comprehensive discipleship and leadership training programs</p>
+                        </div>
+                        <div class="goal-item">
+                            <i class="fas fa-church"></i>
+                            <h4>Facility Extension</h4>
+                            <p>Develop additional spaces for youth and community activities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Testimonials</h2>
+                <p>Stories of faith, transformation, and God's grace from our church family</p>
+            </div>
+            <div class="testimonials-slider">
+                <div class="testimonials-track">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <blockquote>
+                                "Finding this church has been a true blessing. The community here has helped me grow spiritually and discover God's purpose for my life. The support and love from everyone is amazing."
+                            </blockquote>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <div class="author-initials">SJ</div>
+                            </div>
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Church Member since 2022</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <blockquote>
+                                "The youth ministry here has transformed my children's lives. They've found friends who share their values and mentors who guide them in their faith journey. We're grateful to be part of this family."
+                            </blockquote>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <div class="author-initials">MM</div>
+                            </div>
+                            <div class="author-info">
+                                <h4>Michael Martinez</h4>
+                                <p>Parent & Church Member</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <blockquote>
+                                "The biblical teaching here is profound yet practical. I've learned how to apply God's Word to my daily life and have seen real transformation in my family and career."
+                            </blockquote>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <div class="author-initials">RA</div>
+                            </div>
+                            <div class="author-info">
+                                <h4>Rachel Anderson</h4>
+                                <p>Ministry Leader</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-nav">
+                    <button class="nav-btn prev" aria-label="Previous testimonial">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="testimonial-dots"></div>
+                    <button class="nav-btn next" aria-label="Next testimonial">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2>Photo Gallery</h2>
+                <p>Capturing moments of worship, fellowship, and community</p>
+            </div>
+            <div class="gallery-filters">
+                <button class="gallery-filter active" data-filter="all">All</button>
+                <button class="gallery-filter" data-filter="worship">Worship</button>
+                <button class="gallery-filter" data-filter="events">Events</button>
+                <button class="gallery-filter" data-filter="community">Community</button>
+                <button class="gallery-filter" data-filter="youth">Youth</button>
+            </div>
+            <div class="gallery-grid">
+                <!-- Gallery items will be populated with actual church photos -->
+                <div class="gallery-item" data-category="worship">
+                    <img src="src/assets/gallery/placeholder-1.jpg" alt="Sunday Worship Service">
+                    <div class="gallery-overlay">
+                        <h4>Sunday Worship Service</h4>
+                        <p>A moment of praise and worship</p>
+                        <a href="src/assets/gallery/placeholder-1.jpg" class="gallery-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="events">
+                    <img src="src/assets/gallery/placeholder-2.jpg" alt="Community Outreach">
+                    <div class="gallery-overlay">
+                        <h4>Community Outreach</h4>
+                        <p>Serving our local community</p>
+                        <a href="src/assets/gallery/placeholder-2.jpg" class="gallery-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="community">
+                    <img src="src/assets/gallery/placeholder-3.jpg" alt="Fellowship Gathering">
+                    <div class="gallery-overlay">
+                        <h4>Fellowship Gathering</h4>
+                        <p>Building relationships in Christ</p>
+                        <a href="src/assets/gallery/placeholder-3.jpg" class="gallery-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="youth">
+                    <img src="src/assets/gallery/placeholder-4.jpg" alt="Youth Ministry">
+                    <div class="gallery-overlay">
+                        <h4>Youth Ministry</h4>
+                        <p>Empowering the next generation</p>
+                        <a href="src/assets/gallery/placeholder-4.jpg" class="gallery-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="events">
+                    <img src="src/assets/gallery/placeholder-5.jpg" alt="Special Event">
+                    <div class="gallery-overlay">
+                        <h4>Special Event</h4>
+                        <p>Celebrating God's faithfulness</p>
+                        <a href="src/assets/gallery/placeholder-5.jpg" class="gallery-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="worship">
+                    <img src="src/assets/gallery/placeholder-6.jpg" alt="Praise Team">
+                    <div class="gallery-overlay">
+                        <h4>Praise Team</h4>
+                        <p>Leading the congregation in worship</p>
+                        <a href="src/assets/gallery/placeholder-6.jpg" class="gallery-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sermon Archive Section -->
+    <section id="sermons" class="sermons">
+        <div class="container">
+            <div class="section-header">
+                <h2>Sermon Archive</h2>
+                <p>Listen to past sermons and download resources to deepen your spiritual journey</p>
+            </div>
+            <div class="sermons-grid">
+                <div class="sermon-card">
+                    <div class="sermon-thumbnail">
+                        <img src="src/assets/placeholder-sermon.jpg" alt="Sermon Thumbnail">
+                        <span class="sermon-duration">45:20</span>
+                    </div>
+                    <div class="sermon-content">
+                        <h3>Walking in Faith</h3>
+                        <p class="sermon-meta">
+                            <span><i class="far fa-calendar"></i> September 17, 2024</span>
+                            <span><i class="fas fa-user"></i> Pastor John Doe</span>
+                        </p>
+                        <p class="sermon-description">Discover how to strengthen your faith and trust in God's promises through life's challenges.</p>
+                        <div class="sermon-actions">
+                            <audio controls>
+                                <source src="#" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="sermon-downloads">
+                                <a href="#" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Notes</a>
+                                <a href="#" class="btn btn-outline btn-sm"><i class="fas fa-file-pdf"></i> PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sermon-card">
+                    <div class="sermon-thumbnail">
+                        <img src="src/assets/placeholder-sermon.jpg" alt="Sermon Thumbnail">
+                        <span class="sermon-duration">38:15</span>
+                    </div>
+                    <div class="sermon-content">
+                        <h3>The Power of Prayer</h3>
+                        <p class="sermon-meta">
+                            <span><i class="far fa-calendar"></i> September 10, 2024</span>
+                            <span><i class="fas fa-user"></i> Pastor John Doe</span>
+                        </p>
+                        <p class="sermon-description">Learn how to develop a deeper prayer life and connect with God on a more intimate level.</p>
+                        <div class="sermon-actions">
+                            <audio controls>
+                                <source src="#" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="sermon-downloads">
+                                <a href="#" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Notes</a>
+                                <a href="#" class="btn btn-outline btn-sm"><i class="fas fa-file-pdf"></i> PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sermon-card">
+                    <div class="sermon-thumbnail">
+                        <img src="src/assets/placeholder-sermon.jpg" alt="Sermon Thumbnail">
+                        <span class="sermon-duration">42:30</span>
+                    </div>
+                    <div class="sermon-content">
+                        <h3>Living with Purpose</h3>
+                        <p class="sermon-meta">
+                            <span><i class="far fa-calendar"></i> September 3, 2024</span>
+                            <span><i class="fas fa-user"></i> Pastor John Doe</span>
+                        </p>
+                        <p class="sermon-description">Explore God's purpose for your life and learn how to walk in your divine calling.</p>
+                        <div class="sermon-actions">
+                            <audio controls>
+                                <source src="#" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="sermon-downloads">
+                                <a href="#" class="btn btn-outline btn-sm"><i class="fas fa-download"></i> Notes</a>
+                                <a href="#" class="btn btn-outline btn-sm"><i class="fas fa-file-pdf"></i> PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Calendar Section -->
+    <section id="events" class="events">
+        <div class="container">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <p>Join us in our upcoming services, bible studies, and special events</p>
+            </div>
+            <div class="events-grid">
+                <div class="event-card featured">
+                    <div class="event-date">
+                        <span class="month">SEP</span>
+                        <span class="day">24</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Sunday Worship Service</h3>
+                        <p class="event-time"><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</p>
+                        <p class="event-location"><i class="fas fa-map-marker-alt"></i> Main Sanctuary</p>
+                        <p class="event-description">Join us for a powerful time of worship, prayer, and the Word.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                <div class="event-card" data-sharable data-share-title="Bible Study at Laver Transformation Ministries" data-share-description="Join us for our Mid-week Bible study focused on spiritual growth and understanding. September 27, 7:00 PM at Fellowship Hall">
+                    <div class="event-date">
+                        <span class="month">SEP</span>
+                        <span class="day">27</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Bible Study</h3>
+                        <p class="event-time"><i class="far fa-clock"></i> 7:00 PM - 8:30 PM</p>
+                        <p class="event-location"><i class="fas fa-map-marker-alt"></i> Fellowship Hall</p>
+                        <p class="event-description">Mid-week Bible study focused on spiritual growth and understanding.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                <div class="event-card" data-sharable data-share-title="Youth Service at Laver Transformation Ministries" data-share-description="Join us for a special Youth Service with worship, games, and fellowship. October 1, 2:00 PM at Youth Center">
+                    <div class="event-date">
+                        <span class="month">OCT</span>
+                        <span class="day">01</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Youth Service</h3>
+                        <p class="event-time"><i class="far fa-clock"></i> 2:00 PM - 4:00 PM</p>
+                        <p class="event-location"><i class="fas fa-map-marker-alt"></i> Youth Center</p>
+                        <p class="event-description">Special service for young people with worship, games, and fellowship.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                <div class="event-card" data-sharable data-share-title="Prayer & Worship Night at Laver Transformation Ministries" data-share-description="Join us for an evening dedicated to prayer, worship, and seeking God's presence. October 5, 6:00 PM at Main Sanctuary">
+                    <div class="event-date">
+                        <span class="month">OCT</span>
+                        <span class="day">05</span>
+                    </div>
+                    <div class="event-details">
+                        <h3>Prayer & Worship Night</h3>
+                        <p class="event-time"><i class="far fa-clock"></i> 6:00 PM - 8:00 PM</p>
+                        <p class="event-location"><i class="fas fa-map-marker-alt"></i> Main Sanctuary</p>
+                        <p class="event-description">An evening dedicated to prayer, worship, and seeking God's presence.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Laver Transformation Ministries</h3>
+                    <p>A place of spiritual growth and transformation in Wamala.</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> Wamala, along Wamala Katoke Road</p>
+                        <p><i class="fas fa-phone"></i> +256 XXX XXX XXX</p>
+                        <p><i class="fas fa-envelope"></i> info@lavertransformation.org</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#ministries">Ministries</a></li>
+                        <li><a href="#leadership">Leadership</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="service-times">
+                    <h4>Service Times</h4>
+                    <ul>
+                        <li>Sunday Service: 9:00 AM</li>
+                        <li>Youth Service: 2:00 PM</li>
+                        <li>Bible Study: Wed 7:00 PM</li>
+                        <li>Prayer Meeting: Fri 6:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Laver Transformation Ministries. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FAQ JavaScript -->
+    <script>
+        // FAQ Accordion
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+
+    <!-- Testimonials Slider JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.querySelector('.testimonials-track');
+            const slides = Array.from(track.children);
+            const nextButton = document.querySelector('.nav-btn.next');
+            const prevButton = document.querySelector('.nav-btn.prev');
+            const dotsContainer = document.querySelector('.testimonial-dots');
+
+            // Create dots
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = Array.from(dotsContainer.children);
+
+            // Set up initial positions
+            slides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${100 * index}%)`;
+            });
+
+            let currentSlide = 0;
+
+            // Update dots
+            function updateDots() {
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+
+            // Move to slide
+            function moveToSlide(targetIndex) {
+                if (targetIndex < 0) targetIndex = slides.length - 1;
+                if (targetIndex >= slides.length) targetIndex = 0;
+
+                const offset = -100 * targetIndex;
+                track.style.transform = `translateX(${offset}%)`;
+                currentSlide = targetIndex;
+                updateDots();
+            }
+
+            // Next slide
+            nextButton.addEventListener('click', () => {
+                moveToSlide(currentSlide + 1);
+            });
+
+            // Previous slide
+            prevButton.addEventListener('click', () => {
+                moveToSlide(currentSlide - 1);
+            });
+
+            // Dot navigation
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    moveToSlide(index);
+                });
+            });
+
+            // Auto advance slides
+            setInterval(() => {
+                moveToSlide(currentSlide + 1);
+            }, 5000);
+        });
+    </script>
+    <script src="src/assets/js/form-validation.js"></script>
+    <script src="src/assets/js/loading-states.js"></script>
+    <script src="src/assets/js/image-optimization.js"></script>
+    <script src="src/assets/js/social-share.js"></script>
+    <script src="src/assets/js/mobile-menu.js"></script>
+</body>
+</html>

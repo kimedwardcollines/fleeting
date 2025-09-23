@@ -1,0 +1,80 @@
+/* Loading States */
+.loading {
+    position: relative;
+    min-height: 200px;
+}
+
+.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 10;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 4px solid var(--color-warm-gold);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+    z-index: 11;
+}
+
+/* Gallery Loading States */
+.gallery-loading {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-loading img {
+    filter: blur(2px);
+}
+
+/* Sermon Player Loading States */
+.sermon-player.player-loading {
+    pointer-events: none;
+}
+
+.sermon-player.player-loading .controls {
+    opacity: 0.5;
+}
+
+.sermon-player.error::before {
+    content: 'Error loading audio';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #dc3545;
+    font-size: 0.875rem;
+    z-index: 12;
+}
+
+/* Loading Animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading States for Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .loading::before {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .loading::after {
+        border-color: var(--color-warm-gold);
+        border-top-color: transparent;
+    }
+}

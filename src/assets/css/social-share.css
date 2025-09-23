@@ -1,0 +1,115 @@
+/* Social Share Styles */
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: var(--color-background-light);
+    border-radius: 8px;
+}
+
+.share-heading {
+    width: 100%;
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    color: var(--color-text);
+}
+
+.share-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-background);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.share-button:hover {
+    transform: translateY(-2px);
+}
+
+.share-button i {
+    font-size: 1.2rem;
+}
+
+/* Platform-specific colors */
+.share-facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.share-twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.share-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.share-linkedin {
+    background: #0077b5;
+    color: white;
+}
+
+.share-email {
+    background: #ea4335;
+    color: white;
+}
+
+.share-native {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* Hover effects */
+.share-button:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .share-buttons {
+        justify-content: center;
+    }
+
+    .share-heading {
+        text-align: center;
+    }
+}
+
+/* Animation */
+.share-button {
+    animation: shareButtonIn 0.3s ease-out;
+}
+
+@keyframes shareButtonIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .share-buttons {
+        background: var(--color-background-dark);
+    }
+
+    .share-button:not([class*="share-"]) {
+        background: var(--color-background-light);
+        color: var(--color-text-light);
+    }
+}
