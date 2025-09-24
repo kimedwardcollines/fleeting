@@ -1,33 +1,73 @@
-// Loading states
-class LoadingState {
-    constructor(element, loadingClass = 'loading', ariaLabel = 'Loading...') {
-        this.element = element;
-        this.loadingClass = loadingClass;
-        this.ariaLabel = ariaLabel;
-    }
+// Enhanced loading states with progressive image loading and lazy loading
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize lazy loading for images
+    const lazyImages = document.querySelectorAll('img[data-src], source[data-srcset]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                loadImage(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        rootMargin: '50px 0px', // Start loading images 50px before they enter viewport
+        threshold: 0.01
+    });
 
-    start() {
-        this.element.classList.add(this.loadingClass);
-        this.element.setAttribute('aria-busy', 'true');
-        this.element.setAttribute('aria-label', this.ariaLabel);
-    }
-
-    stop() {
-        this.element.classList.remove(this.loadingClass);
-        this.element.removeAttribute('aria-busy');
-        this.element.removeAttribute('aria-label');
-    }
-}
-
-// Image gallery loading handler
-class ImageGalleryLoader {
-    constructor(galleryId) {
-        const gallery = document.getElementById(galleryId);
-        if (!gallery) {
-            console.warn(`Gallery with id ${galleryId} not found`);
-            return;
+    function loadImage(element) {
+        if (element.tagName === 'IMG') {
+            const src = element.getAttribute('data-src');
+            if (src) {
+                element.src = src;
+                element.classList.add('fade-in');
+                element.removeAttribute('data-src');
+            }
+        } else if (element.tagName === 'SOURCE') {
+            const srcset = element.getAttribute('data-srcset');
+            if (srcset) {
+                element.srcset = srcset;
+                element.removeAttribute('data-srcset');
+            }
         }
-        this.gallery = gallery;
+    }
+
+    // Apply lazy loading to all images
+    lazyImages.forEach(img => imageObserver.observe(img));
+
+    // Loading state handler
+    class LoadingState {
+        constructor(element, loadingClass = 'loading', ariaLabel = 'Loading...') {
+            this.element = element;
+            this.loadingClass = loadingClass;
+            this.ariaLabel = ariaLabel;
+        }
+
+        start() {
+            this.element.classList.add(this.loadingClass);
+            this.element.setAttribute('aria-busy', 'true');
+            this.element.setAttribute('aria-label', this.ariaLabel);
+        }
+
+        stop() {
+            this.element.classList.remove(this.loadingClass);
+            this.element.removeAttribute('aria-busy');
+            this.element.removeAttribute('aria-label');
+        }
+    }
+
+    // Image preloader for critical images
+    class ImagePreloader {
+        static preloadImages(images) {
+            return Promise.all(images.map(imageUrl => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = resolve;
+                    img.onerror = reject;
+                    img.src = imageUrl;
+                });
+            }));
+        }
+    }
         this.images = this.gallery.querySelectorAll('img');
         this.loadingState = new LoadingState(this.gallery, 'gallery-loading', 'Loading gallery images...');
         this.init();

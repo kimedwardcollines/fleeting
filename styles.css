@@ -1,3 +1,41 @@
+/* Variables */
+:root {
+    --color-spiritual: #0f2b4a; /* Darkened for better contrast */
+    --color-warm-gold: #d97706; /* Adjusted for better contrast */
+    --color-soft-gray: #f8f9fa;
+    --color-muted: #4b5563; /* Darkened for better contrast */
+
+    /* Focus styles */
+    --focus-ring-color: #2563eb;
+    --focus-ring-offset: 3px;
+}
+
+/* Skip Link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-spiritual);
+    color: white;
+    padding: 8px;
+    z-index: 100;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: none;
+    box-shadow: 0 0 0 var(--focus-ring-offset) white,
+                0 0 0 calc(var(--focus-ring-offset) + 2px) var(--focus-ring-color);
+}
+
+/* Focus styles */
+:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 var(--focus-ring-offset) white,
+                0 0 0 calc(var(--focus-ring-offset) + 2px) var(--focus-ring-color);
+}
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height, 64px);

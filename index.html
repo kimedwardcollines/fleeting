@@ -2,17 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Laver Transformation Ministries</title>
-    <!-- Google Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Laver Transformation Ministries | Christian Church in Wamala</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Laver Transformation Ministries is a welcoming Christian church in Wamala, Uganda. Join us for worship services, youth ministry, community outreach, and spiritual growth through Biblical teaching.">
+    <meta name="keywords" content="church, christian church, Wamala church, worship service, ministry, community outreach, Bible study">
+    <meta name="author" content="Laver Transformation Ministries">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Laver Transformation Ministries | Christian Church in Wamala">
+    <meta property="og:description" content="Transform lives through Christ's love. Join our welcoming community for worship, youth ministry, and spiritual growth in Wamala.">
+    <meta property="og:image" content="https://lavertransformation.org/src/church-image.jpg">
+    <meta property="og:url" content="https://lavertransformation.org">
+    <meta property="og:site_name" content="Laver Transformation Ministries">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laver Transformation Ministries | Christian Church in Wamala">
+    <meta name="twitter:description" content="Transform lives through Christ's love. Join our welcoming community for worship, youth ministry, and spiritual growth in Wamala.">
+    <meta name="twitter:image" content="https://lavertransformation.org/src/church-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="src/assets/css/nav-styles.css" as="style">
+    <link rel="preload" href="src/church-image.jpg" as="image" media="(min-width: 768px)">
+    <link rel="preload" href="src/church-image-mobile.jpg" as="image" media="(max-width: 767px)">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Google Fonts with display swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <!-- Font Awesome Optimized -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin>
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="src/assets/css/loading-states.css">
+    <link rel="stylesheet" href="src/assets/css/loading-states.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="src/assets/css/print-styles.css" media="print">
-    <link rel="stylesheet" href="src/assets/css/image-optimization.css">
-    <link rel="stylesheet" href="src/assets/css/social-share.css">
+    <link rel="stylesheet" href="src/assets/css/image-optimization.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="src/assets/css/social-share.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="src/assets/css/mobile-menu.css">
     <link rel="stylesheet" href="src/assets/css/dark-mode.css">
     <link rel="stylesheet" href="src/assets/css/church-hero.css">
@@ -30,8 +68,54 @@
     <script src="src/assets/js/image-optimization.js" defer></script>
     <script src="src/assets/js/social-share.js" defer></script>
     <script src="src/assets/js/about-section.js" defer></script>
+    <script src="src/assets/js/form-validation.js" defer></script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Church",
+        "name": "Laver Transformation Ministries",
+        "image": "https://lavertransformation.org/src/church-image.jpg",
+        "description": "A welcoming Christian church in Wamala, Uganda, focused on transforming lives through Christ's love.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Wamala Katoke Road",
+            "addressLocality": "Wamala",
+            "addressRegion": "Wamala District",
+            "addressCountry": "Uganda"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "YOUR_LATITUDE",
+            "longitude": "YOUR_LONGITUDE"
+        },
+        "url": "https://lavertransformation.org",
+        "telephone": "+256XXXXXXXXX",
+        "sameAs": [
+            "https://facebook.com/lavertransformation",
+            "https://twitter.com/lavertransform",
+            "https://instagram.com/lavertransformation"
+        ],
+        "openingHours": [
+            "Su 09:00-12:00",
+            "We 18:00-20:00"
+        ],
+        "events": {
+            "@type": "Event",
+            "name": "Sunday Worship Service",
+            "startDate": "2025-09-29T09:00",
+            "endDate": "2025-09-29T12:00",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled"
+        }
+    }
+    </script>
 </head>
 <body>
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Header/Navigation -->
     <header class="nav-container">
         <div class="scroll-progress"></div>
@@ -71,21 +155,28 @@
                 <a href="#services" class="nav-btn nav-btn-primary">Join Us Sunday</a>
             </div>
 
-            <button class="mobile-menu" aria-label="Toggle Menu">
+            <button 
+                class="mobile-menu" 
+                aria-label="Toggle Menu" 
+                aria-expanded="false"
+                aria-controls="mobile-nav-menu"
+            >
                 <i class="fas fa-bars"></i>
             </button>
         </nav>
     </header>
 
     <!-- Church Hero Section -->
-    <section id="home" class="church-hero" data-lazy-load>
-        <img 
-            src="src/church-image.jpg" 
-            alt="Laver Transformation Ministries at sunset" 
-            class="church-hero__image"
-            loading="lazy"
-            data-optimized
-        >
+    <section id="home" class="church-hero">
+        <picture>
+            <img 
+                src="src/assets/images/hero/church-hero.jpg" 
+                alt="Laver Transformation Ministries at sunset" 
+                class="church-hero__image"
+                loading="eager"
+                fetchpriority="high"
+            >
+        </picture>
         <div class="church-hero__overlay"></div>
         <div class="church-hero__content" data-sharable data-share-title="Welcome to Laver Transformation Ministries" data-share-description="A place of spiritual growth, transformation, and community where lives are changed through God's love and grace.">
             <h1>Welcome to <span class="highlight">Laver Transformation Ministries</span></h1>
@@ -102,13 +193,15 @@
         <div class="container">
             <div class="section-header">
                 <h2>About Our Church</h2>
-                <p>Laver Transformation Ministries is a vibrant community of believers dedicated to spiritual transformation and serving our community in Wamala.</p>
+                <p>Laver Transformation Ministries is a vibrant community of believers in Wamala, dedicated to transforming lives through the Word of God and the power of His love. We are a place where faith comes alive, where worship is heartfelt, and where everyone is welcome to experience God's presence. Through dynamic worship, practical Biblical teaching, and authentic relationships, we strive to make a lasting impact in our community and beyond.</p>
+                
+                <p>Founded in [insert founding year], our church began with a small fellowship of passionate Christians and has grown into a strong family of faith. We are committed to raising disciples, nurturing families, and serving our community with compassion. Our doors are open to all who seek spiritual growth, meaningful connections, and a deeper relationship with God. Together, we're building a community where lives are transformed, hope is restored, and God's love is shared with everyone.</p>
             </div>
 
             <div class="about-grid">
                 <div class="mission">
                     <h3>Our Mission</h3>
-                    <p>We are committed to transforming lives through the power of God's Word and love. Our church serves as a beacon of hope and transformation in the Wamala community, where people from all walks of life come together to worship, learn, and grow.</p>
+                    <p>To transform lives, restore hope, and equip believers to walk in God's purpose..</p>
                     <div class="location">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>Wamala, along Wamala Katoke Road</span>
@@ -141,14 +234,14 @@
         <div class="container">
             <div class="section-header">
                 <h2>Our Ministries</h2>
-                <p>Discover ways to grow, serve, and connect through our various ministry programs designed to nurture spiritual growth and community engagement.</p>
+                <p>At Laver Transformation Ministries, we believe in serving God through active ministry. Every member has a place to grow, serve, and transform lives.</p>
             </div>
 
             <div class="ministries-grid">
                 <div class="ministry-card featured">
                     <i class="fas fa-users"></i>
                     <h3>Youth Ministry</h3>
-                    <p>Empowering young people through worship, fellowship, and discipleship.</p>
+                    <p>Equipping the next generation with strong Christian values through weekly services, leadership training, camps, and mentorship.</p>
                     <ul class="ministry-features">
                         <li>Weekly Youth Service</li>
                         <li>Leadership Training</li>
@@ -161,7 +254,7 @@
                 <div class="ministry-card">
                     <i class="fas fa-child"></i>
                     <h3>Children's Ministry</h3>
-                    <p>Nurturing the next generation with age-appropriate biblical teaching.</p>
+                    <p>Raising children in the way of the Lord through Sunday school, holiday programs, and fun Bible-based activities</p>
                     <ul class="ministry-features">
                         <li>Sunday School</li>
                         <li>Children's Church</li>
@@ -173,7 +266,7 @@
                 <div class="ministry-card">
                     <i class="fas fa-music"></i>
                     <h3>Worship Ministry</h3>
-                    <p>Creating an atmosphere of praise through music and creative expression.</p>
+                    <p>Leading the congregation into God's presence through praise, choir, dance, and instrumental music.</p>
                     <ul class="ministry-features">
                         <li>Choir Ministry</li>
                         <li>Instrumental Team</li>
@@ -769,66 +862,120 @@
             <div class="gallery-grid">
                 <!-- Gallery items will be populated with actual church photos -->
                 <div class="gallery-item" data-category="worship">
-                    <img src="src/assets/gallery/placeholder-1.jpg" alt="Sunday Worship Service">
+                    <picture>
+                        <source data-srcset="src/assets/gallery/gallery-1.webp" type="image/webp">
+                        <source data-srcset="src/assets/gallery/gallery-1.jpg" type="image/jpeg">
+                        <img 
+                            src="src/assets/gallery/placeholder-1.jpg" 
+                            data-src="src/assets/gallery/gallery-1.jpg" 
+                            alt="Sunday Worship Service"
+                            loading="lazy"
+                            class="blur-load">
+                    </picture>
                     <div class="gallery-overlay">
                         <h4>Sunday Worship Service</h4>
                         <p>A moment of praise and worship</p>
-                        <a href="src/assets/gallery/placeholder-1.jpg" class="gallery-zoom">
+                        <a href="src/assets/gallery/gallery-1.jpg" class="gallery-zoom">
                             <i class="fas fa-search-plus"></i>
                         </a>
                     </div>
                 </div>
                 
                 <div class="gallery-item" data-category="events">
-                    <img src="src/assets/gallery/placeholder-2.jpg" alt="Community Outreach">
+                    <picture>
+                        <source data-srcset="src/assets/gallery/gallery-2.webp" type="image/webp">
+                        <source data-srcset="src/assets/gallery/gallery-2.jpg" type="image/jpeg">
+                        <img 
+                            src="src/assets/gallery/placeholder-2.jpg" 
+                            data-src="src/assets/gallery/gallery-2.jpg" 
+                            alt="Community Outreach"
+                            loading="lazy"
+                            class="blur-load">
+                    </picture>
                     <div class="gallery-overlay">
                         <h4>Community Outreach</h4>
                         <p>Serving our local community</p>
-                        <a href="src/assets/gallery/placeholder-2.jpg" class="gallery-zoom">
+                        <a href="src/assets/gallery/gallery-2.jpg" class="gallery-zoom">
                             <i class="fas fa-search-plus"></i>
                         </a>
                     </div>
                 </div>
                 
                 <div class="gallery-item" data-category="community">
-                    <img src="src/assets/gallery/placeholder-3.jpg" alt="Fellowship Gathering">
+                    <picture>
+                        <source data-srcset="src/assets/gallery/gallery-3.webp" type="image/webp">
+                        <source data-srcset="src/assets/gallery/gallery-3.jpg" type="image/jpeg">
+                        <img 
+                            src="src/assets/gallery/placeholder-3.jpg" 
+                            data-src="src/assets/gallery/gallery-3.jpg" 
+                            alt="Fellowship Gathering"
+                            loading="lazy"
+                            class="blur-load">
+                    </picture>
                     <div class="gallery-overlay">
                         <h4>Fellowship Gathering</h4>
                         <p>Building relationships in Christ</p>
-                        <a href="src/assets/gallery/placeholder-3.jpg" class="gallery-zoom">
+                        <a href="src/assets/gallery/gallery-3.jpg" class="gallery-zoom">
                             <i class="fas fa-search-plus"></i>
                         </a>
                     </div>
                 </div>
                 
                 <div class="gallery-item" data-category="youth">
-                    <img src="src/assets/gallery/placeholder-4.jpg" alt="Youth Ministry">
+                    <picture>
+                        <source data-srcset="src/assets/gallery/gallery-4.webp" type="image/webp">
+                        <source data-srcset="src/assets/gallery/gallery-4.jpg" type="image/jpeg">
+                        <img 
+                            src="src/assets/gallery/placeholder-4.jpg" 
+                            data-src="src/assets/gallery/gallery-4.jpg" 
+                            alt="Youth Ministry"
+                            loading="lazy"
+                            class="blur-load">
+                    </picture>
                     <div class="gallery-overlay">
                         <h4>Youth Ministry</h4>
                         <p>Empowering the next generation</p>
-                        <a href="src/assets/gallery/placeholder-4.jpg" class="gallery-zoom">
+                        <a href="src/assets/gallery/gallery-4.jpg" class="gallery-zoom">
                             <i class="fas fa-search-plus"></i>
                         </a>
                     </div>
                 </div>
                 
                 <div class="gallery-item" data-category="events">
-                    <img src="src/assets/gallery/placeholder-5.jpg" alt="Special Event">
+                    <picture>
+                        <source data-srcset="src/assets/gallery/gallery-5.webp" type="image/webp">
+                        <source data-srcset="src/assets/gallery/gallery-5.jpg" type="image/jpeg">
+                        <img 
+                            src="src/assets/gallery/placeholder-5.jpg" 
+                            data-src="src/assets/gallery/gallery-5.jpg" 
+                            alt="Special Event"
+                            loading="lazy"
+                            class="blur-load">
+                    </picture>
                     <div class="gallery-overlay">
                         <h4>Special Event</h4>
                         <p>Celebrating God's faithfulness</p>
-                        <a href="src/assets/gallery/placeholder-5.jpg" class="gallery-zoom">
+                        <a href="src/assets/gallery/gallery-5.jpg" class="gallery-zoom">
                             <i class="fas fa-search-plus"></i>
                         </a>
                     </div>
                 </div>
                 
                 <div class="gallery-item" data-category="worship">
-                    <img src="src/assets/gallery/placeholder-6.jpg" alt="Praise Team">
+                    <picture>
+                        <source data-srcset="src/assets/gallery/gallery-6.webp" type="image/webp">
+                        <source data-srcset="src/assets/gallery/gallery-6.jpg" type="image/jpeg">
+                        <img 
+                            src="src/assets/gallery/placeholder-6.jpg" 
+                            data-src="src/assets/gallery/gallery-6.jpg" 
+                            alt="Praise Team"
+                            loading="lazy"
+                            class="blur-load">
+                    </picture>
                     <div class="gallery-overlay">
                         <h4>Praise Team</h4>
                         <p>Leading the congregation in worship</p>
-                        <a href="src/assets/gallery/placeholder-6.jpg" class="gallery-zoom">
+                        <a href="src/assets/gallery/gallery-6.jpg" class="gallery-zoom">
                             <i class="fas fa-search-plus"></i>
                         </a>
                     </div>
@@ -847,7 +994,16 @@
             <div class="sermons-grid">
                 <div class="sermon-card">
                     <div class="sermon-thumbnail">
-                        <img src="src/assets/placeholder-sermon.jpg" alt="Sermon Thumbnail">
+                        <picture>
+                            <source data-srcset="src/assets/sermons/sermon-1.webp" type="image/webp">
+                            <source data-srcset="src/assets/sermons/sermon-1.jpg" type="image/jpeg">
+                            <img 
+                                src="src/assets/placeholder-sermon.jpg" 
+                                data-src="src/assets/sermons/sermon-1.jpg" 
+                                alt="Sermon Thumbnail"
+                                loading="lazy"
+                                class="blur-load">
+                        </picture>
                         <span class="sermon-duration">45:20</span>
                     </div>
                     <div class="sermon-content">
@@ -897,7 +1053,16 @@
                 
                 <div class="sermon-card">
                     <div class="sermon-thumbnail">
-                        <img src="src/assets/placeholder-sermon.jpg" alt="Sermon Thumbnail">
+                        <picture>
+                            <source data-srcset="src/assets/sermons/sermon-3.webp" type="image/webp">
+                            <source data-srcset="src/assets/sermons/sermon-3.jpg" type="image/jpeg">
+                            <img 
+                                src="src/assets/placeholder-sermon.jpg" 
+                                data-src="src/assets/sermons/sermon-3.jpg" 
+                                alt="Sermon Thumbnail"
+                                loading="lazy"
+                                class="blur-load">
+                        </picture>
                         <span class="sermon-duration">42:30</span>
                     </div>
                     <div class="sermon-content">
