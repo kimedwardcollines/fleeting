@@ -133,8 +133,40 @@
                                             <p class="mb-1">Estimated Price:</p>
                                             <h3 class="mb-0" id="priceDisplay">$0</h3>
                                             <input type="hidden" id="priceUSD" name="estimated_price" value="0">
-                                            <small class="opacity-75">Final price may vary</small>
+                                            <small class="opacity-75">Deposit: 20%</small>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Payment Section -->
+                            <div class="card border-0 bg-light mb-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold mb-3">
+                                        <i class="bi bi-credit-card me-2"></i>Pay Deposit (20%)
+                                    </h5>
+                                    <p class="text-muted small mb-3">Pay a 20% deposit to confirm your booking. The rest can be paid on delivery.</p>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Card Number</label>
+                                            <input type="text" class="form-control" placeholder="4242 4242 4242 4242" maxlength="19">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Expiry</label>
+                                            <input type="text" class="form-control" placeholder="MM/YY" maxlength="5">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">CVC</label>
+                                            <input type="text" class="form-control" placeholder="123" maxlength="4">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-check mt-3">
+                                        <input class="form-check-input" type="checkbox" id="pay_deposit">
+                                        <label class="form-check-label" for="pay_deposit">
+                                            Pay 20% deposit now ($14 for Kampala→Entebbe)
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -149,8 +181,27 @@
                                 <textarea class="form-control" id="message" name="message" rows="3" placeholder="Any special requirements, number of passengers, cargo details, etc."></textarea>
                             </div>
                             
-                            <button type="submit" class="btn btn-accent btn-lg w-100">Submit Booking</button>
+                            <button type="submit" class="btn btn-accent btn-lg w-100">Submit & Pay Deposit</button>
                         </form>
+                        
+                        <div class="mt-4 text-center">
+                            <p class="text-muted mb-2">Or continue without payment</p>
+                            <form method="post" action="{% url 'booking' %}?nopay=1" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="service_type" id="nopay_service_type">
+                                <input type="hidden" name="name" id="nopay_name">
+                                <input type="hidden" name="phone" id="nopay_phone">
+                                <input type="hidden" name="email" id="nopay_email">
+                                <input type="hidden" name="pickup_location" id="nopay_pickup">
+                                <input type="hidden" name="destination" id="nopay_destination">
+                                <input type="hidden" name="calculated_distance" id="nopay_distance">
+                                <input type="hidden" name="estimated_price" id="nopay_price">
+                                <input type="hidden" name="currency" id="nopay_currency">
+                                <input type="hidden" name="date" id="nopay_date">
+                                <input type="hidden" name="message" id="nopay_message">
+                                <button type="submit" class="btn btn-outline-secondary">Book Without Deposit</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,8 +285,23 @@
             
             document.getElementById('distanceDisplay').textContent = distance + ' km';
             document.getElementById('distance').value = distance;
-            document.getElementById('priceDisplay').textContent = displayPrice;
+            
+            const deposit = priceUSD * 0.2;
+            const currency = document.getElementById('currency').value;
+            const displayPrice = currency === 'UGX' 
+                ? 'USh ' + (priceUSD * 3800).toLocaleString() + ' (Deposit: USh ' + (deposit * 3800).toLocaleString() + ')'
+                : '$' + priceUSD.toFixed(2) + ' (Deposit: $' + deposit.toFixed(2) + ')';
+            
+            document.getElementById('priceDisplay').textContent = currency === 'UGX' 
+                ? 'USh ' + (priceUSD * 3800).toLocaleString() 
+                : '$' + priceUSD.toFixed(2);
             document.getElementById('priceUSD').value = priceUSD.toFixed(2);
+            
+            // Update deposit checkbox text
+            const depositText = currency === 'UGX' 
+                ? 'Pay 20% deposit now (USh ' + (deposit * 3800).toLocaleString() + ')'
+                : 'Pay 20% deposit now ($' + deposit.toFixed(2) + ')';
+            document.querySelector('label[for="pay_deposit"]').textContent = depositText;
         } else {
             document.getElementById('distanceDisplay').textContent = '0 km';
             document.getElementById('distance').value = 0;

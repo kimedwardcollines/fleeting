@@ -129,3 +129,20 @@ def track(request):
 
 def coverage(request):
     return render(request, 'logistics/coverage.html')
+
+def dashboard(request):
+    from .models import Booking
+    
+    total_bookings = Booking.objects.count()
+    pending_count = Booking.objects.filter(status='pending').count()
+    in_transit_count = Booking.objects.filter(status='in_transit').count()
+    delivered_count = Booking.objects.filter(status='delivered').count()
+    recent_bookings = Booking.objects.order_by('-created_at')[:10]
+    
+    return render(request, 'logistics/dashboard.html', {
+        'total_bookings': total_bookings,
+        'pending_count': pending_count,
+        'in_transit_count': in_transit_count,
+        'delivered_count': delivered_count,
+        'recent_bookings': recent_bookings,
+    })
