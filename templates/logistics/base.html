@@ -45,10 +45,16 @@
                         <a class="nav-link" href="{% url 'services' %}">Services</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'booking' %}">Booking</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                     </li>
                 </ul>
-                <a href="{% url 'contact' %}" class="btn btn-primary ms-lg-3">Get a Quote</a>
+                <div class="d-flex gap-2 mt-3 mt-lg-0">
+                    <a href="{% url 'booking' %}?type=cargo" class="btn btn-outline-primary">Get a Quote</a>
+                    <a href="{% url 'booking' %}?type=passenger" class="btn btn-accent">Book a Ride</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -92,16 +98,26 @@
                         <li><a href="{% url 'home' %}" class="text-white-50 text-decoration-none">Home</a></li>
                         <li><a href="{% url 'about' %}" class="text-white-50 text-decoration-none">About</a></li>
                         <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Services</a></li>
+                        <li><a href="{% url 'booking' %}" class="text-white-50 text-decoration-none">Booking</a></li>
                         <li><a href="{% url 'contact' %}" class="text-white-50 text-decoration-none">Contact</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                    <h6 class="fw-bold mb-3">Services</h6>
+                    <h6 class="fw-bold mb-3">Logistics Services</h6>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Cargo Transportation</a></li>
                         <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Freight Forwarding</a></li>
                         <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Warehousing</a></li>
                         <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Delivery Services</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 class="fw-bold mb-3">Passenger Transport</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Private Rides</a></li>
+                        <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Group Transport</a></li>
+                        <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Airport Transfers</a></li>
+                        <li><a href="{% url 'services' %}" class="text-white-50 text-decoration-none">Long-distance Travel</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-4">

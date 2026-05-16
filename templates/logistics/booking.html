@@ -1,0 +1,202 @@
+{% extends 'logistics/base.html' %}
+{% load static %}
+
+{% block title %}Booking - Fleeting Logistics Company Limited{% endblock %}
+
+{% block extra_css %}
+<style>
+    .booking-hero {
+        background: linear-gradient(rgba(10, 36, 99, 0.9), rgba(10, 36, 99, 0.7)),
+                    url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 0 80px;
+        animation: fadeIn 1s ease-out;
+    }
+    
+    .service-type-card {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .service-type-card:hover,
+    .service-type-card.selected {
+        border-color: #FF6B35;
+        transform: scale(1.02);
+    }
+    
+    .form-control:focus {
+        border-color: #1E5AA8;
+        box-shadow: 0 0 0 0.25rem rgba(30, 90, 168, 0.25);
+    }
+    
+    .btn-accent {
+        background-color: #FF6B35;
+        border: none;
+        padding: 12px 32px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-accent:hover {
+        background-color: #e55a28;
+        transform: scale(1.05);
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="booking-hero text-white">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-4">Book Our Services</h1>
+        <p class="lead" style="max-width: 600px;">Request a quote for cargo transport or book a passenger ride.</p>
+    </div>
+</section>
+
+<!-- Booking Form -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4 p-lg-5">
+                        <h2 class="fw-bold mb-4">Submit Your Request</h2>
+                        <p class="text-muted mb-4">Fill out the form below and we'll get back to you within 24 hours.</p>
+                        
+                        <form method="post" action="{% url 'booking' %}">
+                            {% csrf_token %}
+                            
+                            <!-- Service Type Selection -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Select Service Type *</label>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="service-type-card card h-100 p-4 text-center" for="cargo">
+                                            <input type="radio" name="service_type" id="cargo" value="cargo" class="d-none" required>
+                                            <i class="bi bi-truck fs-1 text-primary mb-2 d-block"></i>
+                                            <h5 class="fw-bold mb-1">Cargo Logistics</h5>
+                                            <p class="text-muted small mb-0">Get a quote for transporting your goods</p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="service-type-card card h-100 p-4 text-center" for="passenger">
+                                            <input type="radio" name="service_type" id="passenger" value="passenger" class="d-none" required>
+                                            <i class="bi bi-car-front fs-1 text-primary mb-2 d-block"></i>
+                                            <h5 class="fw-bold mb-1">Passenger Transport</h5>
+                                            <p class="text-muted small mb-0">Book a ride for yourself or group</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label fw-bold">Full Name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required placeholder="John Doe">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label fw-bold">Phone Number *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 mt-3">
+                                <label for="email" class="form-label fw-bold">Email Address *</label>
+                                <input type="email" class="form-control" id="email" name="email" required placeholder="john@example.com">
+                            </div>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="pickup_location" class="form-label fw-bold">Pickup Location *</label>
+                                    <input type="text" class="form-control" id="pickup_location" name="pickup_location" required placeholder="Address or city">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="destination" class="form-label fw-bold">Destination *</label>
+                                    <input type="text" class="form-control" id="destination" name="destination" required placeholder="Address or city">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 mt-3">
+                                <label for="date" class="form-label fw-bold">Date *</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="message" class="form-label fw-bold">Additional Details</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Any special requirements, number of passengers, cargo details, etc."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-accent btn-lg w-100">Submit Request</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Info Section -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-telephone fs-1"></i>
+                    </div>
+                    <h5 class="fw-bold">Call Us</h5>
+                    <p class="text-muted mb-0">+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-envelope fs-1"></i>
+                    </div>
+                    <h5 class="fw-bold">Email Us</h5>
+                    <p class="text-muted mb-0">info@fleetinglogistics.com</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-clock fs-1"></i>
+                    </div>
+                    <h5 class="fw-bold">Working Hours</h5>
+                    <p class="text-muted mb-0">Mon - Sat: 8AM - 6PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Service type selection highlight
+    document.querySelectorAll('.service-type-card').forEach(card => {
+        card.addEventListener('click', function() {
+            document.querySelectorAll('.service-type-card').forEach(c => c.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+    
+    // Pre-select service type from URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const serviceType = urlParams.get('type');
+    if (serviceType === 'cargo') {
+        document.getElementById('cargo').checked = true;
+        document.getElementById('cargo').parentElement.classList.add('selected');
+    } else if (serviceType === 'passenger') {
+        document.getElementById('passenger').checked = true;
+        document.getElementById('passenger').parentElement.classList.add('selected');
+    }
+</script>
+{% endblock %}
