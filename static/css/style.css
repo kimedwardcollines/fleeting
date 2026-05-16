@@ -315,11 +315,161 @@ html {
 }
 
 /* Mobile Responsive WhatsApp Button */
+
+/* ========== ENHANCED RESPONSIVE STYLES ========== */
+
+/* Tablet */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: var(--white);
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .hero-section .display-3 {
+        font-size: 3rem;
+    }
+}
+
+/* Mobile */
 @media (max-width: 767px) {
+    h1, .display-3 {
+        font-size: 2rem !important;
+    }
+
+    h2, .display-4 {
+        font-size: 1.75rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    .hero-section {
+        min-height: 60vh;
+        padding: 100px 0 60px;
+    }
+    
+    .hero-section .display-3 {
+        font-size: 2rem !important;
+    }
+
+    section {
+        padding: 50px 0;
+    }
+    
+    .btn-lg, .btn-accent {
+        padding: 10px 24px;
+        font-size: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+    }
+    
+    .price-display {
+        padding: 15px;
+    }
+    
+    .price-display h3 {
+        font-size: 1.5rem;
+    }
+    
+    .form-select, .form-control {
+        font-size: 16px;
+    }
+    
+    .service-type-card h5 {
+        font-size: 1rem;
+    }
+    
+    .col-md-6, .col-md-4, .col-md-3 {
+        margin-bottom: 1rem;
+    }
+    
+    footer .col-md-3, 
+    footer .col-md-2 {
+        margin-bottom: 1.5rem;
+    }
+    
     .whatsapp-float {
         bottom: 20px;
         right: 20px;
         width: 54px;
         height: 54px;
+    }
+}
+
+/* Extra Small */
+@media (max-width: 575px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .hero-section .display-3 {
+        font-size: 1.75rem !important;
+    }
+    
+    .hero-section p.lead {
+        font-size: 1rem;
+    }
+    
+    .service-type-card {
+        padding: 1rem !important;
+    }
+    
+    .btn-group-sm > .btn {
+        padding: 8px 16px;
+        font-size: 0.875rem;
+    }
+    
+    .display-5 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Fixed navbar on mobile */
+@media (max-width: 991px) {
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Touch optimizations for mobile */
+@media (hover: none) and (pointer: coarse) {
+    .btn:hover {
+        transform: none;
+    }
+    
+    .card:hover {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .service-type-card:hover {
+        transform: none;
+    }
+    
+    .service-type-card:active {
+        border-color: #FF6B35;
+    }
+}
+
+/* Print styles */
+@media print {
+    .whatsapp-float,
+    .scroll-to-top,
+    .navbar-toggler {
+        display: none !important;
     }
 }
