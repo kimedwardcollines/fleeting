@@ -4,13 +4,13 @@ from .models import Booking
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     # Display columns
-    list_display = ('name', 'phone', 'service_type', 'pickup_location', 'destination', 'calculated_distance', 'estimated_price', 'currency', 'date', 'created_at')
+    list_display = ('name', 'phone', 'service_type', 'pickup_location', 'destination', 'calculated_distance', 'estimated_price', 'currency', 'status', 'tracking_number', 'date', 'created_at')
     
     # Filters
-    list_filter = ('service_type', 'date')
+    list_filter = ('service_type', 'status', 'date')
     
     # Search
-    search_fields = ('name', 'phone')
+    search_fields = ('name', 'phone', 'tracking_number')
     
     # Order by newest first
     ordering = ('-created_at',)

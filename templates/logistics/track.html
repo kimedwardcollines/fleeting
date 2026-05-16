@@ -1,0 +1,192 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Track Shipment - Fleeting Logistics Company Limited{% endblock %}
+
+{% block extra_css %}
+<style>
+    .track-hero {
+        background: linear-gradient(rgba(10, 36, 99, 0.9), rgba(10, 36, 99, 0.75)),
+                    url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 0 80px;
+    }
+    
+    .tracking-result {
+        border-left: 4px solid #0A2463;
+    }
+    
+    .status-step {
+        position: relative;
+        padding-left: 40px;
+    }
+    
+    .status-step::before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 25px;
+        bottom: -20px;
+        width: 2px;
+        background: #dee2e6;
+    }
+    
+    .status-step:last-child::before {
+        display: none;
+    }
+    
+    .status-dot {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #dee2e6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .status-dot.active {
+        background: #0A2463;
+    }
+    
+    .status-dot.completed {
+        background: #28a745;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="track-hero text-white">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-4">Track Your Shipment</h1>
+        <p class="lead">Enter your tracking number to check delivery status.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4 p-lg-5">
+                        <form method="get" action="{% url 'track' %}" class="mb-4">
+                            <label for="tracking_number" class="form-label fw-bold">Enter Tracking Number</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-lg" id="tracking_number" name="tracking_number" 
+                                       value="{{ tracking_number }}" placeholder="e.g., FL-2024-001" required>
+                                <button type="submit" class="btn btn-primary btn-lg">Track</button>
+                            </div>
+                            <small class="text-muted">Tracking number format: FL-YYYY-XXX</small>
+                        </form>
+                        
+                        {% if error %}
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if booking %}
+                        <div class="tracking-result card bg-light">
+                            <div class="card-body">
+                                <h4 class="fw-bold mb-4">
+                                    <i class="bi bi-box-seam text-primary me-2"></i>
+                                    {{ booking.tracking_number }}
+                                </h4>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Service Type</p>
+                                        <p class="fw-bold mb-0">{{ booking.get_service_type_display }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Status</p>
+                                        <span class="badge bg-{% if booking.status == 'delivered' %}success{% elif booking.status == 'in_transit' %}primary{% else %}warning{% endif %} fs-6">
+                                            {{ booking.get_status_display }}
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">From</p>
+                                        <p class="fw-bold mb-0">{{ booking.pickup_location }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">To</p>
+                                        <p class="fw-bold mb-0">{{ booking.destination }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Distance</p>
+                                        <p class="fw-bold mb-0">{{ booking.calculated_distance }} km</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-1">Booked Date</p>
+                                        <p class="fw-bold mb-0">{{ booking.date }}</p>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <h5 class="fw-bold mb-3">Tracking Timeline</h5>
+                                
+                                <div class="status-step {% if booking.status != 'pending' %}completed{% endif %}">
+                                    <div class="status-dot {% if booking.status == 'pending' %}active{% elif booking.status != 'pending' %}completed{% endif %}"></div>
+                                    <p class="fw-bold mb-0">Booking Pending</p>
+                                    <p class="text-muted small mb-0">Your booking is being processed</p>
+                                </div>
+                                
+                                <div class="status-step {% if booking.status in 'confirmed,in_transit,delivered' %}completed{% endif %}">
+                                    <div class="status-dot {% if booking.status == 'confirmed' %}active{% elif booking.status in 'in_transit,delivered' %}completed{% endif %}"></div>
+                                    <p class="fw-bold mb-0">Confirmed</p>
+                                    <p class="text-muted small mb-0">Your booking has been confirmed</p>
+                                </div>
+                                
+                                <div class="status-step {% if booking.status in 'in_transit,delivered' %}completed{% endif %}">
+                                    <div class="status-dot {% if booking.status == 'in_transit' %}active{% elif booking.status == 'delivered' %}completed{% endif %}"></div>
+                                    <p class="fw-bold mb-0">In Transit</p>
+                                    <p class="text-muted small mb-0">Your shipment is on the way</p>
+                                </div>
+                                
+                                <div class="status-step">
+                                    <div class="status-dot {% if booking.status == 'delivered' %}completed{% endif %}"></div>
+                                    <p class="fw-bold mb-0">Delivered</p>
+                                    <p class="text-muted small mb-0">Package delivered to destination</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="text-primary mb-2"><i class="bi bi-telephone fs-1"></i></div>
+                <h5>Call Us</h5>
+                <p class="text-muted mb-0">+256 700 123 456</p>
+            </div>
+            <div class="col-md-4">
+                <div class="text-primary mb-2"><i class="bi bi-envelope fs-1"></i></div>
+                <h5>Email</h5>
+                <p class="text-muted mb-0">info@fleetinglogistics.com</p>
+            </div>
+            <div class="col-md-4">
+                <div class="text-primary mb-2"><i class="bi bi-whatsapp fs-1"></i></div>
+                <h5>WhatsApp</h5>
+                <p class="text-muted mb-0">+256 700 123 456</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

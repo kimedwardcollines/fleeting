@@ -1,0 +1,194 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Service Areas - Fleeting Logistics Company Limited{% endblock %}
+
+{% block extra_css %}
+<style>
+    .coverage-hero {
+        background: linear-gradient(rgba(10, 36, 99, 0.9), rgba(10, 36, 99, 0.75)),
+                    url('https://images.unsplash.com/photo-1524661135-423995f7e0c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 0 80px;
+    }
+    
+    .map-container {
+        position: relative;
+        height: 500px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    
+    .map-controls {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+    
+    .location-marker {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: #0A2463;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .location-marker::after {
+        content: '';
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background: rgba(10, 36, 99, 0.2);
+        border-radius: 50%;
+        top: -10px;
+        left: -10px;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(0.8); opacity: 1; }
+        100% { transform: scale(1.5); opacity: 0; }
+    }
+    
+    .city-list-item {
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+    }
+    
+    .city-list-item:hover, .city-list-item.active {
+        background: #f8f9fa;
+        border-left-color: #0A2463;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="coverage-hero text-white">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-4">Our Service Areas</h1>
+        <p class="lead">We deliver across Uganda and East Africa.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="map-container" id="ugandaMap">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Uganda_location_map.svg/1200px-Uganda_location_map.svg.png" 
+                         alt="Uganda Map" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+                    
+                    <!-- City Markers (approximate positions) -->
+                    <div class="location-marker" style="left: 45%; top: 35%;" title="Kampala"></div>
+                    <div class="location-marker" style="left: 42%; top: 32%;" title="Entebbe"></div>
+                    <div class="location-marker" style="left: 60%; top: 45%;" title="Jinja"></div>
+                    <div class="location-marker" style="left: 20%; top: 70%;" title="Mbarara"></div>
+                    <div class="location-marker" style="left: 80%; top: 60%;" title="Gulu"></div>
+                    <div class="location-marker" style="left: 70%; top: 55%;" title="Soroti"></div>
+                    <div class="location-marker" style="left: 10%; top: 45%;" title="Kasese"></div>
+                    
+                    <div class="map-controls d-none d-md-block">
+                        <h6 class="fw-bold mb-2">Legend</h6>
+                        <div class="d-flex align-items-center mb-1">
+                            <span style="width: 12px; height: 12px; background: #0A2463; border-radius: 50%;"></span>
+                            <small class="ms-2">Service City</small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span style="width: 12px; height: 12px; background: #1E5AA8; border-radius: 50%; opacity: 0.5;"></span>
+                            <small class="ms-2">Coverage Area</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <h4 class="fw-bold mb-4">Service Locations</h4>
+                
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Kampala</h6>
+                            <small class="text-muted">Capital City - HQ</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Entebbe</h6>
+                            <small class="text-muted">Airport City</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Jinja</h6>
+                            <small class="text-muted">Industrial Hub</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Mbarara</h6>
+                            <small class="text-muted">Western Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Gulu</h6>
+                            <small class="text-muted">Northern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Soroti</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3">
+                            <h6 class="fw-bold mb-0">Kasese</h6>
+                            <small class="text-muted">Rwenzori Region</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <h3 class="fw-bold mb-4 text-center">Why Choose Our Services?</h3>
+        <div class="row g-4 mt-2">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="text-primary mb-3"><i class="bi bi-truck fs-1"></i></div>
+                        <h5 class="fw-bold">Professional Fleet</h5>
+                        <p class="text-muted mb-0">Well-maintained trucks and vans for safe cargo delivery.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="text-primary mb-3"><i class="bi bi-clock fs-1"></i></div>
+                        <h5 class="fw-bold">On-Time Delivery</h5>
+                        <p class="text-muted mb-0">We value your time and ensure timely deliveries.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="text-primary mb-3"><i class="bi bi-shield-check fs-1"></i></div>
+                        <h5 class="fw-bold">Insured Shipments</h5>
+                        <p class="text-muted mb-0">All shipments are insured for your peace of mind.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container text-center">
+        <h3 class="fw-bold mb-3">Need Service in Your Area?</h3>
+        <p class="text-muted mb-4">Contact us to check if we cover your location.</p>
+        <a href="{% url 'booking' %}" class="btn btn-primary btn-lg">Book Now</a>
+        <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg ms-2">Contact Us</a>
+    </div>
+</section>
+{% endblock %}
