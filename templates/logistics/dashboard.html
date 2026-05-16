@@ -168,7 +168,7 @@
                                     </td>
                                     <td>
                                         {% if booking.currency == 'UGX' %}
-                                        USh {{ booking.estimated_price|add:0|mul:3800|floatformat:0 }}
+                                        <small>USh{{ booking.estimated_price }}</small>
                                         {% else %}
                                         ${{ booking.estimated_price }}
                                         {% endif %}
