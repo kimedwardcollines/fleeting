@@ -131,12 +131,19 @@
                             <div class="mt-4 mb-4">
                                 <div class="price-display">
                                     <div class="row align-items-center">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <p class="mb-1">Estimated Distance:</p>
                                             <h3 class="mb-0" id="distanceDisplay">0 km</h3>
                                             <input type="hidden" id="calculated_distance" name="calculated_distance" value="0">
                                         </div>
-                                        <div class="col-md-6 text-md-end">
+                                        <div class="col-md-4">
+                                            <label class="form-label mb-1">Currency:</label>
+                                            <select class="form-select" id="currency" name="currency" onchange="updatePrice()">
+                                                <option value="USD">USD ($)</option>
+                                                <option value="UGX">UGX (USh)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 text-md-end">
                                             <p class="mb-1">Estimated Price:</p>
                                             <div class="price-amount" id="priceDisplay">$0</div>
                                             <input type="hidden" id="estimated_price" name="estimated_price" value="0">

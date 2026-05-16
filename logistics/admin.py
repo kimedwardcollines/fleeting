@@ -4,7 +4,7 @@ from .models import Booking
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     # Display columns
-    list_display = ('name', 'phone', 'service_type', 'pickup_location', 'destination', 'calculated_distance', 'estimated_price', 'date', 'created_at')
+    list_display = ('name', 'phone', 'service_type', 'pickup_location', 'destination', 'calculated_distance', 'estimated_price', 'currency', 'date', 'created_at')
     
     # Filters
     list_filter = ('service_type', 'date')

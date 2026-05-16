@@ -25,6 +25,7 @@ def booking(request):
             destination=request.POST.get('destination'),
             calculated_distance=request.POST.get('calculated_distance', 0),
             estimated_price=request.POST.get('estimated_price', 0),
+            currency=request.POST.get('currency', 'USD'),
             date=request.POST.get('date'),
             message=request.POST.get('message', '')
         )

@@ -16,6 +16,7 @@ class Booking(models.Model):
     destination = models.CharField(max_length=200)
     calculated_distance = models.IntegerField(default=0, help_text="Distance in kilometers")
     estimated_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Estimated price in USD")
+    currency = models.CharField(max_length=3, choices=[('USD', 'USD'), ('UGX', 'UGX')], default='USD')
     date = models.DateField()
     message = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
