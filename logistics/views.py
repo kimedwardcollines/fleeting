@@ -23,13 +23,15 @@ def booking(request):
             email=request.POST.get('email'),
             pickup_location=request.POST.get('pickup_location'),
             destination=request.POST.get('destination'),
+            calculated_distance=request.POST.get('calculated_distance', 0),
+            estimated_price=request.POST.get('estimated_price', 0),
             date=request.POST.get('date'),
             message=request.POST.get('message', '')
         )
         booking.save()
         
         service = "quote" if request.POST.get('service_type') == 'cargo' else "ride"
-        messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. We will contact you at {booking.phone} soon.')
+        messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. Estimated price: ${booking.estimated_price}. We will contact you soon.')
         return redirect('booking')
     
     return render(request, 'logistics/booking.html')

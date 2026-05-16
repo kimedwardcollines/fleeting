@@ -4,7 +4,7 @@ from .models import Booking
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
     # Display columns
-    list_display = ('name', 'phone', 'service_type', 'pickup_location', 'destination', 'date', 'created_at')
+    list_display = ('name', 'phone', 'service_type', 'pickup_location', 'destination', 'calculated_distance', 'estimated_price', 'date', 'created_at')
     
     # Filters
     list_filter = ('service_type', 'date')
@@ -23,3 +23,16 @@ class BookingAdmin(admin.ModelAdmin):
     
     # List per page
     list_per_page = 20
+    
+    # Fields to show in detail view
+    fieldsets = (
+        ('Customer Info', {
+            'fields': ('name', 'phone', 'email')
+        }),
+        ('Trip Details', {
+            'fields': ('service_type', 'pickup_location', 'destination', 'calculated_distance', 'estimated_price', 'date')
+        }),
+        ('Additional', {
+            'fields': ('message', 'created_at')
+        }),
+    )
