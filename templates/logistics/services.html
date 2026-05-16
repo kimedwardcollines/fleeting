@@ -1,0 +1,203 @@
+{% extends 'logistics/base.html' %}
+{% load static %}
+
+{% block title %}Services - Fleeting Logistics Company Limited{% endblock %}
+
+{% block extra_css %}
+<style>
+    .services-hero {
+        background: linear-gradient(rgba(10, 36, 99, 0.9), rgba(10, 36, 99, 0.7)),
+                    url('https://images.unsplash.com/photo-1580674684081-7617f1553f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 0 80px;
+        animation: fadeIn 1s ease-out;
+    }
+    
+    .service-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(10, 36, 99, 0.15) !important;
+    }
+    
+    .service-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #0A2463, #1E5AA8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        transition: transform 0.3s ease;
+    }
+    
+    .service-card:hover .service-icon {
+        transform: scale(1.1);
+    }
+    
+    .service-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="services-hero text-white">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-4">Our Services</h1>
+        <p class="lead" style="max-width: 600px;">Comprehensive logistics solutions designed to meet all your transportation needs.</p>
+    </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <!-- Cargo Transportation -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card service-card border-0 shadow-sm h-100 p-4 text-center">
+                    <div class="service-icon mb-4">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Cargo Transportation</h4>
+                    <p class="text-muted mb-4">
+                        Our core service covers transportation of goods of all sizes across domestic and international destinations. 
+                        With real-time tracking and professional drivers, your cargo is in safe hands.
+                    </p>
+                    <ul class="list-unstyled text-start text-muted small mb-0">
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Same-day delivery available</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Real-time GPS tracking</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Insured shipments</li>
+                        <li><i class="bi bi-check-circle text-primary me-2"></i>Express shipping options</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Freight Forwarding -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card service-card border-0 shadow-sm h-100 p-4 text-center">
+                    <div class="service-icon mb-4">
+                        <i class="bi bi-ship"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Freight Forwarding</h4>
+                    <p class="text-muted mb-4">
+                        International shipping made simple. We handle all customs documentation and clearance, 
+                        making global trade effortless for your business.
+                    </p>
+                    <ul class="list-unstyled text-start text-muted small mb-0">
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Sea and air freight</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Customs clearance</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Door-to-door delivery</li>
+                        <li><i class="bi bi-check-circle text-primary me-2"></i>Documentation support</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Warehousing -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card service-card border-0 shadow-sm h-100 p-4 text-center">
+                    <div class="service-icon mb-4">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Warehousing</h4>
+                    <p class="text-muted mb-4">
+                        Secure storage facilities with inventory management systems. Store your goods 
+                        with confidence and access them whenever needed.
+                    </p>
+                    <ul class="list-unstyled text-start text-muted small mb-0">
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>24/7 security</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Climate control</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Inventory management</li>
+                        <li><i class="bi bi-check-circle text-primary me-2"></i>Flexible storage terms</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Delivery Services -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card service-card border-0 shadow-sm h-100 p-4 text-center">
+                    <div class="service-icon mb-4">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Delivery Services</h4>
+                    <p class="text-muted mb-4">
+                        Last-mile delivery solutions tailored to your needs. From individual packages to bulk deliveries, 
+                        we ensure timely and careful handling.
+                    </p>
+                    <ul class="list-unstyled text-start text-muted small mb-0">
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Last-mile delivery</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Scheduled deliveries</li>
+                        <li class="mb-2"><i class="bi bi-check-circle text-primary me-2"></i>Signature confirmation</li>
+                        <li><i class="bi bi-check-circle text-primary me-2"></i>Package tracking</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Services -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Additional Services</h2>
+            <p class="text-muted">More solutions to meet your business needs</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-primary me-3">
+                            <i class="bi bi-boxes fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Packaging Solutions</h5>
+                    </div>
+                    <p class="text-muted mb-0">Custom packaging designed to protect your goods during transit. We offer eco-friendly options too.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-primary me-3">
+                            <i class="bi bi-list-check fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Supply Chain Management</h5>
+                    </div>
+                    <p class="text-muted mb-0">End-to-end supply chain solutions to optimize your operations and reduce costs.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-primary me-3">
+                            <i class="bi bi-headset fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Customer Support</h5>
+                    </div>
+                    <p class="text-muted mb-0">Dedicated support team available 24/7 to assist you with any queries or concerns.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #0A2463, #1E5AA8);">
+    <div class="container py-5 text-center text-white">
+        <h2 class="fw-bold mb-3">Need a Custom Logistics Solution?</h2>
+        <p class="mb-4" style="opacity: 0.9;">Contact us today for a personalized quote tailored to your needs.</p>
+        <a href="{% url 'contact' %}" class="btn btn-accent btn-lg">Get a Quote</a>
+    </div>
+</section>
+{% endblock %}

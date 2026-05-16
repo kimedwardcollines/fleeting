@@ -1,0 +1,177 @@
+{% extends 'logistics/base.html' %}
+{% load static %}
+
+{% block title %}About - Fleeting Logistics Company Limited{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(rgba(10, 36, 99, 0.9), rgba(10, 36, 99, 0.7)),
+                    url('https://images.unsplash.com/photo-1578575437130-527b3c4d4837?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 120px 0 80px;
+        animation: fadeIn 1s ease-out;
+    }
+    
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(10, 36, 99, 0.15) !important;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="about-hero text-white">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-4">About Us</h1>
+        <p class="lead" style="max-width: 600px;">Learn more about Fleeting Logistics Company Limited and our commitment to excellence.</p>
+    </div>
+</section>
+
+<!-- Company Description -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">Fleeting Logistics Company Limited</h2>
+                <p class="text-muted mb-4">
+                    Founded with a vision to revolutionize the logistics industry, Fleeting Logistics Company Limited 
+                    has grown to become one of the most trusted names in transportation and supply chain solutions. 
+                    Our journey began with a simple belief: every package matters, every delivery counts.
+                </p>
+                <p class="text-muted mb-4">
+                    Today, we operate a modern fleet of vehicles equipped with advanced tracking technology, 
+                    ensuring your cargo reaches its destination safely and on time. Our team of dedicated professionals 
+                    works around the clock to provide personalized solutions tailored to your unique needs.
+                </p>
+                <p class="text-muted mb-0">
+                    Whether you're a small business or a large corporation, we have the expertise and resources 
+                    to handle all your logistics requirements. Our commitment to quality, reliability, and customer satisfaction 
+                    sets us apart in the industry.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                     alt="Our team" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100 p-4">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-bullseye fs-1"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Our Mission</h3>
+                    <p class="text-muted mb-0">
+                        To provide fast, reliable, and efficient logistics solutions that empower businesses 
+                        to grow and succeed. We are committed to delivering excellence in every shipment 
+                        while maintaining the highest standards of safety and customer service.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100 p-4">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-eye fs-1"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Our Vision</h3>
+                    <p class="text-muted mb-0">
+                        To be the leading logistics provider in the region, known for innovation, reliability, 
+                        and unmatched customer service. We envision a future where logistics is seamless, 
+                        transparent, and accessible to businesses of all sizes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Why Choose Fleeting Logistics</h2>
+            <p class="text-muted">Experience the difference of working with a truly dedicated logistics partner</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card feature-card border-0 shadow-sm h-100 p-4">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-clock-history fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">On-Time Delivery</h5>
+                    <p class="text-muted small mb-0">We understand the value of time. Our efficient routing ensures your cargo arrives on schedule, every single time.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card feature-card border-0 shadow-sm h-100 p-4">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-shield-check fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Secure Handling</h5>
+                    <p class="text-muted small mb-0">Your cargo is valuable. We treat every package with utmost care and provide full insurance coverage.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card feature-card border-0 shadow-sm h-100 p-4">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-graph-up-arrow fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Real-Time Tracking</h5>
+                    <p class="text-muted small mb-0">Stay informed with our advanced tracking system. Monitor your shipment from pickup to delivery.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card feature-card border-0 shadow-sm h-100 p-4">
+                    <div class="text-primary mb-3">
+                        <i class="bi bi-currency-dollar fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Competitive Pricing</h5>
+                    <p class="text-muted small mb-0">Quality service doesn't have to break the bank. We offer transparent, competitive pricing for all budgets.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #0A2463, #1E5AA8);">
+    <div class="container py-5">
+        <div class="row text-center text-white">
+            <div class="col-6 col-md-3 mb-4 mb-md-0">
+                <h2 class="display-4 fw-bold mb-2">10+</h2>
+                <p class="mb-0">Years Experience</p>
+            </div>
+            <div class="col-6 col-md-3 mb-4 mb-md-0">
+                <h2 class="display-4 fw-bold mb-2">5000+</h2>
+                <p class="mb-0">Deliveries Completed</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h2 class="display-4 fw-bold mb-2">99%</h2>
+                <p class="mb-0">Customer Satisfaction</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <h2 class="display-4 fw-bold mb-2">50+</h2>
+                <p class="mb-0">Fleet Vehicles</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
