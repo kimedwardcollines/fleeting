@@ -32,7 +32,12 @@ def booking(request):
         booking.save()
         
         service = "quote" if request.POST.get('service_type') == 'cargo' else "ride"
-        messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. Estimated price: ${booking.estimated_price}. We will contact you soon.')
+        currency = request.POST.get('currency', 'USD')
+        if currency == 'UGX':
+            price_display = f"USh {float(booking.estimated_price) * 3800:,.0f}"
+        else:
+            price_display = f"${booking.estimated_price}"
+        messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. Estimated price: {price_display}. We will contact you soon.')
         return redirect('booking')
     
     return render(request, 'logistics/booking.html')
