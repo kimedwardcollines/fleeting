@@ -18,15 +18,25 @@ def services(request):
 
 def booking(request):
     if request.method == 'POST':
+        # Server-side validation
+        service_type = request.POST.get('service_type')
+        calculated_distance = request.POST.get('calculated_distance', '0').strip() or '0'
+        estimated_price = request.POST.get('estimated_price', '0').strip() or '0'
+        
+        # Validate required fields
+        if not service_type or calculated_distance == '0' or estimated_price == '0':
+            messages.error(request, 'Please calculate the price by entering pickup and destination locations.')
+            return redirect('booking')
+        
         booking = Booking(
-            service_type=request.POST.get('service_type'),
+            service_type=service_type,
             name=request.POST.get('name'),
             phone=request.POST.get('phone'),
             email=request.POST.get('email'),
             pickup_location=request.POST.get('pickup_location'),
             destination=request.POST.get('destination'),
-            calculated_distance=request.POST.get('calculated_distance', 0),
-            estimated_price=request.POST.get('estimated_price', 0),
+            calculated_distance=int(calculated_distance),
+            estimated_price=float(estimated_price),
             currency=request.POST.get('currency', 'USD'),
             date=request.POST.get('date'),
             message=request.POST.get('message', '')
