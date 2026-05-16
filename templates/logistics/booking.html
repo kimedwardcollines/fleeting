@@ -181,7 +181,7 @@
                                 <textarea class="form-control" id="message" name="message" rows="3" placeholder="Any special requirements, number of passengers, cargo details, etc."></textarea>
                             </div>
                             
-                            <button type="submit" class="btn btn-accent btn-lg w-100">Submit & Pay Deposit</button>
+                            <button type="submit" class="btn btn-accent btn-lg w-100" onclick="return validateBooking()">Submit & Pay Deposit</button>
                         </form>
                         
                         <div class="mt-4 text-center">
@@ -199,7 +199,7 @@
                                 <input type="hidden" name="currency" id="nopay_currency">
                                 <input type="hidden" name="date" id="nopay_date">
                                 <input type="hidden" name="message" id="nopay_message">
-                                <button type="submit" class="btn btn-outline-secondary" onclick="populateNopayFields()">Book Without Deposit</button>
+                                <button type="submit" class="btn btn-outline-secondary" onclick="return populateNopayFields()">Book Without Deposit</button>
                             </form>
                         </div>
                     </div>
@@ -333,17 +333,24 @@
     
     // Populate nopay fields before submit
     function populateNopayFields() {
-        document.getElementById('nopay_service_type').value = document.querySelector('input[name="service_type"]:checked')?.value || '';
-        document.getElementById('nopay_name').value = document.getElementById('name').value;
-        document.getElementById('nopay_phone').value = document.getElementById('phone').value;
-        document.getElementById('nopay_email').value = document.getElementById('email').value;
-        document.getElementById('nopay_pickup').value = document.getElementById('pickup_location').value;
-        document.getElementById('nopay_destination').value = document.getElementById('destination').value;
-        document.getElementById('nopay_distance').value = document.getElementById('distance').value;
-        document.getElementById('nopay_price').value = document.getElementById('priceUSD').value;
-        document.getElementById('nopay_currency').value = document.getElementById('currency').value;
-        document.getElementById('nopay_date').value = document.getElementById('date').value;
-        document.getElementById('nopay_message').value = document.getElementById('message').value;
+        return validateBooking();
+    }
+    
+    // Validate booking before submit
+    function validateBooking() {
+        const distance = document.getElementById('distance').value;
+        const price = document.getElementById('priceUSD').value;
+        
+        if (!distance || distance === '0' || !price || price === '0') {
+            alert('Please enter pickup location and destination to calculate the price before submitting.');
+            return false;
+        }
+        
+        document.getElementById('priceDisplay').textContent = document.getElementById('currency').value === 'UGX' 
+            ? 'USh ' + (parseFloat(price) * 3800).toLocaleString() 
+            : '$' + price;
+        
+        return true;
     }
 </script>
 {% endblock %}
