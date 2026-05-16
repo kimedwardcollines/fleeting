@@ -19,15 +19,9 @@
         border: 2px solid transparent;
     }
     
-    .service-type-card:hover,
-    .service-type-card.selected {
+    .service-type-card:hover, .service-type-card.selected {
         border-color: #FF6B35;
         transform: scale(1.02);
-    }
-    
-    .form-control:focus {
-        border-color: #1E5AA8;
-        box-shadow: 0 0 0 0.25rem rgba(30, 90, 168, 0.25);
     }
     
     .btn-accent {
@@ -47,24 +41,17 @@
         padding: 20px;
         color: white;
     }
-    
-    .price-amount {
-        font-size: 2.5rem;
-        font-weight: 700;
-    }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
 <section class="booking-hero text-white">
     <div class="container">
         <h1 class="display-3 fw-bold mb-4">Book Our Services</h1>
-        <p class="lead" style="max-width: 600px;">Get instant price quotes for cargo transport or book a passenger ride.</p>
+        <p class="lead">Get instant price quotes for cargo transport or book a passenger ride.</p>
     </div>
 </section>
 
-<!-- Booking Form -->
 <section class="py-5">
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -77,24 +64,23 @@
                         <form method="post" action="{% url 'booking' %}" id="bookingForm">
                             {% csrf_token %}
                             
-                            <!-- Service Type Selection -->
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Select Service Type *</label>
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="service-type-card card h-100 p-4 text-center" for="cargo">
-                                            <input type="radio" name="service_type" id="cargo" value="cargo" class="d-none" required onchange="updatePrice()">
+                                            <input type="radio" name="service_type" id="cargo" value="cargo" class="d-none" required onchange="calculatePrice()">
                                             <i class="bi bi-truck fs-1 text-primary mb-2 d-block"></i>
                                             <h5 class="fw-bold mb-1">Cargo Logistics</h5>
-                                            <p class="text-muted small mb-0">$0.50/km + base fee</p>
+                                            <p class="text-muted small mb-0">$0.50/km + $50 base</p>
                                         </label>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="service-type-card card h-100 p-4 text-center" for="passenger">
-                                            <input type="radio" name="service_type" id="passenger" value="passenger" class="d-none" required onchange="updatePrice()">
+                                            <input type="radio" name="service_type" id="passenger" value="passenger" class="d-none" required onchange="calculatePrice()">
                                             <i class="bi bi-car-front fs-1 text-primary mb-2 d-block"></i>
                                             <h5 class="fw-bold mb-1">Passenger Transport</h5>
-                                            <p class="text-muted small mb-0">$0.30/km + base fee</p>
+                                            <p class="text-muted small mb-0">$0.30/km + $30 base</p>
                                         </label>
                                     </div>
                                 </div>
@@ -119,11 +105,11 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="pickup_location" class="form-label fw-bold">Pickup Location *</label>
-                                    <input type="text" class="form-control" id="pickup_location" name="pickup_location" required placeholder="Kampala, Uganda" oninput="updatePrice()">
+                                    <input type="text" class="form-control" id="pickup_location" name="pickup_location" required placeholder="Kampala, Uganda" onkeyup="calculatePrice()">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="destination" class="form-label fw-bold">Destination *</label>
-                                    <input type="text" class="form-control" id="destination" name="destination" required placeholder="Entebbe, Uganda" oninput="updatePrice()">
+                                    <input type="text" class="form-control" id="destination" name="destination" required placeholder="Entebbe, Uganda" onkeyup="calculatePrice()">
                                 </div>
                             </div>
                             
@@ -134,19 +120,19 @@
                                         <div class="col-md-4">
                                             <p class="mb-1">Estimated Distance:</p>
                                             <h3 class="mb-0" id="distanceDisplay">0 km</h3>
-                                            <input type="hidden" id="calculated_distance" name="calculated_distance" value="0">
+                                            <input type="hidden" id="distance" name="calculated_distance" value="0">
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label mb-1">Currency:</label>
-                                            <select class="form-select" id="currency" name="currency" onchange="updatePrice()">
+                                            <select class="form-select bg-white text-dark" id="currency" name="currency" onchange="calculatePrice()">
                                                 <option value="USD">USD ($)</option>
                                                 <option value="UGX">UGX (USh)</option>
                                             </select>
                                         </div>
                                         <div class="col-md-4 text-md-end">
                                             <p class="mb-1">Estimated Price:</p>
-                                            <h3 class="price-amount mb-0" id="priceDisplay">$0</h3>
-                                            <input type="hidden" id="estimated_price" name="estimated_price" value="0">
+                                            <h3 class="mb-0" id="priceDisplay">$0</h3>
+                                            <input type="hidden" id="priceUSD" name="estimated_price" value="0">
                                             <small class="opacity-75">Final price may vary</small>
                                         </div>
                                     </div>
@@ -172,7 +158,6 @@
     </div>
 </section>
 
-<!-- Info Section -->
 <section class="py-5 bg-light">
     <div class="container py-5">
         <div class="row g-4">
@@ -204,21 +189,15 @@
 
 {% block extra_js %}
 <script>
-    // Price calculation (simulated - uses estimated distances)
-    const BASE_PRICES = {
-        'cargo': 50,      // Base fee for cargo
-        'passenger': 30   // Base fee for passenger
-    };
+    // Pricing constants
+    const USD_TO_UGX = 3800;
+    const BASE_PRICES = { 'cargo': 50, 'passenger': 30 };
+    const RATE_PER_KM = { 'cargo': 0.50, 'passenger': 0.30 };
     
-    const RATE_PER_KM = {
-        'cargo': 0.50,   // $0.50 per km for cargo
-        'passenger': 0.30 // $0.30 per km for passenger
-    };
-    
-    // Sample distances between major Uganda cities (in km)
+    // City distances in km
     const cityDistances = {
         'kampala': { 'entebbe': 40, 'mbarara': 220, 'gulu': 340, 'jinja': 120, 'soroti': 210, 'kasese': 350 },
-        'entebbe': { 'kampala': 40, 'mbarara': 260, 'gulu': 380, 'jinja': 160, 'soroti': 250, 'kases3': 390 },
+        'entebbe': { 'kampala': 40, 'mbarara': 260, 'gulu': 380, 'jinja': 160, 'soroti': 250, 'kasese': 390 },
         'jinja': { 'kampala': 120, 'entebbe': 160, 'mbarara': 200, 'gulu': 280, 'soroti': 120, 'kasese': 300 },
         'mbarara': { 'kampala': 220, 'entebbe': 260, 'jinja': 200, 'gulu': 280, 'soroti': 320, 'kasese': 180 },
         'gulu': { 'kampala': 340, 'entebbe': 380, 'jinja': 280, 'mbarara': 280, 'soroti': 150, 'kasese': 450 },
@@ -226,65 +205,42 @@
         'kasese': { 'kampala': 350, 'entebbe': 390, 'jinja': 300, 'mbarara': 180, 'gulu': 450, 'soroti': 380 }
     };
     
-    // Normalize city name for lookup
-    function normalizeCity(city) {
-        city = city.toLowerCase().trim();
-        // Remove common suffixes
-        city = city.replace(', uganda', '').replace(', ug', '').replace(' district', '');
-        return city;
-    }
-    
-    // Get distance between two cities
     function getDistance(from, to) {
-        from = normalizeCity(from);
-        to = normalizeCity(to);
-        
-        // Check direct distance
-        if (cityDistances[from] && cityDistances[from][to]) {
-            return cityDistances[from][to];
-        }
-        if (cityDistances[to] && cityDistances[to][from]) {
-            return cityDistances[to][from];
-        }
-        
-        // Estimate based on string similarity
-        const cities = Object.keys(cityDistances);
-        for (let city of cities) {
-            if (from.includes(city) || city.includes(from)) {
-                for (let city2 of cities) {
-                    if (to.includes(city2) || city2.includes(to)) {
-                        return cityDistances[city][city2] || 0;
-                    }
-                }
-            }
-        }
-        
-        // Default: estimate 50km for unknown routes
+        from = from.toLowerCase().replace(', uganda', '').trim();
+        to = to.toLowerCase().replace(', uganda', '').trim();
+        if (cityDistances[from] && cityDistances[from][to]) return cityDistances[from][to];
+        if (cityDistances[to] && cityDistances[to][from]) return cityDistances[to][from];
         return 50;
     }
     
-    // Update price display
-    function updatePrice() {
+    function calculatePrice() {
         const pickup = document.getElementById('pickup_location').value;
         const destination = document.getElementById('destination').value;
         const serviceType = document.querySelector('input[name="service_type"]:checked');
+        const currency = document.getElementById('currency').value;
         
         if (pickup && destination && serviceType) {
             const distance = getDistance(pickup, destination);
-            const type = serviceType.value;
-            const rate = RATE_PER_KM[type];
-            const base = BASE_PRICES[type];
-            const price = base + (distance * rate);
+            const rate = RATE_PER_KM[serviceType.value];
+            const base = BASE_PRICES[serviceType.value];
+            const priceUSD = base + (distance * rate);
+            
+            let displayPrice;
+            if (currency === 'UGX') {
+                displayPrice = 'USh ' + (priceUSD * USD_TO_UGX).toLocaleString();
+            } else {
+                displayPrice = '$' + priceUSD.toFixed(2);
+            }
             
             document.getElementById('distanceDisplay').textContent = distance + ' km';
-            document.getElementById('calculated_distance').value = distance;
-            document.getElementById('priceDisplay').textContent = '$' + price.toFixed(2);
-            document.getElementById('estimated_price').value = price.toFixed(2);
+            document.getElementById('distance').value = distance;
+            document.getElementById('priceDisplay').textContent = displayPrice;
+            document.getElementById('priceUSD').value = priceUSD.toFixed(2);
         } else {
             document.getElementById('distanceDisplay').textContent = '0 km';
-            document.getElementById('calculated_distance').value = 0;
-            document.getElementById('priceDisplay').textContent = '$0';
-            document.getElementById('estimated_price').value = 0;
+            document.getElementById('distance').value = 0;
+            document.getElementById('priceDisplay').textContent = currency === 'UGX' ? 'USh 0' : '$0';
+            document.getElementById('priceUSD').value = 0;
         }
     }
     
@@ -296,20 +252,17 @@
         });
     });
     
-    // Pre-select service type from URL parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const serviceType = urlParams.get('type');
-    if (serviceType === 'cargo') {
+    // Pre-select from URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('type') === 'cargo') {
         document.getElementById('cargo').checked = true;
         document.getElementById('cargo').parentElement.classList.add('selected');
-        updatePrice();
-    } else if (serviceType === 'passenger') {
+    } else if (params.get('type') === 'passenger') {
         document.getElementById('passenger').checked = true;
         document.getElementById('passenger').parentElement.classList.add('selected');
-        updatePrice();
     }
     
-    // Set minimum date to today
+    // Min date
     document.getElementById('date').min = new Date().toISOString().split('T')[0];
 </script>
 {% endblock %}
