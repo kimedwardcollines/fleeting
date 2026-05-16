@@ -124,3 +124,4 @@ STATICFILES_DIRS = [
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'info@fleetinglogistics.com'
+ADMIN_EMAIL = ['admin@fleetinglogistics.com']

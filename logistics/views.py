@@ -66,6 +66,30 @@ Fleeting Logistics Team
                 recipient_list=[booking.email],
                 fail_silently=False,
             )
+            
+            # Send notification to admin
+            send_mail(
+                subject=f'New Booking: {booking.get_service_type_display()} from {booking.name}',
+                message=f'''NEW BOOKING RECEIVED!
+
+Customer: {booking.name}
+Phone: {booking.phone}
+Email: {booking.email}
+Service: {booking.get_service_type_display()}
+Pickup: {booking.pickup_location}
+Destination: {booking.destination}
+Distance: {booking.calculated_distance} km
+Price: {price_display}
+Date: {booking.date}
+
+Tracking: {booking.tracking_number}
+
+Message: {booking.message}
+''',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.ADMIN_EMAIL],
+                fail_silently=False,
+            )
             messages.success(request, f'Thank you, {booking.name}! Your {service} has been submitted. A confirmation email has been sent to {booking.email}')
         except:
             messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. Estimated price: {price_display}. We will contact you soon.')
