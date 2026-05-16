@@ -199,7 +199,7 @@
                                 <input type="hidden" name="currency" id="nopay_currency">
                                 <input type="hidden" name="date" id="nopay_date">
                                 <input type="hidden" name="message" id="nopay_message">
-                                <button type="submit" class="btn btn-outline-secondary">Book Without Deposit</button>
+                                <button type="submit" class="btn btn-outline-secondary" onclick="populateNopayFields()">Book Without Deposit</button>
                             </form>
                         </div>
                     </div>
@@ -330,5 +330,20 @@
     
     // Min date
     document.getElementById('date').min = new Date().toISOString().split('T')[0];
+    
+    // Populate nopay fields before submit
+    function populateNopayFields() {
+        document.getElementById('nopay_service_type').value = document.querySelector('input[name="service_type"]:checked')?.value || '';
+        document.getElementById('nopay_name').value = document.getElementById('name').value;
+        document.getElementById('nopay_phone').value = document.getElementById('phone').value;
+        document.getElementById('nopay_email').value = document.getElementById('email').value;
+        document.getElementById('nopay_pickup').value = document.getElementById('pickup_location').value;
+        document.getElementById('nopay_destination').value = document.getElementById('destination').value;
+        document.getElementById('nopay_distance').value = document.getElementById('distance').value;
+        document.getElementById('nopay_price').value = document.getElementById('priceUSD').value;
+        document.getElementById('nopay_currency').value = document.getElementById('currency').value;
+        document.getElementById('nopay_date').value = document.getElementById('date').value;
+        document.getElementById('nopay_message').value = document.getElementById('message').value;
+    }
 </script>
 {% endblock %}
