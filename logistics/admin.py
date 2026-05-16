@@ -1,9 +1,25 @@
 from django.contrib import admin
 from .models import Booking
 
-# Register your models here.
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'service_type', 'phone', 'email', 'pickup_location', 'destination', 'date', 'created_at')
-    list_filter = ('service_type', 'created_at')
-    search_fields = ('name', 'phone', 'email')
+    # Display columns
+    list_display = ('name', 'phone', 'service_type', 'pickup_location', 'destination', 'date', 'created_at')
+    
+    # Filters
+    list_filter = ('service_type', 'date')
+    
+    # Search
+    search_fields = ('name', 'phone')
+    
+    # Order by newest first
+    ordering = ('-created_at',)
+    
+    # Read-only fields
+    readonly_fields = ('created_at',)
+    
+    # Date hierarchy
+    date_hierarchy = 'created_at'
+    
+    # List per page
+    list_per_page = 20
