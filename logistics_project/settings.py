@@ -136,9 +136,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'Fleeting Logistics <bukenyausher@gmail.com>'
 ADMIN_EMAIL = 'bukenyausher@gmail.com'
 
-# Login redirect
+# Login redirect - use Django admin
 LOGIN_REDIRECT_URL = '/dashboard/'
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/admin/login/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
