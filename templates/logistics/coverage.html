@@ -72,8 +72,8 @@
 {% block content %}
 <section class="coverage-hero text-white">
     <div class="container">
-        <h1 class="display-3 fw-bold mb-4">Our Service Areas</h1>
-        <p class="lead">We deliver across Uganda and East Africa.</p>
+        <h1 class="display-3 fw-bold mb-4">Our Coverage Areas</h1>
+        <p class="lead">Serving all 135 districts across Uganda and beyond East Africa.</p>
     </div>
 </section>
 
@@ -85,7 +85,7 @@
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Uganda_location_map.svg/1200px-Uganda_location_map.svg.png" 
                          alt="Uganda Map" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
                     
-                    <!-- City Markers (approximate positions) -->
+                    <!-- Major City Markers -->
                     <div class="location-marker" style="left: 45%; top: 35%;" title="Kampala"></div>
                     <div class="location-marker" style="left: 42%; top: 32%;" title="Entebbe"></div>
                     <div class="location-marker" style="left: 60%; top: 45%;" title="Jinja"></div>
@@ -93,26 +93,34 @@
                     <div class="location-marker" style="left: 80%; top: 60%;" title="Gulu"></div>
                     <div class="location-marker" style="left: 70%; top: 55%;" title="Soroti"></div>
                     <div class="location-marker" style="left: 10%; top: 45%;" title="Kasese"></div>
+                    <div class="location-marker" style="left: 35%; top: 25%;" title="Luweero"></div>
+                    <div class="location-marker" style="left: 55%; top: 35%;" title="Iganga"></div>
+                    <div class="location-marker" style="left: 25%; top: 55%;" title="Kabarole"></div>
+                    <div class="location-marker" style="left: 65%; top: 65%;" title="Lira"></div>
+                    <div class="location-marker" style="left: 75%; top: 50%;" title="Apac"></div>
+                    <div class="location-marker" style="left: 15%; top: 60%;" title="Ntungamo"></div>
+                    <div class="location-marker" style="left: 45%; top: 50%;" title="Kamwenge"></div>
+                    <div class="location-marker" style="left: 50%; top: 60%;" title="Kumi"></div>
                     
                     <div class="map-controls d-none d-md-block">
                         <h6 class="fw-bold mb-2">Legend</h6>
                         <div class="d-flex align-items-center mb-1">
-                            <span style="width: 12px; height: 12px; background: #0A2463; border-radius: 50%;"></span>
-                            <small class="ms-2">Service City</small>
+                            <span style="width: 12px; height: 12px; background: #1a3a6e; border-radius: 50%;"></span>
+                            <small class="ms-2">Major City</small>
                         </div>
                         <div class="d-flex align-items-center">
-                            <span style="width: 12px; height: 12px; background: #1E5AA8; border-radius: 50%; opacity: 0.5;"></span>
-                            <small class="ms-2">Coverage Area</small>
+                            <span style="width: 12px; height: 12px; background: #2563eb; border-radius: 50%; opacity: 0.5;"></span>
+                            <small class="ms-2">All Districts</small>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="col-lg-4">
-                <h4 class="fw-bold mb-4">Service Locations</h4>
+                <h4 class="fw-bold mb-4">Coverage Cities</h4>
                 
                 <div class="card border-0 shadow-sm">
-                    <div class="card-body p-0">
+                    <div class="card-body p-0" style="max-height: 450px; overflow-y: auto;">
                         <div class="city-list-item p-3 border-bottom">
                             <h6 class="fw-bold mb-0">Kampala</h6>
                             <small class="text-muted">Capital City - HQ</small>
@@ -127,19 +135,111 @@
                         </div>
                         <div class="city-list-item p-3 border-bottom">
                             <h6 class="fw-bold mb-0">Mbarara</h6>
-                            <small class="text-muted">Western Region</small>
+                            <small class="text-muted">Western Region HQ</small>
                         </div>
                         <div class="city-list-item p-3 border-bottom">
                             <h6 class="fw-bold mb-0">Gulu</h6>
-                            <small class="text-muted">Northern Region</small>
+                            <small class="text-muted">Northern Region HQ</small>
                         </div>
                         <div class="city-list-item p-3 border-bottom">
                             <h6 class="fw-bold mb-0">Soroti</h6>
                             <small class="text-muted">Eastern Region</small>
                         </div>
-                        <div class="city-list-item p-3">
+                        <div class="city-list-item p-3 border-bottom">
                             <h6 class="fw-bold mb-0">Kasese</h6>
                             <small class="text-muted">Rwenzori Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Lira</h6>
+                            <small class="text-muted">Northern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Luweero</h6>
+                            <small class="text-muted">Central Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Iganga</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Kabarole</h6>
+                            <small class="text-muted">Western Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Mbale</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Mukono</h6>
+                            <small class="text-muted">Central Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Masindi</h6>
+                            <small class="text-muted">Western Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Apac</h6>
+                            <small class="text-muted">Northern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Arua</h6>
+                            <small class="text-muted">West Nile</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Nebbi</h6>
+                            <small class="text-muted">West Nile</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Kumi</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Kamwenge</h6>
+                            <small class="text-muted">Western Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Ntungamo</h6>
+                            <small class="text-muted">Western Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Rakai</h6>
+                            <small class="text-muted">Central Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Sironko</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Busia</h6>
+                            <small class="text-muted">Border Town</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Tororo</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Bugiri</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Mayuge</h6>
+                            <small class="text-muted">Eastern Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Wakiso</h6>
+                            <small class="text-muted">Central Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Mubende</h6>
+                            <small class="text-muted">Central Region</small>
+                        </div>
+                        <div class="city-list-item p-3 border-bottom">
+                            <h6 class="fw-bold mb-0">Nakasongola</h6>
+                            <small class="text-muted">Central Region</small>
+                        </div>
+                        <div class="city-list-item p-3">
+                            <h6 class="fw-bold mb-0">+ 100+ More Districts</h6>
+                            <small class="text-muted">Contact us for your area</small>
                         </div>
                     </div>
                 </div>
