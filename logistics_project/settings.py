@@ -26,6 +26,15 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-4pdy9_xs(rvsn(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Security settings for production
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 3600  # 1 hour
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SESSION_COOKIE_SECURE = False  # Set True in production with HTTPS
+CSRF_COOKIE_SECURE = False  # Set True in production with HTTPS
+SECURE_SSL_REDIRECT = False  # Set True in production
+
 ALLOWED_HOSTS = []
 
 

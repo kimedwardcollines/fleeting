@@ -3,7 +3,21 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.html import strip_tags
 from .models import Booking
+
+def sanitize_input(value, max_length=200):
+    """Sanitize user input by stripping HTML and limiting length"""
+    if value:
+        # Remove HTML tags
+        value = strip_tags(value)
+        # Strip whitespace
+        value = value.strip()
+        # Limit length
+        if max_length:
+            value = value[:max_length]
+        return value
+    return ''
 
 # Create your views here.
 
@@ -34,15 +48,15 @@ def booking(request):
             return redirect('booking')
         
         booking = Booking(
-            service_type=service_type,
-            name=request.POST.get('name'),
-            phone=request.POST.get('phone'),
-            email=request.POST.get('email'),
-            pickup_location=request.POST.get('pickup_location'),
-            destination=request.POST.get('destination'),
+            service_type=sanitize_input(service_type, 20),
+            name=sanitize_input(request.POST.get('name'), 100),
+            phone=sanitize_input(request.POST.get('phone'), 20),
+            email=sanitize_input(request.POST.get('email'), 100),
+            pickup_location=sanitize_input(request.POST.get('pickup_location'), 200),
+            destination=sanitize_input(request.POST.get('destination'), 200),
             calculated_distance=int(calculated_distance),
             estimated_price=float(estimated_price),
-            currency=request.POST.get('currency', 'USD'),
+            currency=sanitize_input(request.POST.get('currency'), 3),
             date=request.POST.get('date'),
             message=request.POST.get('message', '')
         )
