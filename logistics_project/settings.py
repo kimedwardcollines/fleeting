@@ -21,21 +21,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-4pdy9_xs(rvsn(!loi-=x1mt=9mtcn=0j&)*8vlp00bt)@z7i7')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("DJANGO_SECRET_KEY environment variable must be set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 # Security settings for production
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 3600  # 1 hour
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SESSION_COOKIE_SECURE = False  # Set True in production with HTTPS
-CSRF_COOKIE_SECURE = False  # Set True in production with HTTPS
-SECURE_SSL_REDIRECT = False  # Set True in production
+SESSION_COOKIE_SECURE = True  # Set True in production with HTTPS
+CSRF_COOKIE_SECURE = True  # Set True in production with HTTPS
+SECURE_SSL_REDIRECT = True  # Set True in production
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
 
 
 # Application definition
@@ -133,8 +135,13 @@ STATICFILES_DIRS = [
 
 # Email settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Fleeting Logistics <bukenyausher@gmail.com>')
-ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'bukenyausher@gmail.com')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
+
+# Require email configuration in production
+if not DEFAULT_FROM_EMAIL or not ADMIN_EMAIL:
+    import warnings
+    warnings.warn("DEFAULT_FROM_EMAIL and ADMIN_EMAIL environment variables should be set for production")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

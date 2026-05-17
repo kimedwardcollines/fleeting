@@ -21,6 +21,41 @@ def sanitize_input(value, max_length=200):
         return value
     return ''
 
+
+# City distances in km (server-side)
+CITY_DISTANCES = {
+    'kampala': {'entebbe': 40, 'mbarara': 220, 'gulu': 340, 'jinja': 120, 'soroti': 210, 'kasese': 350},
+    'entebbe': {'kampala': 40, 'mbarara': 260, 'gulu': 380, 'jinja': 160, 'soroti': 250, 'kasese': 390},
+    'jinja': {'kampala': 120, 'entebbe': 160, 'mbarara': 200, 'gulu': 280, 'soroti': 120, 'kasese': 300},
+    'mbarara': {'kampala': 220, 'entebbe': 260, 'jinja': 200, 'gulu': 280, 'soroti': 320, 'kasese': 180},
+    'gulu': {'kampala': 340, 'entebbe': 380, 'jinja': 280, 'mbarara': 280, 'soroti': 150, 'kasese': 450},
+    'soroti': {'kampala': 210, 'entebbe': 250, 'jinja': 120, 'mbarara': 320, 'gulu': 150, 'kasese': 380},
+    'kasese': {'kampala': 350, 'entebbe': 390, 'jinja': 300, 'mbarara': 180, 'gulu': 450, 'soroti': 380}
+}
+
+# Pricing constants
+BASE_PRICES = {'cargo': 50, 'passenger': 30}
+RATE_PER_KM = {'cargo': 0.50, 'passenger': 0.30}
+
+
+def calculate_distance_server_side(pickup_location, destination):
+    """Calculate distance between two locations server-side"""
+    from_location = pickup_location.lower().replace(', uganda', '').strip()
+    to_location = destination.lower().replace(', uganda', '').strip()
+    
+    if from_location in CITY_DISTANCES and to_location in CITY_DISTANCES[from_location]:
+        return CITY_DISTANCES[from_location][to_location]
+    if to_location in CITY_DISTANCES and from_location in CITY_DISTANCES[to_location]:
+        return CITY_DISTANCES[to_location][from_location]
+    return 50  # Default fallback
+
+
+def calculate_price_server_side(service_type, distance):
+    """Calculate price server-side based on service type and distance"""
+    base = BASE_PRICES.get(service_type, 50)
+    rate = RATE_PER_KM.get(service_type, 0.50)
+    return base + (distance * rate)
+
 # Create your views here.
 
 def home(request):
@@ -34,19 +69,22 @@ def services(request):
 
 def booking(request):
     if request.method == 'POST':
-        # Server-side validation
+        # Server-side validation and price calculation
         service_type = request.POST.get('service_type')
+        pickup_location = request.POST.get('pickup_location')
+        destination = request.POST.get('destination')
         
-        try:
-            calculated_distance = int(request.POST.get('calculated_distance', '0').strip() or '0')
-            estimated_price = float(request.POST.get('estimated_price', '0').strip() or '0')
-        except (ValueError, TypeError):
-            messages.error(request, 'Invalid price or distance calculation.')
-            return redirect('booking')
+        # Calculate price server-side (ignore client-submitted values)
+        calculated_distance = calculate_distance_server_side(pickup_location, destination)
+        estimated_price = calculate_price_server_side(service_type, calculated_distance)
         
         # Validate required fields
-        if not service_type or calculated_distance <= 0 or estimated_price <= 0:
-            messages.error(request, 'Please calculate the price by entering pickup and destination locations.')
+        if not service_type or not pickup_location or not destination:
+            messages.error(request, 'Please fill in all required fields.')
+            return redirect('booking')
+        
+        if calculated_distance <= 0 or estimated_price <= 0:
+            messages.error(request, 'Invalid pickup or destination location.')
             return redirect('booking')
         
         booking = Booking(
@@ -54,13 +92,13 @@ def booking(request):
             name=sanitize_input(request.POST.get('name'), 100),
             phone=sanitize_input(request.POST.get('phone'), 20),
             email=sanitize_input(request.POST.get('email'), 100),
-            pickup_location=sanitize_input(request.POST.get('pickup_location'), 200),
-            destination=sanitize_input(request.POST.get('destination'), 200),
-            calculated_distance=int(calculated_distance),
-            estimated_price=float(estimated_price),
+            pickup_location=sanitize_input(pickup_location, 200),
+            destination=sanitize_input(destination, 200),
+            calculated_distance=calculated_distance,
+            estimated_price=estimated_price,
             currency=sanitize_input(request.POST.get('currency'), 3),
             date=request.POST.get('date'),
-            message=request.POST.get('message', '')
+            message=sanitize_input(request.POST.get('message', ''), 500)
         )
         booking.save()
         
@@ -122,7 +160,9 @@ Message: {booking.message}
                 fail_silently=False,
             )
             messages.success(request, f'Thank you, {booking.name}! Your {service} has been submitted. A confirmation email has been sent to {booking.email}')
-        except:
+        except Exception as e:
+            import logging
+            logging.error(f'Email sending failed for booking {booking.tracking_number}: {str(e)}')
             messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. Estimated price: {price_display}. We will contact you soon.')
         
         return redirect('booking')
@@ -131,12 +171,56 @@ Message: {booking.message}
 
 def contact(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject', 'General Inquiry')
-        message = request.POST.get('message')
+        name = sanitize_input(request.POST.get('name'), 100)
+        email = sanitize_input(request.POST.get('email'), 100)
+        subject = sanitize_input(request.POST.get('subject', 'General Inquiry'), 100)
+        message_text = sanitize_input(request.POST.get('message'), 500)
         
-        messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you at {email} soon.')
+        # Send confirmation to user and notification to admin
+        try:
+            # Confirmation to customer
+            send_mail(
+                subject=f'We received your message - {subject}',
+                message=f'''Dear {name},
+
+Thank you for contacting Fleeting Logistics Company Limited!
+
+We have received your message and will get back to you as soon as possible.
+
+Your Message:
+{message_text}
+
+Best regards,
+Fleeting Logistics Team
+''',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                fail_silently=False,
+            )
+            
+            # Notification to admin
+            send_mail(
+                subject=f'Contact Form: {subject} from {name}',
+                message=f'''NEW CONTACT FORM SUBMISSION!
+
+Name: {name}
+Email: {email}
+Subject: {subject}
+
+Message:
+{message_text}
+''',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.ADMIN_EMAIL],
+                fail_silently=False,
+            )
+            messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you at {email} soon.')
+        except Exception as e:
+            import logging
+            logging.error(f'Contact email sending failed: {str(e)}')
+            # Still show success to user even if email fails
+            messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you soon.')
+        
         return redirect('contact')
     
     return render(request, 'logistics/contact.html')
