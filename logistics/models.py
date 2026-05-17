@@ -19,6 +19,8 @@ class Booking(models.Model):
     estimated_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, help_text="Estimated price in USD")
     currency = models.CharField(max_length=3, choices=[('USD', 'USD'), ('UGX', 'UGX')], default='USD')
     tracking_number = models.CharField(max_length=20, blank=True)
+    delivery_code = models.CharField(max_length=10, blank=True, help_text="Code for customer to verify delivery")
+    delivery_verified = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=[
         ('pending', 'Pending'),
         ('confirmed', 'Confirmed'),
@@ -35,6 +37,10 @@ class Booking(models.Model):
             year = datetime.now().year
             unique_id = uuid.uuid4().hex[:8].upper()
             self.tracking_number = f'FL-{year}-{unique_id}'
+        # Generate delivery code when status changes to in_transit
+        if self.status == 'in_transit' and not self.delivery_code:
+            import secrets
+            self.delivery_code = secrets.token_hex(3).upper()
         super().save(*args, **kwargs)
     
     def __str__(self):

@@ -12,6 +12,7 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('terms/', views.terms, name='terms'),
     path('privacy/', views.privacy, name='privacy'),
+    path('verify/', views.verify_delivery, name='verify_delivery'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('update-booking/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
 ]

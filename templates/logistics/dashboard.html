@@ -148,6 +148,7 @@
                                     <th>Route</th>
                                     <th>Price</th>
                                     <th>Status</th>
+                                    <th>Delivery Code</th>
                                     <th>Date</th>
                                     <th>Actions</th>
                                 </tr>
@@ -177,6 +178,16 @@
                                         <span class="status-badge status-{{ booking.status }}">
                                             {{ booking.get_status_display }}
                                         </span>
+                                    </td>
+                                    <td>
+                                        {% if booking.delivery_code %}
+                                        <span class="badge bg-success">{{ booking.delivery_code }}</span>
+                                        {% if booking.delivery_verified %}
+                                        <i class="bi bi-check-circle-fill text-success ms-1"></i>
+                                        {% endif %}
+                                        {% else %}
+                                        <span class="text-muted">-</span>
+                                        {% endif %}
                                     </td>
                                     <td>{{ booking.date }}</td>
                                     <td>

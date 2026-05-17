@@ -1,0 +1,40 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Verify Delivery - Fleeting Logistics Company Limited{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-patch-check-fill text-success display-1"></i>
+                            <h2 class="mt-4 fw-bold">Verify Delivery</h2>
+                            <p class="text-muted">Enter the delivery code from the customer to confirm the package was received</p>
+                        </div>
+                        
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Tracking Number</label>
+                                <input type="text" name="tracking" class="form-control form-control-lg" placeholder="e.g., FL-2026-ABC12345" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Delivery Code</label>
+                                <input type="text" name="code" class="form-control form-control-lg" placeholder="e.g., A1B2C3" required>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-lg w-100">Verify Delivery</button>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <p class="text-muted small">For delivery agents: Enter the tracking number and code provided by the customer to confirm delivery.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

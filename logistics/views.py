@@ -167,6 +167,25 @@ def terms(request):
 def privacy(request):
     return render(request, 'logistics/privacy.html')
 
+def verify_delivery(request):
+    if request.method == 'POST':
+        code = request.POST.get('code', '').strip().upper()
+        tracking = request.POST.get('tracking', '').strip().upper()
+        
+        try:
+            booking = Booking.objects.get(tracking_number=tracking, delivery_code=code)
+            if not booking.delivery_verified:
+                booking.delivery_verified = True
+                booking.status = 'delivered'
+                booking.save()
+                messages.success(request, f'Delivery verified successfully! Item delivered to {booking.destination}.')
+            else:
+                messages.info(request, 'This delivery has already been verified.')
+        except Booking.DoesNotExist:
+            messages.error(request, 'Invalid tracking number or delivery code.')
+    
+    return render(request, 'logistics/verify_delivery.html')
+
 def coverage(request):
     return render(request, 'logistics/coverage.html')
 
