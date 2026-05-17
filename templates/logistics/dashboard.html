@@ -180,7 +180,16 @@
                                     </td>
                                     <td>{{ booking.date }}</td>
                                     <td>
-                                        <a href="/admin/logistics/booking/{{ booking.id }}/change/" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <form method="POST" action="{% url 'update_booking_status' booking.id %}" class="d-flex gap-1">
+                                            {% csrf_token %}
+                                            <select name="status" class="form-select form-select-sm" style="width: 120px;">
+                                                <option value="pending" {% if booking.status == 'pending' %}selected{% endif %}>Pending</option>
+                                                <option value="confirmed" {% if booking.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                                                <option value="in_transit" {% if booking.status == 'in_transit' %}selected{% endif %}>In Transit</option>
+                                                <option value="delivered" {% if booking.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-outline-success">Update</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 {% empty %}

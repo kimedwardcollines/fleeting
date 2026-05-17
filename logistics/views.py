@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.html import strip_tags
+from django.urls import reverse
 from .models import Booking
 
 def sanitize_input(value, max_length=200):
@@ -164,6 +165,7 @@ def coverage(request):
 def dashboard(request):
     total_bookings = Booking.objects.count()
     pending_count = Booking.objects.filter(status='pending').count()
+    confirmed_count = Booking.objects.filter(status='confirmed').count()
     in_transit_count = Booking.objects.filter(status='in_transit').count()
     delivered_count = Booking.objects.filter(status='delivered').count()
     recent_bookings = Booking.objects.order_by('-created_at')[:10]
@@ -171,7 +173,23 @@ def dashboard(request):
     return render(request, 'logistics/dashboard.html', {
         'total_bookings': total_bookings,
         'pending_count': pending_count,
+        'confirmed_count': confirmed_count,
         'in_transit_count': in_transit_count,
         'delivered_count': delivered_count,
         'recent_bookings': recent_bookings,
     })
+
+@login_required
+def update_booking_status(request, booking_id):
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in ['pending', 'confirmed', 'in_transit', 'delivered']:
+            try:
+                booking = Booking.objects.get(id=booking_id)
+                old_status = booking.status
+                booking.status = new_status
+                booking.save()
+                messages.success(request, f'Booking {booking.tracking_number} updated from {old_status} to {new_status}')
+            except Booking.DoesNotExist:
+                messages.error(request, 'Booking not found')
+    return redirect('dashboard')

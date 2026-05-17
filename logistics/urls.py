@@ -10,4 +10,5 @@ urlpatterns = [
     path('track/', views.track, name='track'),
     path('coverage/', views.coverage, name='coverage'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('update-booking/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
 ]
