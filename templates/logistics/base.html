@@ -53,18 +53,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About</a>
                     </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                    {% endif %}
                 </ul>
                 <div class="d-flex gap-2 mt-3 mt-lg-0">
                     <a href="{% url 'booking' %}?type=cargo" class="btn btn-outline-primary">Get a Quote</a>
@@ -141,6 +129,7 @@
                         <li class="mb-2"><i class="bi bi-telephone me-2"></i>+256752276350</li>
                         <li class="mb-2"><i class="bi bi-envelope me-2"></i>bukenyausher@gmail.com</li>
                         <li><i class="bi bi-geo-alt me-2"></i>123 Logistics Ave, City</li>
+                        <li class="mt-2"><small class="text-muted"><!-- Admin: /dashboard/ --></small></li>
                     </ul>
                 </div>
             </div>
