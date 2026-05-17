@@ -140,9 +140,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# WhiteNoise for serving static files in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFileStorage'
-
 # Email settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@fleeting-logistics.local')
