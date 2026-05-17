@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.html import strip_tags
@@ -159,6 +160,7 @@ def track(request):
 def coverage(request):
     return render(request, 'logistics/coverage.html')
 
+@login_required
 def dashboard(request):
     total_bookings = Booking.objects.count()
     pending_count = Booking.objects.filter(status='pending').count()
