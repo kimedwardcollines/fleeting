@@ -10,7 +10,7 @@ class BookingAdmin(admin.ModelAdmin):
     list_filter = ('service_type', 'status', 'date')
     
     # Search
-    search_fields = ('name', 'phone', 'tracking_number')
+    search_fields = ('name', 'phone', 'tracking_number', 'delivery_code')
     
     # Order by newest first
     ordering = ('-created_at',)

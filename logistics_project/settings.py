@@ -132,9 +132,9 @@ STATICFILES_DIRS = [
 ]
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'Fleeting Logistics <bukenyausher@gmail.com>'
-ADMIN_EMAIL = 'bukenyausher@gmail.com'
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Fleeting Logistics <bukenyausher@gmail.com>')
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'bukenyausher@gmail.com')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

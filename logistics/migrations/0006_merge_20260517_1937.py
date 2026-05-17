@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('logistics', '0005_alter_booking_id'),
+        ('logistics', '0004_booking_status_booking_tracking_number'),
         ('logistics', '0005_booking_delivery_code_booking_delivery_verified'),
     ]
 
