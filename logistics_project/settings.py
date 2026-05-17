@@ -126,3 +126,6 @@ STATICFILES_DIRS = [
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'Fleeting Logistics <info@fleetinglogistics.com>'
 ADMIN_EMAIL = 'admin@fleetinglogistics.com'
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
