@@ -133,8 +133,8 @@ STATICFILES_DIRS = [
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'Fleeting Logistics <info@fleetinglogistics.com>'
-ADMIN_EMAIL = 'admin@fleetinglogistics.com'
+DEFAULT_FROM_EMAIL = 'Fleeting Logistics <bukenyausher@gmail.com>'
+ADMIN_EMAIL = 'bukenyausher@gmail.com'
 
 # Login redirect
 LOGIN_REDIRECT_URL = '/dashboard/'
