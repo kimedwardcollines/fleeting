@@ -20,11 +20,16 @@ def booking(request):
     if request.method == 'POST':
         # Server-side validation
         service_type = request.POST.get('service_type')
-        calculated_distance = request.POST.get('calculated_distance', '0').strip() or '0'
-        estimated_price = request.POST.get('estimated_price', '0').strip() or '0'
+        
+        try:
+            calculated_distance = int(request.POST.get('calculated_distance', '0').strip() or '0')
+            estimated_price = float(request.POST.get('estimated_price', '0').strip() or '0')
+        except (ValueError, TypeError):
+            messages.error(request, 'Invalid price or distance calculation.')
+            return redirect('booking')
         
         # Validate required fields
-        if not service_type or calculated_distance == '0' or estimated_price == '0':
+        if not service_type or calculated_distance <= 0 or estimated_price <= 0:
             messages.error(request, 'Please calculate the price by entering pickup and destination locations.')
             return redirect('booking')
         
@@ -141,8 +146,6 @@ def coverage(request):
     return render(request, 'logistics/coverage.html')
 
 def dashboard(request):
-    from .models import Booking
-    
     total_bookings = Booking.objects.count()
     pending_count = Booking.objects.filter(status='pending').count()
     in_transit_count = Booking.objects.filter(status='in_transit').count()

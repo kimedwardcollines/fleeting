@@ -31,11 +31,10 @@ class Booking(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.tracking_number:
-            import random
-            import string
+            import uuid
             year = datetime.now().year
-            random_id = ''.join(random.choices(string.digits, k=3))
-            self.tracking_number = f'FL-{year}-{random_id}'
+            unique_id = uuid.uuid4().hex[:8].upper()
+            self.tracking_number = f'FL-{year}-{unique_id}'
         super().save(*args, **kwargs)
     
     def __str__(self):
