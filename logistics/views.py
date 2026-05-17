@@ -158,6 +158,15 @@ def track(request):
         'tracking_number': tracking_number
     })
 
+def faq(request):
+    return render(request, 'logistics/faq.html')
+
+def terms(request):
+    return render(request, 'logistics/terms.html')
+
+def privacy(request):
+    return render(request, 'logistics/privacy.html')
+
 def coverage(request):
     return render(request, 'logistics/coverage.html')
 

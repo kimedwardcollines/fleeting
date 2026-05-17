@@ -9,6 +9,9 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('track/', views.track, name='track'),
     path('coverage/', views.coverage, name='coverage'),
+    path('faq/', views.faq, name='faq'),
+    path('terms/', views.terms, name='terms'),
+    path('privacy/', views.privacy, name='privacy'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('update-booking/<int:booking_id>/', views.update_booking_status, name='update_booking_status'),
 ]

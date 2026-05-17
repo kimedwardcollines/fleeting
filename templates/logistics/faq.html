@@ -1,0 +1,108 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}FAQ - Fleeting Logistics Company Limited{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container py-5">
+        <h1 class="text-center mb-5 fw-bold">Frequently Asked Questions</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                <strong>How do I book a delivery or passenger service?</strong>
+                            </button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                Click the "Get a Quote" or "Book a Ride" button on our homepage. Fill in the booking form with your pickup location, destination, date, and contact details. We'll get back to you within 24 hours with a quote.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                <strong>What areas do you cover?</strong>
+                            </button>
+                        </h3>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                We operate across Uganda including Kampala, Nansana, Gulu, Mbarara, Jinja, and surrounding areas. Contact us for specific route inquiries.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <strong>How much do your services cost?</strong>
+                            </button>
+                        </h3>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                Pricing depends on distance, service type, and cargo/passenger quantity. Use our booking form to get a customized quote. We offer competitive rates with no hidden fees.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                <strong>How can I track my delivery?</strong>
+                            </button>
+                        </h3>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                Use the Track page on our website. Enter your booking reference number to see the current status of your delivery.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                <strong>What are your operating hours?</strong>
+                            </button>
+                        </h3>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                We operate Monday to Saturday from 8:00 AM to 6:00 PM. Emergency deliveries can be arranged outside these hours upon request.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                <strong>How do I pay for services?</strong>
+                            </button>
+                        </h3>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                We accept mobile money (MTN, Airtel), bank transfers, and cash on delivery. Payment details will be provided when you receive your quote.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 shadow-sm mb-3">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                <strong>Can I cancel or modify my booking?</strong>
+                            </button>
+                        </h3>
+                        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted">
+                                Yes, you can cancel or modify your booking by contacting us at least 24 hours before the scheduled pickup time. Call +256752276350 or email bukenyausher@gmail.com.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
