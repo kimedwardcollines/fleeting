@@ -41,7 +41,7 @@ SESSION_COOKIE_SECURE = os.environ.get('DEBUG', '').lower() != 'true'  # Only se
 CSRF_COOKIE_SECURE = os.environ.get('DEBUG', '').lower() != 'true'
 SECURE_SSL_REDIRECT = os.environ.get('DEBUG', '').lower() != 'true'  # Only redirect in production
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
