@@ -30,16 +30,16 @@ if not SECRET_KEY:
         raise ValueError("DJANGO_SECRET_KEY environment variable must be set in production")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 # Security settings for production
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 3600  # 1 hour
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SESSION_COOKIE_SECURE = True  # Set True in production with HTTPS
-CSRF_COOKIE_SECURE = True  # Set True in production with HTTPS
-SECURE_SSL_REDIRECT = True  # Set True in production
+SESSION_COOKIE_SECURE = os.environ.get('DEBUG', '').lower() != 'true'  # Only secure in production
+CSRF_COOKIE_SECURE = os.environ.get('DEBUG', '').lower() != 'true'
+SECURE_SSL_REDIRECT = os.environ.get('DEBUG', '').lower() != 'true'  # Only redirect in production
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
 
