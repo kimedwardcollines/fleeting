@@ -23,7 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 if not SECRET_KEY:
-    raise ValueError("DJANGO_SECRET_KEY environment variable must be set")
+    if os.environ.get('DEBUG', '').lower() == 'true':
+        # Allow fallback for local development only
+        SECRET_KEY = 'django-insecure-dev-key-for-local-development-only'
+    else:
+        raise ValueError("DJANGO_SECRET_KEY environment variable must be set in production")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
@@ -135,13 +139,8 @@ STATICFILES_DIRS = [
 
 # Email settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
-ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
-
-# Require email configuration in production
-if not DEFAULT_FROM_EMAIL or not ADMIN_EMAIL:
-    import warnings
-    warnings.warn("DEFAULT_FROM_EMAIL and ADMIN_EMAIL environment variables should be set for production")
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@fleeting-logistics.local')
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'admin@fleeting-logistics.local')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
