@@ -217,7 +217,7 @@
         const pickup = document.getElementById('pickup_location').value;
         const destination = document.getElementById('destination').value;
         const serviceType = document.querySelector('input[name="service_type"]:checked');
-        const currency = document.getElementById('currency').value;
+        const currencySelect = document.getElementById('currency').value;
         
         if (pickup && destination && serviceType) {
             const distance = getDistance(pickup, destination);
@@ -226,7 +226,7 @@
             const priceUSD = base + (distance * rate);
             
             let displayPrice;
-            if (currency === 'UGX') {
+            if (currencySelect === 'UGX') {
                 displayPrice = 'USh ' + (priceUSD * USD_TO_UGX).toLocaleString();
             } else {
                 displayPrice = '$' + priceUSD.toFixed(2);
@@ -236,25 +236,21 @@
             document.getElementById('distance').value = distance;
             
             const deposit = priceUSD * 0.2;
-            const currency = document.getElementById('currency').value;
-            const displayPrice = currency === 'UGX' 
-                ? 'USh ' + (priceUSD * 3800).toLocaleString() + ' (Deposit: USh ' + (deposit * 3800).toLocaleString() + ')'
-                : '$' + priceUSD.toFixed(2) + ' (Deposit: $' + deposit.toFixed(2) + ')';
             
-            document.getElementById('priceDisplay').textContent = currency === 'UGX' 
+            document.getElementById('priceDisplay').textContent = currencySelect === 'UGX' 
                 ? 'USh ' + (priceUSD * 3800).toLocaleString() 
                 : '$' + priceUSD.toFixed(2);
             document.getElementById('priceUSD').value = priceUSD.toFixed(2);
             
             // Update deposit checkbox text
-            const depositText = currency === 'UGX' 
+            const depositText = currencySelect === 'UGX' 
                 ? 'Pay 20% deposit now (USh ' + (deposit * 3800).toLocaleString() + ')'
                 : 'Pay 20% deposit now ($' + deposit.toFixed(2) + ')';
             document.querySelector('label[for="pay_deposit"]').textContent = depositText;
         } else {
             document.getElementById('distanceDisplay').textContent = '0 km';
             document.getElementById('distance').value = 0;
-            document.getElementById('priceDisplay').textContent = currency === 'UGX' ? 'USh 0' : '$0';
+            document.getElementById('priceDisplay').textContent = currencySelect === 'UGX' ? 'USh 0' : '$0';
             document.getElementById('priceUSD').value = 0;
         }
     }
