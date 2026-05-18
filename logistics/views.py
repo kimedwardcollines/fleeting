@@ -104,6 +104,7 @@ def booking(request):
         )
         booking.save()
         
+        # Generate tracking number (this is done in model's save method)
         # Send confirmation email
         currency = request.POST.get('currency', 'USD')
         if currency == 'UGX':
@@ -115,18 +116,22 @@ def booking(request):
         
         try:
             send_mail(
-                subject=f'Booking Confirmation - {booking.name}',
+                subject=f'Booking Confirmed - {booking.name}',
                 message=f'''Dear {booking.name},
 
 Thank you for booking with Fleeting Logistics Company Limited!
 
-BOOKING DETAILS:
+YOUR BOOKING DETAILS:
+- Tracking Number: {booking.tracking_number}
 - Service Type: {booking.get_service_type_display()}
 - Pickup Location: {booking.pickup_location}
 - Destination: {booking.destination}
 - Distance: {booking.calculated_distance} km
 - Estimated Price: {price_display}
 - Date: {booking.date}
+
+TRACK YOUR BOOKING:
+Use your tracking number ({booking.tracking_number}) at https://fleeting.onrender.com/track/
 
 We will contact you at {booking.phone} to confirm your booking.
 
