@@ -92,32 +92,14 @@ WSGI_APPLICATION = 'logistics_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Use PostgreSQL on Render (DATABASE_URL), SQLite locally
-import dj_database_url
-import warnings
-
-db_from_env = os.environ.get('DATABASE_URL', '').strip()
-
-if db_from_env and db_from_env.startswith('postgres'):
-    try:
-        DATABASES = {
-            'default': dj_database_url.parse(db_from_env)
-        }
-    except Exception as e:
-        warnings.warn(f"Failed to parse DATABASE_URL: {e}. Using SQLite.")
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# Use SQLite (Render filesystem is ephemeral, so PostgreSQL needs persistent disk)
+# For now, use SQLite - data won't persist across restarts
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
 
 
 # Password validation
