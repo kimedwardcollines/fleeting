@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 if not SECRET_KEY:
-    if os.environ.get('DEBUG', '').lower() == 'true':
+    if os.environ.get('DEBUG', 'True').lower() == 'true':
         # Allow fallback for local development only
         SECRET_KEY = 'django-insecure-dev-key-for-local-development-only'
     else:
@@ -37,9 +37,9 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 3600  # 1 hour
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SESSION_COOKIE_SECURE = os.environ.get('DEBUG', '').lower() != 'true'  # Only secure in production
-CSRF_COOKIE_SECURE = os.environ.get('DEBUG', '').lower() != 'true'
-SECURE_SSL_REDIRECT = os.environ.get('DEBUG', '').lower() != 'true'  # Only redirect in production
+SESSION_COOKIE_SECURE = not DEBUG  # Only secure in production
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG  # Only redirect in production
 
 # Handle ALLOWED_HOSTS - '*' means allow all, otherwise split by comma
 _allowed_hosts = os.environ.get('ALLOWED_HOSTS', '*')

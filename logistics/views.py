@@ -7,6 +7,7 @@ from django.conf import settings
 from django.utils.html import strip_tags
 from django.urls import reverse
 from .models import Booking
+import os
 
 def sanitize_input(value, max_length=200):
     """Sanitize user input by stripping HTML and limiting length"""
@@ -36,6 +37,7 @@ CITY_DISTANCES = {
 # Pricing constants
 BASE_PRICES = {'cargo': 50, 'passenger': 30}
 RATE_PER_KM = {'cargo': 0.50, 'passenger': 0.30}
+UGX_EXCHANGE_RATE = 3800  # 1 USD = 3800 UGX (can be overridden via UGX_EXCHANGE_RATE env var)
 
 
 def calculate_distance_server_side(pickup_location, destination):
@@ -105,7 +107,7 @@ def booking(request):
         # Send confirmation email
         currency = request.POST.get('currency', 'USD')
         if currency == 'UGX':
-            price_display = f"USh {float(booking.estimated_price) * 3800:,.0f}"
+            price_display = f"USh {float(booking.estimated_price) * UGX_EXCHANGE_RATE:,.0f}"
         else:
             price_display = f"${booking.estimated_price}"
         
