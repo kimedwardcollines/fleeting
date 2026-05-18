@@ -148,12 +148,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# WhiteNoise for compressed static files
-MIDDLEWARE += [
-    'whitenoise.middleware.CompressMiddleware',
-    'whitenoise.middleware.GzipMiddleware',
-]
-
+# WhiteNoise for static files
 # Cache settings for performance
 CACHES = {
     'default': {
