@@ -92,12 +92,21 @@ WSGI_APPLICATION = 'logistics_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Use PostgreSQL on Render (DATABASE_URL), SQLite locally
+import dj_database_url
+db_from_env = os.environ.get('DATABASE_URL')
+
+if db_from_env:
+    DATABASES = {
+        'default': dj_database_url.parse(db_from_env)
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
