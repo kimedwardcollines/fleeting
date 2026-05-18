@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Booking
+import secrets
 
 
 @admin.register(Booking)
@@ -42,3 +43,10 @@ class BookingAdmin(admin.ModelAdmin):
                        'delivery_verified', 'date', 'message', 'created_at')
         }),
     )
+    
+    def save_model(self, request, obj, form, change):
+        """Generate delivery code when status changes to in_transit via admin"""
+        if change and obj.status == 'in_transit' and not obj.delivery_code:
+            if not obj._state.adding:  # This is an existing object being edited
+                obj.delivery_code = secrets.token_hex(3).upper()
+        super().save_model(request, obj, form, change)

@@ -302,6 +302,12 @@ def update_booking_status(request, booking_id):
                 booking = Booking.objects.get(id=booking_id)
                 old_status = booking.status
                 booking.status = new_status
+                
+                # Generate delivery code when status changes to in_transit
+                if new_status == 'in_transit' and not booking.delivery_code:
+                    import secrets
+                    booking.delivery_code = secrets.token_hex(3).upper()
+                
                 booking.save()
                 messages.success(request, f'Booking {booking.tracking_number} updated from {old_status} to {new_status}')
             except Booking.DoesNotExist:
