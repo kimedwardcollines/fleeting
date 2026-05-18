@@ -114,6 +114,110 @@
                 background: var(--text-dark);
             }
         }
+        
+        /* ===== COMPREHENSIVE DARK MODE ===== */
+        [data-theme="dark"] body {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
+        [data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] p, [data-theme="dark"] span, [data-theme="dark"] li {
+            color: var(--text-muted);
+        }
+        
+        [data-theme="dark"] .card {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+        }
+        
+        [data-theme="dark"] .card-body {
+            background: var(--bg-card);
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .btn-primary {
+            background: var(--brand-dark);
+            border-color: var(--brand-dark);
+            color: white;
+        }
+        
+        [data-theme="dark"] .btn-outline-primary {
+            color: var(--brand-dark);
+            border-color: var(--brand-dark);
+        }
+        
+        [data-theme="dark"] .btn-outline-primary:hover {
+            background: var(--brand-dark);
+            color: white;
+        }
+        
+        [data-theme="dark"] .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        [data-theme="dark"] .text-primary {
+            color: var(--brand-dark) !important;
+        }
+        
+        [data-theme="dark"] a {
+            color: var(--brand-dark);
+        }
+        
+        [data-theme="dark"] .bg-light {
+            background: var(--bg-light) !important;
+        }
+        
+        [data-theme="dark"] .bg-white {
+            background: var(--bg-card) !important;
+        }
+        
+        [data-theme="dark"] .form-control {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .form-control:focus {
+            background: var(--bg-card);
+            color: var(--text-dark);
+            border-color: var(--brand-dark);
+        }
+        
+        [data-theme="dark"] .form-label {
+            color: var(--text-muted);
+        }
+        
+        [data-theme="dark"] label {
+            color: var(--text-muted);
+        }
+        
+        [data-theme="dark"] .table {
+            color: var(--text-muted);
+        }
+        
+        [data-theme="dark"] .table-light {
+            background: var(--bg-light);
+        }
+        
+        [data-theme="dark"] footer {
+            background: var(--bg-card);
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .alert {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+        }
+        
+        [data-theme="dark"] .modal-content {
+            background: var(--bg-card);
+            border-color: var(--border-color);
+        }
         * {
             margin: 0;
             padding: 0;
