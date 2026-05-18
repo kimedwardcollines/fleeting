@@ -9,37 +9,6 @@ from django.urls import reverse
 from .models import Booking
 import os
 
-def send_whatsapp_notification(phone, message):
-    """Send WhatsApp message via Twilio"""
-    try:
-        from twilio.rest import Client
-        
-        account_sid = os.environ.get('TWILIO_ACCOUNT_SID', '')
-        auth_token = os.environ.get('TWILIO_AUTH_TOKEN', '')
-        whatsapp_from = os.environ.get('TWILIO_WHATSAPP_FROM', '')
-        
-        if not account_sid or not auth_token or not whatsapp_from:
-            print("WhatsApp: Twilio not configured")
-            return False
-        
-        client = Client(account_sid, auth_token)
-        
-        # Format phone for WhatsApp (add country code if missing)
-        phone = phone.strip()
-        if not phone.startswith('+'):
-            phone = '+256' + phone.lstrip('0')
-        
-        client.messages.create(
-            body=message,
-            from_=f'whatsapp:{whatsapp_from}',
-            to=f'whatsapp:{phone}'
-        )
-        print(f"WhatsApp sent to {phone}")
-        return True
-    except Exception as e:
-        print(f"WhatsApp error: {e}")
-        return False
-
 def sanitize_input(value, max_length=200):
     """Sanitize user input by stripping HTML and limiting length"""
     if value:
@@ -198,15 +167,7 @@ Message: {booking.message}
                 fail_silently=False,
             )
             
-            # Send WhatsApp notification to customer
-            whatsapp_msg = f"*{booking.name}*, your {booking.get_service_type_display()} with Fleeting is confirmed! 🎉\n\nTracking: {booking.tracking_number}\nPickup: {booking.pickup_location}\nDestination: {booking.destination}\nPrice: {price_display}\nDate: {booking.date}\n\nWe'll contact you at {booking.phone} to confirm. Thank you!"
-            send_whatsapp_notification(booking.phone, whatsapp_msg)
-            
-            # Send WhatsApp to admin
-            admin_whatsapp_msg = f"🔔 NEW BOOKING!\n{booking.name}\n{booking.phone}\n{booking.get_service_type_display()}: {booking.pickup_location} to {booking.destination}\nPrice: {price_display}\nTracking: {booking.tracking_number}"
-            send_whatsapp_notification('789456234', admin_whatsapp_msg)
-            
-            messages.success(request, f'Thank you, {booking.name}! Your {service} has been submitted. A confirmation has been sent to your WhatsApp and email.')
+            messages.success(request, f'Thank you, {booking.name}! Your {service} has been submitted. Confirmation sent to {booking.email}')
         except Exception as e:
             import logging
             logging.error(f'Email sending failed for booking {booking.tracking_number}: {str(e)}')
