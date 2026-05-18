@@ -29,13 +29,73 @@
             --text-dark: #1a1a2e;
             --text-muted: #6b7280;
             --bg-light: #f8f9fa;
+            --bg-card: #ffffff;
             --white: #ffffff;
+            --border-color: rgba(0,0,0,0.08);
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
+        [data-theme="dark"] {
+            --brand-dark: #4A90D9;
+            --brand-blue: #6BA3E0;
+            --brand-accent: #FF6B35;
+            --brand-accent-hover: #FF8A5C;
+            --text-dark: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --bg-light: #09090b;
+            --bg-card: #18181b;
+            --white: #18181b;
+            --border-color: rgba(255,255,255,0.08);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--bg-light);
+            transform: scale(1.05);
+        }
+        
+        [data-theme="dark"] .theme-toggle {
+            border-color: rgba(255,255,255,0.15);
+        }
+        
+        /* Dark mode overrides */
+        [data-theme="dark"] .custom-navbar {
+            background: rgba(24, 24, 27, 0.95) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        [data-theme="dark"] .custom-navbar.scrolled {
+            background: rgba(24, 24, 27, 0.98) !important;
+        }
+        
+        [data-theme="dark"] .navbar-collapse {
+            background: #18181b;
+        }
+        
+        [data-theme="dark"] .nav-link {
+            color: var(--text-dark) !important;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -336,6 +396,9 @@
                 </ul>
                 
                 <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <i class="bi bi-moon-stars"></i>
+                    </button>
                     <a href="tel:+256752276350" class="nav-phone d-none d-lg-flex">
                         <i class="bi bi-telephone"></i>
                         <span>+256 752 276 350</span>
@@ -433,6 +496,32 @@
             } else {
                 navbar.classList.remove('scrolled');
             }
+        });
+        
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Check for saved theme or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'bi bi-sun';
+            } else {
+                themeIcon.className = 'bi bi-moon-stars';
+            }
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
         });
     </script>
     
