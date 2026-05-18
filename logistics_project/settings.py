@@ -94,12 +94,23 @@ WSGI_APPLICATION = 'logistics_project.wsgi.application'
 
 # Use PostgreSQL on Render (DATABASE_URL), SQLite locally
 import dj_database_url
-db_from_env = os.environ.get('DATABASE_URL')
+import warnings
 
-if db_from_env:
-    DATABASES = {
-        'default': dj_database_url.parse(db_from_env)
-    }
+db_from_env = os.environ.get('DATABASE_URL', '').strip()
+
+if db_from_env and db_from_env.startswith('postgres'):
+    try:
+        DATABASES = {
+            'default': dj_database_url.parse(db_from_env)
+        }
+    except Exception as e:
+        warnings.warn(f"Failed to parse DATABASE_URL: {e}. Using SQLite.")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
     DATABASES = {
         'default': {
