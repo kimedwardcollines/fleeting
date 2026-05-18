@@ -90,11 +90,29 @@
         }
         
         [data-theme="dark"] .navbar-collapse {
-            background: #18181b;
+            background: var(--bg-card) !important;
         }
         
         [data-theme="dark"] .nav-link {
             color: var(--text-dark) !important;
+        }
+        
+        [data-theme="dark"] .nav-actions {
+            border-top-color: rgba(255,255,255,0.1) !important;
+        }
+        
+        [data-theme="dark"] .theme-toggle {
+            border-color: rgba(255,255,255,0.15);
+        }
+        
+        @media (max-width: 991px) {
+            [data-theme="dark"] .custom-navbar .collapse {
+                background: var(--bg-card) !important;
+            }
+            
+            [data-theme="dark"] .navbar-toggler span {
+                background: var(--text-dark);
+            }
         }
         * {
             margin: 0;
@@ -323,22 +341,41 @@
         
         @media (max-width: 991px) {
             .custom-navbar .collapse {
-                background: white;
+                background: var(--bg-card);
                 margin: 0 -1.5rem;
                 padding: 1.5rem;
-                border-top: 1px solid rgba(0,0,0,0.05);
+                border-top: 1px solid var(--border-color);
             }
             
             .nav-actions {
-                flex-direction: column;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.75rem;
                 margin-top: 1rem;
                 padding-top: 1rem;
-                border-top: 1px solid rgba(0,0,0,0.05);
+                border-top: 1px solid var(--border-color);
             }
             
             .nav-phone {
                 order: -1;
-                margin-bottom: 1rem;
+                margin-bottom: 0.5rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn-quote, .btn-book {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+                justify-content: center;
+            }
+            
+            /* Theme toggle on mobile */
+            .theme-toggle {
+                width: 44px;
+                height: 44px;
+                flex-shrink: 0;
             }
         }
         
