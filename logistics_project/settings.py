@@ -15,7 +15,9 @@ import os
 from dotenv import load_dotenv
 
 # Load .env file if it exists (local development only)
+# For local: copy .env.local to .env
 load_dotenv()
+load_dotenv(os.path.join(BASE_DIR, '.env.local'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
