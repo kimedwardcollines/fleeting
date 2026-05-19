@@ -7,7 +7,12 @@ import secrets
 class BookingAdmin(admin.ModelAdmin):
     # Display columns
     list_display = ('tracking_number', 'name', 'service_type', 'status', 
-                   'pickup_location', 'destination', 'estimated_price', 'created_at')
+                   'pickup_location', 'destination', 'estimated_price', 'booked_time')
+    
+    # Add custom method to display time clearly
+    @admin.display(description='Booked At', ordering='created_at')
+    def booked_time(self, obj):
+        return obj.created_at.strftime('%Y-%m-%d %H:%M:%S') if obj.created_at else '-'
     
     # Filters
     list_filter = ('status', 'service_type', 'currency', 'created_at')
