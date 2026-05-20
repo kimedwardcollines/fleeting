@@ -2,10 +2,11 @@ services:
   - type: web
     name: fleeting
     buildCommand: |
+      export DATABASE_URL="postgres://default:mbIjZTsEtRvnm569hArA2CSW0WN5TjGE@dpg-d85jd6gg4nts7382nnm0-a/fleeting"
       python -m pip install -r requirements.txt
       python manage.py migrate --no-input
       python manage.py collectstatic --no-input
-    startCommand: gunicorn logistics_project.wsgi:application --bind 0.0.0.0:$PORT
+    startCommand: gunicorn logistics_project.wsgi:application --bind 0.0.0.0:$PORT --log-level debug
     envVars:
       - key: DATABASE_URL
         value: "postgres://default:mbIjZTsEtRvnm569hArA2CSW0WN5TjGE@dpg-d85jd6gg4nts7382nnm0-a/fleeting"
