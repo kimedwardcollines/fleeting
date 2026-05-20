@@ -4,8 +4,7 @@ services:
     buildCommand: |
       python -m pip install -r requirements.txt
       python manage.py migrate --no-input
-      python manage.py collectstatic --no-input || true
-      python manage.py createsuperuser --no-input --username=admin --email=admin@fleeting.com || true
+      python manage.py collectstatic --no-input
     startCommand: gunicorn logistics_project.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: DJANGO_SECRET_KEY
