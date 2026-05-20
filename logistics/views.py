@@ -283,6 +283,7 @@ def coverage(request):
 
 @login_required
 def dashboard(request):
+    print("Dashboard view called")
     total_bookings = Booking.objects.count()
     pending_count = Booking.objects.filter(status='pending').count()
     confirmed_count = Booking.objects.filter(status='confirmed').count()
