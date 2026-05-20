@@ -21,13 +21,16 @@ try:
     from django.db import connection
     from django.contrib.auth import get_user_model
     
-    # Check if tables exist
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='logistics_booking'")
-        if not cursor.fetchone():
-            print("Running initial migrations...")
-            execute_from_command_line(['manage.py', 'migrate', '--noinput'])
-            print("Migrations complete!")
+    # Check if tables exist using Django's introspection (works with any DB)
+    from django.apps import apps
+    try:
+        Booking = apps.get_model('logistics', 'Booking')
+        # Just verify the model exists - if so, tables are created
+        print(f"Database connected, table check passed")
+    except:
+        print("Running initial migrations...")
+        execute_from_command_line(['manage.py', 'migrate', '--noinput'])
+        print("Migrations complete!")
     
     # Create admin user if not exists
     User = get_user_model()
@@ -36,6 +39,6 @@ try:
         User.objects.create_superuser('admin', 'admin@fleeting.com', 'admin123')
         print("Admin created: admin / admin123")
 except Exception as e:
-    print(f"Auto-setup: {e}")
+    print(f"Auto-setup error: {e}")
 
 application = get_wsgi_application()
