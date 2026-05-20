@@ -72,8 +72,15 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.cache.CacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Cache settings for full-page caching
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_KEY_PREFIX = 'fleeting'
+CACHE_MIDDLEWARE_SECONDS = 300  # 5 minutes cache
 
 ROOT_URLCONF = 'logistics_project.urls'
 
@@ -160,7 +167,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# WhiteNoise for static files
+# WhiteNoise for static files - compression enabled
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFileStorage'
+
 # Cache settings for performance
 CACHES = {
     'default': {
