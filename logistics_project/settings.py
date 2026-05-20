@@ -168,7 +168,7 @@ STATICFILES_DIRS = [
 ]
 
 # WhiteNoise for static files - compression enabled
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFileStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Cache settings for performance
 CACHES = {
