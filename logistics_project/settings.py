@@ -113,9 +113,12 @@ db_url = os.environ.get('DATABASE_URL')
 if not db_url:
     raise Exception("DATABASE_URL environment variable is not set!")
 
-DATABASES = {
-    'default': dj_database_url.parse(db_url)
-}
+try:
+    DATABASES = {
+        'default': dj_database_url.parse(db_url)
+    }
+except Exception as e:
+    raise Exception(f"Failed to parse DATABASE_URL: {db_url}. Error: {e}")
 
 
 # Password validation
