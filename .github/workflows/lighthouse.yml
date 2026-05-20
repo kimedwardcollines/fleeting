@@ -1,0 +1,82 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install playwright
+          playwright install chromium
+          npm install -g lighthouse
+
+      - name: Run migrations
+        run: python manage.py migrate --no-input
+
+      - name: Start Django server
+        run: |
+          python manage.py runserver 0.0.0.0:8000 &
+          sleep 5
+
+      - name: Run Lighthouse CI
+        run: |
+          lighthouse http://localhost:8000/ \
+            --chrome-flags="--headless --no-sandbox" \
+            --quiet \
+            --output json \
+            --output-report \
+            --output-path .lighthouseci/report.json
+
+      - name: Parse Lighthouse results
+        run: |
+          echo "Checking Lighthouse scores..."
+          node -e "
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('.lighthouseci/report.json', 'utf8'));
+            const categories = report.categories;
+            console.log('Performance:', Math.round(categories.performance.score * 100));
+            console.log('Accessibility:', Math.round(categories.accessibility.score * 100));
+            console.log('SEO:', Math.round(categories.seo.score * 100));
+            console.log('Best Practices:', Math.round(categories['best-practices'].score * 100));
+            
+            const perfScore = Math.round(categories.performance.score * 100);
+            const a11yScore = Math.round(categories.accessibility.score * 100);
+            const seoScore = Math.round(categories.seo.score * 100);
+            const bpScore = Math.round(categories['best-practices'].score * 100);
+            
+            if (perfScore < 90 || a11yScore < 95 || seoScore < 95 || bpScore < 95) {
+              console.log('FAILED: Scores below threshold');
+              process.exit(1);
+            }
+            console.log('PASSED: All thresholds met');
+          "
+
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 30
