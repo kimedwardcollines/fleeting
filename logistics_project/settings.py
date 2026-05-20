@@ -72,15 +72,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.cache.CacheMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Cache settings for full-page caching
-CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_KEY_PREFIX = 'fleeting'
-CACHE_MIDDLEWARE_SECONDS = 300  # 5 minutes cache
+# Simple caching (no full-page caching to avoid session issues)
 
 ROOT_URLCONF = 'logistics_project.urls'
 
