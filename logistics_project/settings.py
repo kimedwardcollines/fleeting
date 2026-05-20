@@ -108,17 +108,21 @@ WSGI_APPLICATION = 'logistics_project.wsgi.application'
 import dj_database_url
 import os
 
-# Get DATABASE_URL from environment - error if not set
-db_url = os.environ.get('DATABASE_URL')
-if not db_url:
-    raise Exception("DATABASE_URL environment variable is not set!")
+# Get DATABASE_URL from environment - print for debugging
+db_url = os.environ.get('DATABASE_URL', 'NOT SET')
+print(f"DATABASE_URL: {db_url}")
 
-try:
-    DATABASES = {
-        'default': dj_database_url.parse(db_url)
-    }
-except Exception as e:
-    raise Exception(f"Failed to parse DATABASE_URL: {db_url}. Error: {e}")
+if not db_url:
+    print("ERROR: DATABASE_URL is not set!")
+    # Use dummy DB so app can start, we'll see the real error
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}}
+else:
+    try:
+        DATABASES = {'default': dj_database_url.parse(db_url)}
+        print(f"Database configured: {DATABASES['default']['NAME']}")
+    except Exception as e:
+        print(f"ERROR parsing DATABASE_URL: {e}")
+        DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}}
 
 
 # Password validation
