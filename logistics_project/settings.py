@@ -106,9 +106,15 @@ WSGI_APPLICATION = 'logistics_project.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 import dj_database_url
+import os
+
+# Get DATABASE_URL from environment - error if not set
+db_url = os.environ.get('DATABASE_URL')
+if not db_url:
+    raise Exception("DATABASE_URL environment variable is not set!")
 
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    'default': dj_database_url.parse(db_url)
 }
 
 
