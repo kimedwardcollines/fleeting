@@ -107,22 +107,24 @@ WSGI_APPLICATION = 'logistics_project.wsgi.application'
 
 # Use PostgreSQL if DATABASE_URL is set (production on Render)
 import dj_database_url
-db_url = os.environ.get('DATABASE_URL', '').strip()
-if db_url and not db_url.startswith('postgres://'):
-    # Invalid URL, use SQLite (local dev)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+db_url = os.environ.get('DATABASE_URL', '')
+
+# If DATABASE_URL is set and valid, use PostgreSQL
+if db_url and 'postgres' in db_url.lower():
+    try:
+        DATABASES = {
+            'default': dj_database_url.parse(db_url)
         }
-    }
-elif db_url and db_url.startswith('postgres://'):
-    # Valid PostgreSQL URL
-    DATABASES = {
-        'default': dj_database_url.parse(db_url)
-    }
+    except Exception as e:
+        # Fallback to SQLite if parsing fails
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
-    # No DATABASE_URL set - use SQLite for local dev
+    # Use SQLite for local dev or if DATABASE_URL not set
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
