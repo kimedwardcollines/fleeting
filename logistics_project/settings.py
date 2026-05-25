@@ -26,6 +26,12 @@ print("=" * 50)
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(f"BASE_DIR: {BASE_DIR}")
 
+# Check templates directory
+TEMPLATES_DIR = BASE_DIR / 'templates'
+print(f"Templates dir exists: {TEMPLATES_DIR.exists()}")
+if TEMPLATES_DIR.exists():
+    print(f"Templates contents: {list(TEMPLATES_DIR.iterdir())}")
+
 # Load .env file if it exists (local development only)
 # For local: create .env.local file
 load_dotenv()
