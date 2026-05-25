@@ -6,8 +6,13 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.html import strip_tags
 from django.urls import reverse
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from .models import Booking
-import os
+from datetime import date
+import logging
+
+logger = logging.getLogger(__name__)
 
 def sanitize_input(value, max_length=200):
     """Sanitize user input by stripping HTML and limiting length"""
@@ -75,6 +80,7 @@ def booking(request):
         service_type = request.POST.get('service_type')
         pickup_location = request.POST.get('pickup_location')
         destination = request.POST.get('destination')
+        booking_date = request.POST.get('date')
         
         # Calculate price server-side (ignore client-submitted values)
         calculated_distance = calculate_distance_server_side(pickup_location, destination)
@@ -85,6 +91,34 @@ def booking(request):
             messages.error(request, 'Please fill in all required fields.')
             return redirect('booking')
         
+        # Validate service type
+        if service_type not in ['cargo', 'passenger']:
+            messages.error(request, 'Invalid service type selected.')
+            return redirect('booking')
+        
+        # Validate email format
+        email = request.POST.get('email', '')
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, 'Please enter a valid email address.')
+            return redirect('booking')
+        
+        # Validate date
+        if not booking_date:
+            messages.error(request, 'Please select a booking date.')
+            return redirect('booking')
+        
+        try:
+            from datetime import datetime
+            parsed_date = datetime.strptime(booking_date, '%Y-%m-%d').date()
+            if parsed_date < date.today():
+                messages.error(request, 'Booking date cannot be in the past.')
+                return redirect('booking')
+        except ValueError:
+            messages.error(request, 'Invalid date format.')
+            return redirect('booking')
+        
         if calculated_distance <= 0 or estimated_price <= 0:
             messages.error(request, 'Invalid pickup or destination location.')
             return redirect('booking')
@@ -93,13 +127,13 @@ def booking(request):
             service_type=sanitize_input(service_type, 20),
             name=sanitize_input(request.POST.get('name'), 100),
             phone=sanitize_input(request.POST.get('phone'), 20),
-            email=sanitize_input(request.POST.get('email'), 100),
+            email=sanitize_input(email, 100),
             pickup_location=sanitize_input(pickup_location, 200),
             destination=sanitize_input(destination, 200),
             calculated_distance=calculated_distance,
             estimated_price=estimated_price,
-            currency=sanitize_input(request.POST.get('currency'), 3),
-            date=request.POST.get('date'),
+            currency=sanitize_input(request.POST.get('currency', 'USD'), 3),
+            date=parsed_date,
             message=sanitize_input(request.POST.get('message', ''), 500)
         )
         booking.save()
@@ -169,8 +203,7 @@ Message: {booking.message}
             
             messages.success(request, f'Thank you, {booking.name}! Your {service} has been submitted. Confirmation sent to {booking.email}')
         except Exception as e:
-            import logging
-            logging.error(f'Email sending failed for booking {booking.tracking_number}: {str(e)}')
+            logger.error(f'Email sending failed for booking {booking.tracking_number}: {str(e)}')
             messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. Estimated price: {price_display}. We will contact you soon.')
         
         return redirect('booking')
@@ -183,6 +216,14 @@ def contact(request):
         email = sanitize_input(request.POST.get('email'), 100)
         subject = sanitize_input(request.POST.get('subject', 'General Inquiry'), 100)
         message_text = sanitize_input(request.POST.get('message'), 500)
+        
+        # Validate email format
+        raw_email = request.POST.get('email', '')
+        try:
+            validate_email(raw_email)
+        except ValidationError:
+            messages.error(request, 'Please enter a valid email address.')
+            return redirect('contact')
         
         # Send confirmation to user and notification to admin
         try:
@@ -224,8 +265,7 @@ Message:
             )
             messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you at {email} soon.')
         except Exception as e:
-            import logging
-            logging.error(f'Contact email sending failed: {str(e)}')
+            logger.error(f'Contact email sending failed: {str(e)}')
             # Still show success to user even if email fails
             messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you soon.')
         
@@ -283,7 +323,7 @@ def coverage(request):
 
 @login_required
 def dashboard(request):
-    print("Dashboard view called")
+    logger.info("Dashboard view called")
     total_bookings = Booking.objects.count()
     pending_count = Booking.objects.filter(status='pending').count()
     confirmed_count = Booking.objects.filter(status='confirmed').count()

@@ -2,17 +2,22 @@ services:
   - type: web
     name: fleeting
     buildCommand: |
-      export DATABASE_URL="postgres://default:mbIjZTsEtRvnm569hArA2CSW0WN5TjGE@dpg-d85jd6gg4nts7382nnm0-a/fleeting"
       python -m pip install -r requirements.txt
       python manage.py migrate --no-input
       python manage.py collectstatic --no-input
-    startCommand: gunicorn logistics_project.wsgi:application --bind 0.0.0.0:$PORT --log-level debug
+    startCommand: gunicorn logistics_project.wsgi:application --bind 0.0.0.0:$PORT --log-level info
     envVars:
       - key: DATABASE_URL
-        value: "postgres://default:mbIjZTsEtRvnm569hArA2CSW0WN5TjGE@dpg-d85jd6gg4nts7382nnm0-a/fleeting"
+        sync: false
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: "True"
+        value: "False"
       - key: ALLOWED_HOSTS
         value: "fleeting.onrender.com"
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: ADMIN_EMAIL
+        value: "admin@fleeting.com"

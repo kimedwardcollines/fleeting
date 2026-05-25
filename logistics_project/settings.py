@@ -107,22 +107,23 @@ WSGI_APPLICATION = 'logistics_project.wsgi.application'
 
 import dj_database_url
 import os
+import logging
 
-# Get DATABASE_URL from environment - print for debugging
-db_url = os.environ.get('DATABASE_URL', 'NOT SET')
-print(f"DATABASE_URL: {db_url}")
+logger = logging.getLogger(__name__)
+
+# Get DATABASE_URL from environment
+db_url = os.environ.get('DATABASE_URL', '')
 
 if not db_url:
-    print("ERROR: DATABASE_URL is not set!")
-    # Use dummy DB so app can start, we'll see the real error
-    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}}
+    logger.warning("DATABASE_URL is not set! Using SQLite fallback for development.")
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
 else:
     try:
         DATABASES = {'default': dj_database_url.parse(db_url)}
-        print(f"Database configured: {DATABASES['default']['NAME']}")
+        logger.info(f"Database configured: {DATABASES['default']['NAME']}")
     except Exception as e:
-        print(f"ERROR parsing DATABASE_URL: {e}")
-        DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}}
+        logger.error(f"ERROR parsing DATABASE_URL: {e}")
+        DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
 
 
 # Password validation
