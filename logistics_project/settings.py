@@ -10,12 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import sys
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+# Print startup info
+print("=" * 50)
+print("Django Settings Loading...")
+print(f"Python: {sys.version}")
+print(f"Working Dir: {os.getcwd()}")
+print("=" * 50)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print(f"BASE_DIR: {BASE_DIR}")
 
 # Load .env file if it exists (local development only)
 # For local: create .env.local file
