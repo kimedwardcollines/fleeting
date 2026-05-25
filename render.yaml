@@ -12,7 +12,7 @@ services:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: "True"
+        value: "False"
       - key: ALLOWED_HOSTS
         value: "fleeting.onrender.com"
       - key: EMAIL_HOST_USER
