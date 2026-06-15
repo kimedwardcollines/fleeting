@@ -39,19 +39,17 @@ class Command(BaseCommand):
 
         # Get environment variables
         username = os.environ.get('DJANGO_SUPERUSER_USERNAME')
-        email = os.environ.get('DJANGO_SUPERUSER_EMAIL')
+        email = os.environ.get('DJANGO_SUPERUSER_EMAIL', '')
         password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
 
-        # Check if all required environment variables are set
-        if not all([username, email, password]):
-            missing = []
-            if not username:
-                missing.append('DJANGO_SUPERUSER_USERNAME')
-            if not email:
-                missing.append('DJANGO_SUPERUSER_EMAIL')
-            if not password:
-                missing.append('DJANGO_SUPERUSER_PASSWORD')
+        # Check if required environment variables are set (email is optional)
+        missing = []
+        if not username:
+            missing.append('DJANGO_SUPERUSER_USERNAME')
+        if not password:
+            missing.append('DJANGO_SUPERUSER_PASSWORD')
 
+        if missing:
             self.stderr.write(
                 self.style.ERROR(
                     f"Missing required environment variables: {', '.join(missing)}"
@@ -63,6 +61,10 @@ class Command(BaseCommand):
                 )
             )
             sys.exit(1)
+
+        # Use empty string for email if not provided
+        if not email:
+            email = ''
 
         # Check if user already exists
         if User.objects.filter(username=username).exists():
