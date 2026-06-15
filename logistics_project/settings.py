@@ -15,6 +15,7 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,3 +98,23 @@ ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'admin@example.com')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/admin/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
+
+# Jazzmin Admin Theme Settings
+JAZZMIN_SETTINGS = {
+    "site_title": "Fleeting Admin",
+    "site_header": "Fleeting Logistics",
+    "site_brand_color": "#4c1e85",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hideApps": [],
+    "hideModels": [],
+    "order_with_respect_to": ["auth", "logistics"],
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_colour": "#4c1e85",
+    "accent_colour": "#7c3aed",
+}
