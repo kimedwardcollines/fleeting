@@ -1,0 +1,262 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}{{ driver.full_name }} - Driver Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fleet-hero {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    .profile-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: white;
+    }
+    .stat-box {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+    .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0A2463;
+    }
+    .stat-label {
+        color: #6b7280;
+        font-size: 14px;
+    }
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .table thead th {
+        background: #0A2463;
+        color: white;
+        border: none;
+        font-weight: 600;
+    }
+    .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .status-available { background: #dcfce7; color: #166534; }
+    .status-on_trip { background: #fef3c7; color: #92400e; }
+    .status-on_leave { background: #e0e7ff; color: #3730a3; }
+    .status-suspended { background: #fee2e2; color: #dc2626; }
+    .rating-stars { color: #f59e0b; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="fleet-hero">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:driver_list' %}" class="text-white-50">Drivers</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">{{ driver.full_name }}</li>
+                    </ol>
+                </nav>
+                <h1 class="text-white fw-bold mb-0"><i class="bi bi-person-badge me-2"></i>{{ driver.full_name }}</h1>
+                <p class="text-white-50 mb-0">Driver Profile</p>
+            </div>
+            <div>
+                <a href="{% url 'fleet:driver_edit' driver.pk %}" class="btn btn-light me-2">
+                    <i class="bi bi-pencil me-2"></i>Edit
+                </a>
+                <a href="{% url 'fleet:driver_list' %}" class="btn btn-outline-light">
+                    <i class="bi bi-arrow-left me-2"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row g-4">
+        <!-- Profile Info -->
+        <div class="col-lg-4">
+            <div class="profile-card p-4 text-center">
+                <div class="profile-avatar mx-auto mb-3">
+                    {{ driver.full_name|slice:":1" }}
+                </div>
+                <h4 class="mb-1">{{ driver.full_name }}</h4>
+                <p class="text-muted mb-3">{{ driver.employee_id }}</p>
+                
+                {% if driver.status == 'available' %}
+                <span class="status-badge status-available">{{ driver.get_status_display }}</span>
+                {% elif driver.status == 'on_trip' %}
+                <span class="status-badge status-on_trip">{{ driver.get_status_display }}</span>
+                {% elif driver.status == 'on_leave' %}
+                <span class="status-badge status-on_leave">{{ driver.get_status_display }}</span>
+                {% else %}
+                <span class="status-badge status-suspended">{{ driver.get_status_display }}</span>
+                {% endif %}
+                
+                <hr class="my-4">
+                
+                <div class="text-start">
+                    <div class="mb-3">
+                        <small class="text-muted">Phone</small>
+                        <p class="mb-0 fw-semibold">{{ driver.phone_number }}</p>
+                    </div>
+                    {% if driver.email %}
+                    <div class="mb-3">
+                        <small class="text-muted">Email</small>
+                        <p class="mb-0 fw-semibold">{{ driver.email }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <small class="text-muted">License</small>
+                        <p class="mb-0 fw-semibold">{{ driver.license_number }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <small class="text-muted">License Expiry</small>
+                        <p class="mb-0 fw-semibold">{{ driver.license_expiry|date:"M d, Y" }}</p>
+                    </div>
+                    {% if driver.assigned_vehicle %}
+                    <div class="mb-3">
+                        <small class="text-muted">Assigned Vehicle</small>
+                        <p class="mb-0 fw-semibold">{{ driver.assigned_vehicle.registration_number }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="mb-0">
+                        <small class="text-muted">Date Joined</small>
+                        <p class="mb-0 fw-semibold">{{ driver.date_joined|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats & Records -->
+        <div class="col-lg-8">
+            <!-- Driver Stats -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <div class="stat-value">{{ driver.total_trips }}</div>
+                        <div class="stat-label">Total Trips</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <div class="stat-value">{{ driver.total_distance }} km</div>
+                        <div class="stat-label">Total Distance</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-box">
+                        <div class="stat-value rating-stars">
+                            <i class="bi bi-star-fill"></i> {{ driver.rating }}
+                        </div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trip History -->
+            <div class="profile-card mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-geo-alt me-2"></i>Trip History</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Trip ID</th>
+                                    <th>Route</th>
+                                    <th>Distance</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for trip in trips %}
+                                <tr>
+                                    <td><a href="{% url 'fleet:trip_detail' trip.pk %}">{{ trip.trip_id }}</a></td>
+                                    <td>{{ trip.origin }} → {{ trip.destination }}</td>
+                                    <td>{{ trip.distance }} km</td>
+                                    <td>{{ trip.departure_date|date:"M d, Y" }}</td>
+                                    <td>
+                                        {% if trip.status == 'completed' %}
+                                        <span class="status-badge" style="background: #dcfce7; color: #166534;">{{ trip.get_status_display }}</span>
+                                        {% elif trip.status == 'in_progress' %}
+                                        <span class="status-badge" style="background: #dbeafe; color: #1e40af;">{{ trip.get_status_display }}</span>
+                                        {% elif trip.status == 'scheduled' %}
+                                        <span class="status-badge" style="background: #e0e7ff; color: #3730a3;">{{ trip.get_status_display }}</span>
+                                        {% else %}
+                                        <span class="status-badge" style="background: #fee2e2; color: #dc2626;">{{ trip.get_status_display }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">No trips found</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fuel Records -->
+            <div class="profile-card">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-fuel me-2"></i>Fuel Records</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Vehicle</th>
+                                    <th>Liters</th>
+                                    <th>Cost</th>
+                                    <th>Station</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in fuel_records %}
+                                <tr>
+                                    <td>{{ record.date|date:"M d, Y" }}</td>
+                                    <td>{{ record.vehicle.registration_number }}</td>
+                                    <td>{{ record.liters }} L</td>
+                                    <td>${{ record.total_cost }}</td>
+                                    <td>{{ record.station|default:"-" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">No fuel records found</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

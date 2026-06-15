@@ -1,0 +1,158 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Drivers - Fleet Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fleet-hero {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .table thead th {
+        background: #0A2463;
+        color: white;
+        border: none;
+        font-weight: 600;
+    }
+    .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .status-available { background: #dcfce7; color: #166534; }
+    .status-on_trip { background: #fef3c7; color: #92400e; }
+    .status-on_leave { background: #e0e7ff; color: #3730a3; }
+    .status-suspended { background: #fee2e2; color: #dc2626; }
+    .rating-stars {
+        color: #f59e0b;
+    }
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="fleet-hero">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">Drivers</li>
+                    </ol>
+                </nav>
+                <h1 class="text-white fw-bold mb-0"><i class="bi bi-person-badge me-2"></i>Drivers</h1>
+                <p class="text-white-50 mb-0">Manage your fleet drivers</p>
+            </div>
+            <a href="{% url 'fleet:driver_add' %}" class="btn btn-light">
+                <i class="bi bi-plus-circle me-2"></i>Add Driver
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Driver List -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Employee ID</th>
+                            <th>Name</th>
+                            <th>License</th>
+                            <th>Status</th>
+                            <th>Assigned Vehicle</th>
+                            <th>Rating</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for driver in drivers %}
+                        <tr>
+                            <td class="ps-4">
+                                <a href="{% url 'fleet:driver_detail' driver.pk %}" class="text-decoration-none fw-semibold">{{ driver.employee_id }}</a>
+                            </td>
+                            <td>
+                                <a href="{% url 'fleet:driver_detail' driver.pk %}" class="text-decoration-none">
+                                    {{ driver.full_name }}
+                                </a>
+                                <br><small class="text-muted">{{ driver.phone_number }}</small>
+                            </td>
+                            <td>
+                                <span class="text-muted">{{ driver.license_number }}</span>
+                                <br><small class="text-muted">Exp: {{ driver.license_expiry|date:"M d, Y" }}</small>
+                            </td>
+                            <td>
+                                {% if driver.status == 'available' %}
+                                <span class="status-badge status-available">{{ driver.get_status_display }}</span>
+                                {% elif driver.status == 'on_trip' %}
+                                <span class="status-badge status-on_trip">{{ driver.get_status_display }}</span>
+                                {% elif driver.status == 'on_leave' %}
+                                <span class="status-badge status-on_leave">{{ driver.get_status_display }}</span>
+                                {% else %}
+                                <span class="status-badge status-suspended">{{ driver.get_status_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if driver.assigned_vehicle %}
+                                <a href="#">{{ driver.assigned_vehicle.registration_number }}</a>
+                                {% else %}
+                                <span class="text-muted">Unassigned</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="rating-stars">
+                                    {% if driver.rating >= 4.5 %}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                    {% elif driver.rating >= 4.0 %}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                                    {% elif driver.rating >= 3.0 %}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>
+                                    {% elif driver.rating >= 2.0 %}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>
+                                    {% else %}<i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>
+                                    {% endif %}
+                                </span>
+                                <span class="text-muted ms-1">{{ driver.rating }}</span>
+                            </td>
+                            <td class="text-end pe-4">
+                                <a href="{% url 'fleet:driver_detail' driver.pk %}" class="btn btn-sm btn-outline-primary action-btn me-1" title="View">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{% url 'fleet:driver_edit' driver.pk %}" class="btn btn-sm btn-outline-secondary action-btn me-1" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="bi bi-person-badge display-4 d-block mb-3"></i>
+                                    <p class="mb-0">No drivers found</p>
+                                    <a href="{% url 'fleet:driver_add' %}" class="btn btn-primary btn-sm mt-3">
+                                        <i class="bi bi-plus-circle me-2"></i>Add Your First Driver
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

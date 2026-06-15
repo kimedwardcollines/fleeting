@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/login/', lambda r: redirect('/admin/login/')),
     path('', include('logistics.urls')),
+    path('fleet/', include('fleet.urls')),
 ]

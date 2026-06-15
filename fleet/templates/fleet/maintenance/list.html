@@ -1,0 +1,181 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Maintenance - Fleet Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fleet-hero {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0A2463;
+        margin-bottom: 15px;
+    }
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .table thead th {
+        background: #0A2463;
+        color: white;
+        border: none;
+        font-weight: 600;
+    }
+    .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .status-scheduled { background: #e0e7ff; color: #3730a3; }
+    .status-in_progress { background: #dbeafe; color: #1e40af; }
+    .status-completed { background: #dcfce7; color: #166534; }
+    .status-cancelled { background: #fee2e2; color: #dc2626; }
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="fleet-hero">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">Maintenance</li>
+                    </ol>
+                </nav>
+                <h1 class="text-white fw-bold mb-0"><i class="bi bi-wrench me-2"></i>Maintenance</h1>
+                <p class="text-white-50 mb-0">Vehicle service records and schedules</p>
+            </div>
+            <a href="{% url 'fleet:maintenance_add' %}" class="btn btn-light">
+                <i class="bi bi-plus-circle me-2"></i>Add Record
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Upcoming Maintenance -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="section-title"><i class="bi bi-calendar-event me-2"></i>Upcoming Maintenance</h5>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Vehicle</th>
+                            <th>Service Type</th>
+                            <th>Scheduled Date</th>
+                            <th>Status</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in upcoming_maintenance %}
+                        <tr>
+                            <td>
+                                <a href="#">{{ record.vehicle.registration_number }}</a>
+                                <br><small class="text-muted">{{ record.vehicle.make }} {{ record.vehicle.model }}</small>
+                            </td>
+                            <td>{{ record.get_service_type_display }}</td>
+                            <td>{{ record.service_date|date:"M d, Y" }}</td>
+                            <td>
+                                {% if record.status == 'scheduled' %}
+                                <span class="status-badge status-scheduled">{{ record.get_status_display }}</span>
+                                {% elif record.status == 'in_progress' %}
+                                <span class="status-badge status-in_progress">{{ record.get_status_display }}</span>
+                                {% else %}
+                                <span class="status-badge status-cancelled">{{ record.get_status_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>${{ record.cost }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">
+                                <i class="bi bi-check-circle display-6 d-block mb-2 text-success"></i>
+                                No upcoming maintenance scheduled
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Maintenance History -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <h5 class="section-title"><i class="bi bi-clock-history me-2"></i>Maintenance History</h5>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Vehicle</th>
+                            <th>Service Type</th>
+                            <th>Service Date</th>
+                            <th>Completion Date</th>
+                            <th>Mechanic</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in maintenance_history %}
+                        <tr>
+                            <td>
+                                <a href="#">{{ record.vehicle.registration_number }}</a>
+                                <br><small class="text-muted">{{ record.vehicle.make }} {{ record.vehicle.model }}</small>
+                            </td>
+                            <td>
+                                {{ record.get_service_type_display }}
+                                {% if record.description %}
+                                <br><small class="text-muted">{{ record.description|truncatewords:2 }}</small>
+                                {% endif %}
+                            </td>
+                            <td>{{ record.service_date|date:"M d, Y" }}</td>
+                            <td>{{ record.completion_date|date:"M d, Y"|default:"-" }}</td>
+                            <td>{{ record.mechanic_name|default:"-" }}</td>
+                            <td>${{ record.cost }}</td>
+                            <td>
+                                {% if record.status == 'completed' %}
+                                <span class="status-badge status-completed">{{ record.get_status_display }}</span>
+                                {% elif record.status == 'in_progress' %}
+                                <span class="status-badge status-in_progress">{{ record.get_status_display }}</span>
+                                {% elif record.status == 'cancelled' %}
+                                <span class="status-badge status-cancelled">{{ record.get_status_display }}</span>
+                                {% else %}
+                                <span class="status-badge status-scheduled">{{ record.get_status_display }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                <i class="bi bi-inbox display-6 d-block mb-2"></i>
+                                No maintenance history found
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

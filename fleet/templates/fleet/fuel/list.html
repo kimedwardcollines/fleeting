@@ -1,0 +1,153 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Fuel Records - Fleet Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fleet-hero {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+    .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0A2463;
+    }
+    .stat-label {
+        color: #6b7280;
+        font-size: 14px;
+    }
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .table thead th {
+        background: #0A2463;
+        color: white;
+        border: none;
+        font-weight: 600;
+    }
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="fleet-hero">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">Fuel Records</li>
+                    </ol>
+                </nav>
+                <h1 class="text-white fw-bold mb-0"><i class="bi bi-fuel me-2"></i>Fuel Records</h1>
+                <p class="text-white-50 mb-0">Track fuel consumption and expenses</p>
+            </div>
+            <a href="{% url 'fleet:fuel_add' %}" class="btn btn-light">
+                <i class="bi bi-plus-circle me-2"></i>Add Record
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Summary Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">${{ total_cost|floatformat:2 }}</div>
+                <div class="stat-label">Total Fuel Cost</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">{{ total_liters|floatformat:0 }} L</div>
+                <div class="stat-label">Total Liters</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">{{ avg_cost_per_liter|floatformat:2 }}</div>
+                <div class="stat-label">Avg Cost/Liter</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Fuel Records List -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Date</th>
+                            <th>Vehicle</th>
+                            <th>Driver</th>
+                            <th>Liters</th>
+                            <th>Price/L</th>
+                            <th>Total Cost</th>
+                            <th>Station</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in fuel_records %}
+                        <tr>
+                            <td class="ps-4">{{ record.date|date:"M d, Y" }}</td>
+                            <td>
+                                <span class="fw-semibold">{{ record.vehicle.registration_number }}</span>
+                                <br><small class="text-muted">{{ record.vehicle.make }} {{ record.vehicle.model }}</small>
+                            </td>
+                            <td>
+                                <a href="{% url 'fleet:driver_detail' record.driver.pk %}">{{ record.driver.full_name }}</a>
+                            </td>
+                            <td>{{ record.liters }} L</td>
+                            <td>${{ record.price_per_liter }}</td>
+                            <td class="fw-semibold">${{ record.total_cost }}</td>
+                            <td>{{ record.station|default:"-" }}</td>
+                            <td class="text-end pe-4">
+                                {% if record.trip %}
+                                <a href="{% url 'fleet:trip_detail' record.trip.pk %}" class="btn btn-sm btn-outline-primary action-btn me-1" title="View Trip">
+                                    <i class="bi bi-geo-alt"></i>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center py-5">
+                                <div class="text-muted">
+                                    <i class="bi bi-fuel display-4 d-block mb-3"></i>
+                                    <p class="mb-0">No fuel records found</p>
+                                    <a href="{% url 'fleet:fuel_add' %}" class="btn btn-primary btn-sm mt-3">
+                                        <i class="bi bi-plus-circle me-2"></i>Add Your First Record
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

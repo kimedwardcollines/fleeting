@@ -1,0 +1,301 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Fleet Reports - Fleet Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fleet-hero {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .utilization-card {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        color: white;
+        text-align: center;
+    }
+    .utilization-value {
+        font-size: 48px;
+        font-weight: 700;
+    }
+    .utilization-label {
+        font-size: 16px;
+        opacity: 0.8;
+    }
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0A2463;
+        margin-bottom: 15px;
+    }
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .table thead th {
+        background: #0A2463;
+        color: white;
+        border: none;
+        font-weight: 600;
+    }
+    .rank-badge {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 12px;
+    }
+    .rank-1 { background: #ffd700; color: #1a1a2e; }
+    .rank-2 { background: #c0c0c0; color: #1a1a2e; }
+    .rank-3 { background: #cd7f32; color: white; }
+    .rank-default { background: #e5e7eb; color: #6b7280; }
+    .rating-stars { color: #f59e0b; }
+    .progress-bar {
+        background: linear-gradient(90deg, #FF6B35, #FF8A5C);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="fleet-hero">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">Reports</li>
+                    </ol>
+                </nav>
+                <h1 class="text-white fw-bold mb-0"><i class="bi bi-graph-up me-2"></i>Fleet Reports</h1>
+                <p class="text-white-50 mb-0">Analytics and performance insights</p>
+            </div>
+            <a href="{% url 'fleet:dashboard' %}" class="btn btn-light">
+                <i class="bi bi-arrow-left me-2"></i>Dashboard
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Fleet Utilization -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+            <div class="stat-card utilization-card h-100 d-flex flex-column justify-content-center py-5">
+                <div class="utilization-label mb-2">Fleet Utilization</div>
+                <div class="utilization-value">{{ fleet_utilization }}%</div>
+                <div class="mt-2 opacity-75">
+                    <small>{{ active_vehicles }} of {{ total_vehicles }} vehicles active</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <!-- Monthly Comparison Chart -->
+            <div class="stat-card">
+                <h5 class="section-title mb-3"><i class="bi bi-bar-chart me-2"></i>Monthly Comparison</h5>
+                <div class="row text-center">
+                    {% for month in monthly_comparison %}
+                    <div class="col-4 col-md-2 mb-3">
+                        <div class="p-2 bg-light rounded-3">
+                            <div class="text-muted small">{{ month.month }}</div>
+                            <div class="fw-bold text-primary">{{ month.trips }} trips</div>
+                            <div class="small text-muted">{{ month.distance }} km</div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center text-muted py-4">
+                        <i class="bi bi-bar-chart display-6 d-block mb-2"></i>
+                        No data available
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <!-- Driver Performance Table -->
+        <div class="col-lg-6">
+            <div class="stat-card">
+                <h5 class="section-title"><i class="bi bi-trophy me-2"></i>Top 10 Drivers by Distance</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Driver</th>
+                                <th>Trips</th>
+                                <th>Distance</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for driver in top_drivers %}
+                            <tr>
+                                <td>
+                                    {% if forloop.counter == 1 %}
+                                    <span class="rank-badge rank-1">{{ forloop.counter }}</span>
+                                    {% elif forloop.counter == 2 %}
+                                    <span class="rank-badge rank-2">{{ forloop.counter }}</span>
+                                    {% elif forloop.counter == 3 %}
+                                    <span class="rank-badge rank-3">{{ forloop.counter }}</span>
+                                    {% else %}
+                                    <span class="rank-badge rank-default">{{ forloop.counter }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'fleet:driver_detail' driver.pk %}">{{ driver.full_name }}</a>
+                                </td>
+                                <td>{{ driver.total_trips }}</td>
+                                <td>{{ driver.total_distance }} km</td>
+                                <td>
+                                    <span class="rating-stars">
+                                        <i class="bi bi-star-fill"></i> {{ driver.rating }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">No driver data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fuel Consumption by Vehicle -->
+        <div class="col-lg-6">
+            <div class="stat-card">
+                <h5 class="section-title"><i class="bi bi-fuel me-2"></i>Fuel Consumption by Vehicle</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Vehicle</th>
+                                <th>Total Liters</th>
+                                <th>Total Cost</th>
+                                <th>Trips</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vehicle in fuel_by_vehicle %}
+                            <tr>
+                                <td>
+                                    {{ vehicle.vehicle__registration_number }}
+                                    <br><small class="text-muted">{{ vehicle.vehicle__make }} {{ vehicle.vehicle__model }}</small>
+                                </td>
+                                <td>{{ vehicle.total_liters|floatformat:0 }} L</td>
+                                <td>${{ vehicle.total_cost|floatformat:2 }}</td>
+                                <td>{{ vehicle.trip_count }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">No fuel data available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Maintenance Cost Summary -->
+    <div class="row g-4 mt-0">
+        <div class="col-lg-6">
+            <div class="stat-card">
+                <h5 class="section-title"><i class="bi bi-wrench me-2"></i>Maintenance Cost Summary</h5>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <div class="text-muted small">Total Maintenance</div>
+                            <div class="fw-bold fs-4 text-primary">${{ total_maintenance_cost|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <div class="text-muted small">Total Records</div>
+                            <div class="fw-bold fs-4 text-primary">{{ maintenance_count }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Service Type</th>
+                                        <th class="text-end">Records</th>
+                                        <th class="text-end">Total Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in maintenance_by_type %}
+                                    <tr>
+                                        <td>{{ item.get_service_type_display }}</td>
+                                        <td class="text-end">{{ item.count }}</td>
+                                        <td class="text-end">${{ item.total_cost|floatformat:2 }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted">No maintenance data</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="stat-card">
+                <h5 class="section-title"><i class="bi bi-cash-stack me-2"></i>Cost Summary</h5>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <div class="text-muted small">Total Fuel Cost</div>
+                            <div class="fw-bold fs-4" style="color: #FF6B35;">${{ total_fuel_cost|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <div class="text-muted small">Total Maintenance</div>
+                            <div class="fw-bold fs-4" style="color: #0A2463;">${{ total_maintenance_cost|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="p-3 bg-primary rounded-3 text-center text-white">
+                            <div class="text-white-50 small">Total Operating Cost</div>
+                            <div class="fw-bold fs-3">${{ total_operating_cost|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <div class="text-muted small">Avg Cost per Trip</div>
+                            <div class="fw-bold fs-4 text-primary">${{ avg_cost_per_trip|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded-3 text-center">
+                            <div class="text-muted small">Total Trips</div>
+                            <div class="fw-bold fs-4 text-primary">{{ total_trips }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

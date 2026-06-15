@@ -1,0 +1,201 @@
+{% extends 'logistics/base.html' %}
+
+{% block title %}Add Fuel Record - Fleet Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fleet-hero {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .form-label {
+        font-weight: 500;
+        color: #0A2463;
+    }
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        padding: 10px 15px;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #1E5AA8;
+        box-shadow: 0 0 0 3px rgba(30, 90, 168, 0.1);
+    }
+    .btn-primary {
+        background: #FF6B35;
+        border-color: #FF6B35;
+        padding: 10px 25px;
+        border-radius: 8px;
+    }
+    .btn-primary:hover {
+        background: #e55a28;
+        border-color: #e55a28;
+    }
+    .btn-outline-secondary {
+        padding: 10px 25px;
+        border-radius: 8px;
+    }
+    .help-text {
+        font-size: 0.85rem;
+        color: #6b7280;
+    }
+    .cost-preview {
+        background: #f0f9ff;
+        border: 2px dashed #1E5AA8;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+    }
+    .cost-preview .label {
+        font-size: 12px;
+        color: #6b7280;
+        text-transform: uppercase;
+    }
+    .cost-preview .value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0A2463;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="fleet-hero">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'fleet:fuel_list' %}" class="text-white-50">Fuel Records</a></li>
+                        <li class="breadcrumb-item text-white" aria-current="page">Add</li>
+                    </ol>
+                </nav>
+                <h1 class="text-white fw-bold mb-0">
+                    <i class="bi bi-fuel me-2"></i>Add Fuel Record
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="form-card p-4">
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label for="{{ form.vehicle.id_for_label }}" class="form-label">Vehicle *</label>
+                            {{ form.vehicle }}
+                            {% if form.vehicle.errors %}
+                            <div class="text-danger small mt-1">{{ form.vehicle.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ form.driver.id_for_label }}" class="form-label">Driver *</label>
+                            {{ form.driver }}
+                            {% if form.driver.errors %}
+                            <div class="text-danger small mt-1">{{ form.driver.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ form.trip.id_for_label }}" class="form-label">Trip (Optional)</label>
+                            {{ form.trip }}
+                            <small class="help-text">Link this fuel record to a trip</small>
+                            {% if form.trip.errors %}
+                            <div class="text-danger small mt-1">{{ form.trip.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ form.date.id_for_label }}" class="form-label">Date *</label>
+                            {{ form.date }}
+                            {% if form.date.errors %}
+                            <div class="text-danger small mt-1">{{ form.date.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="{{ form.liters.id_for_label }}" class="form-label">Liters *</label>
+                            {{ form.liters }}
+                            {% if form.liters.errors %}
+                            <div class="text-danger small mt-1">{{ form.liters.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="{{ form.price_per_liter.id_for_label }}" class="form-label">Price per Liter ($) *</label>
+                            {{ form.price_per_liter }}
+                            {% if form.price_per_liter.errors %}
+                            <div class="text-danger small mt-1">{{ form.price_per_liter.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="{{ form.fuel_type.id_for_label }}" class="form-label">Fuel Type</label>
+                            {{ form.fuel_type }}
+                            {% if form.fuel_type.errors %}
+                            <div class="text-danger small mt-1">{{ form.fuel_type.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ form.odometer_reading.id_for_label }}" class="form-label">Odometer Reading (km) *</label>
+                            {{ form.odometer_reading }}
+                            <small class="help-text">{{ form.odometer_reading.help_text }}</small>
+                            {% if form.odometer_reading.errors %}
+                            <div class="text-danger small mt-1">{{ form.odometer_reading.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ form.station.id_for_label }}" class="form-label">Gas Station</label>
+                            {{ form.station }}
+                            <small class="help-text">{{ form.station.help_text }}</small>
+                            {% if form.station.errors %}
+                            <div class="text-danger small mt-1">{{ form.station.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ form.receipt_number.id_for_label }}" class="form-label">Receipt Number</label>
+                            {{ form.receipt_number }}
+                            {% if form.receipt_number.errors %}
+                            <div class="text-danger small mt-1">{{ form.receipt_number.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
+                            {{ form.notes }}
+                            {% if form.notes.errors %}
+                            <div class="text-danger small mt-1">{{ form.notes.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{% url 'fleet:fuel_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>Add Record
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

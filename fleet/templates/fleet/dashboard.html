@@ -1,0 +1,393 @@
+{% extends 'logistics/base.html' %}
+{% load static %}
+
+{% block title %}Fleet Management Dashboard - Fleeting Logistics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fleet-hero {
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+        height: 100%;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+    .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0A2463;
+    }
+    .stat-label {
+        color: #6b7280;
+        font-size: 14px;
+    }
+    .chart-container {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+    .menu-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+    }
+    .menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        color: #FF6B35;
+    }
+    .menu-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: white;
+        font-size: 24px;
+    }
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .table thead th {
+        background: #0A2463;
+        color: white;
+        border: none;
+        font-weight: 600;
+    }
+    .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .status-active { background: #dcfce7; color: #166534; }
+    .status-maintenance { background: #fef9c3; color: #854d0e; }
+    .status-in_progress { background: #dbeafe; color: #1e40af; }
+    .status-completed { background: #dcfce7; color: #166534; }
+    .status-scheduled { background: #e0e7ff; color: #3730a3; }
+    .status-on_trip { background: #fef3c7; color: #92400e; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Fleet Management Hero -->
+<section class="fleet-hero">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="text-white fw-bold mb-2"><i class="bi bi-truck me-2"></i>Fleet Management</h1>
+                <p class="text-white-50 mb-0">Manage your vehicles, drivers, and operations</p>
+            </div>
+            <a href="{% url 'fleet:reports' %}" class="btn btn-light">
+                <i class="bi bi-graph-up me-2"></i>View Reports
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="stat-icon" style="background: #dbeafe;">
+                        <i class="bi bi-truck" style="color: #1e40af;"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ total_vehicles }}</div>
+                <div class="stat-label">Total Vehicles</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="stat-icon" style="background: #dcfce7;">
+                        <i class="bi bi-check-circle" style="color: #166534;"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ active_vehicles }}</div>
+                <div class="stat-label">Active Vehicles</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="stat-icon" style="background: #fef3c7;">
+                        <i class="bi bi-people" style="color: #92400e;"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ total_drivers }}</div>
+                <div class="stat-label">Total Drivers</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="stat-icon" style="background: #fce7f3;">
+                        <i class="bi bi-geo-alt" style="color: #be185d;"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ active_trips }}</div>
+                <div class="stat-label">Active Trips</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="stat-icon" style="background: #fef9c3;">
+                        <i class="bi bi-wrench" style="color: #854d0e;"></i>
+                    </div>
+                </div>
+                <div class="stat-value">{{ maintenance_vehicles }}</div>
+                <div class="stat-label">In Maintenance</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="stat-icon" style="background: #fee2e2;">
+                        <i class="bi bi-fuel" style="color: #dc2626;"></i>
+                    </div>
+                </div>
+                <div class="stat-value">${{ monthly_fuel_cost|floatformat:0 }}</div>
+                <div class="stat-label">Monthly Fuel</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Access Menu -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-2 col-6">
+            <a href="{% url 'fleet:vehicle_list' %}" class="menu-card">
+                <div class="menu-icon"><i class="bi bi-truck"></i></div>
+                <h6 class="mb-1">Vehicles</h6>
+                <small class="text-muted">Manage fleet</small>
+            </a>
+        </div>
+        <div class="col-md-2 col-6">
+            <a href="{% url 'fleet:driver_list' %}" class="menu-card">
+                <div class="menu-icon"><i class="bi bi-person-badge"></i></div>
+                <h6 class="mb-1">Drivers</h6>
+                <small class="text-muted">Staff management</small>
+            </a>
+        </div>
+        <div class="col-md-2 col-6">
+            <a href="{% url 'fleet:trip_list' %}" class="menu-card">
+                <div class="menu-icon"><i class="bi bi-geo-alt"></i></div>
+                <h6 class="mb-1">Trips</h6>
+                <small class="text-muted">Trip tracking</small>
+            </a>
+        </div>
+        <div class="col-md-2 col-6">
+            <a href="{% url 'fleet:maintenance_list' %}" class="menu-card">
+                <div class="menu-icon"><i class="bi bi-wrench"></i></div>
+                <h6 class="mb-1">Maintenance</h6>
+                <small class="text-muted">Service records</small>
+            </a>
+        </div>
+        <div class="col-md-2 col-6">
+            <a href="{% url 'fleet:fuel_list' %}" class="menu-card">
+                <div class="menu-icon"><i class="bi bi-fuel"></i></div>
+                <h6 class="mb-1">Fuel</h6>
+                <small class="text-muted">Consumption</small>
+            </a>
+        </div>
+        <div class="col-md-2 col-6">
+            <a href="{% url 'fleet:reports' %}" class="menu-card">
+                <div class="menu-icon"><i class="bi bi-bar-chart"></i></div>
+                <h6 class="mb-1">Reports</h6>
+                <small class="text-muted">Analytics</small>
+            </a>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="chart-container">
+                <h5 class="fw-bold mb-3">Vehicle Status</h5>
+                <canvas id="vehicleStatusChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="chart-container">
+                <h5 class="fw-bold mb-3">Monthly Fuel Cost</h5>
+                <canvas id="fuelCostChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Trips & Upcoming Maintenance -->
+    <div class="row g-4 mt-2">
+        <div class="col-lg-6">
+            <div class="chart-container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Recent Trips</h5>
+                    <a href="{% url 'fleet:trip_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Trip ID</th>
+                                <th>Route</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trip in recent_trips %}
+                            <tr>
+                                <td><a href="{% url 'fleet:trip_detail' trip.pk %}">{{ trip.trip_id }}</a></td>
+                                <td>{{ trip.origin }} → {{ trip.destination }}</td>
+                                <td>
+                                    {% if trip.status == 'completed' %}
+                                    <span class="status-badge status-completed">{{ trip.get_status_display }}</span>
+                                    {% elif trip.status == 'in_progress' %}
+                                    <span class="status-badge status-in_progress">{{ trip.get_status_display }}</span>
+                                    {% elif trip.status == 'scheduled' %}
+                                    <span class="status-badge status-scheduled">{{ trip.get_status_display }}</span>
+                                    {% else %}
+                                    <span class="status-badge" style="background:#fee2e2;color:#dc2626;">{{ trip.get_status_display }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">No trips found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="chart-container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Upcoming Maintenance</h5>
+                    <a href="{% url 'fleet:maintenance_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Vehicle</th>
+                                <th>Service</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in upcoming_maintenance %}
+                            <tr>
+                                <td>{{ record.vehicle.registration_number }}</td>
+                                <td>{{ record.get_service_type_display }}</td>
+                                <td>{{ record.service_date }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">No upcoming maintenance</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    // Vehicle Status Pie Chart
+    const vehicleCtx = document.getElementById('vehicleStatusChart').getContext('2d');
+    new Chart(vehicleCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Active', 'In Maintenance', 'Out of Service'],
+            datasets: [{
+                data: [
+                    {{ vehicle_status.active }},
+                    {{ vehicle_status.maintenance }},
+                    {{ vehicle_status.out_of_service }}
+                ],
+                backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Monthly Fuel Cost Bar Chart
+    const fuelCtx = document.getElementById('fuelCostChart').getContext('2d');
+    new Chart(fuelCtx, {
+        type: 'bar',
+        data: {
+            labels: [{% for m in monthly_fuel %}'{{ m.month }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'Fuel Cost ($)',
+                data: [{% for m in monthly_fuel %}{{ m.cost }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                backgroundColor: '#FF6B35',
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
