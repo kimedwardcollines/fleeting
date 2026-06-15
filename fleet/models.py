@@ -14,19 +14,74 @@ class Vehicle(models.Model):
         ('sedan', 'Sedan'),
     ]
     
+    MAKE_CHOICES = [
+        ('Toyota', 'Toyota'),
+        ('Isuzu', 'Isuzu'),
+        ('Ford', 'Ford'),
+        ('Nissan', 'Nissan'),
+        ('Mitsubishi', 'Mitsubishi'),
+        ('Mercedes-Benz', 'Mercedes-Benz'),
+        ('Hyundai', 'Hyundai'),
+        ('Kia', 'Kia'),
+        ('Yutong', 'Yutong'),
+        ('King Long', 'King Long'),
+        ('Hino', 'Hino'),
+        ('DAF', 'DAF'),
+        ('Volvo', 'Volvo'),
+        ('Scania', 'Scania'),
+        ('MAN', 'MAN'),
+    ]
+    
+    YEAR_CHOICES = [(year, str(year)) for year in range(2015, 2027)]
+    
+    CAPACITY_TONNES_CHOICES = [
+        ('1', '1 Ton'),
+        ('2', '2 Tons'),
+        ('3', '3 Tons'),
+        ('5', '5 Tons'),
+        ('7', '7 Tons'),
+        ('10', '10 Tons'),
+        ('15', '15 Tons'),
+        ('20', '20 Tons'),
+        ('25', '25 Tons'),
+        ('30', '30 Tons'),
+    ]
+    
+    CAPACITY_PASSENGERS_CHOICES = [
+        ('5', '5 Passengers'),
+        ('7', '7 Passengers'),
+        ('12', '12 Passengers'),
+        ('14', '14 Passengers'),
+        ('18', '18 Passengers'),
+        ('25', '25 Passengers'),
+        ('30', '30 Passengers'),
+        ('35', '35 Passengers'),
+        ('40', '40 Passengers'),
+        ('50', '50 Passengers'),
+        ('60', '60 Passengers'),
+    ]
+    
     STATUS_CHOICES = [
         ('active', 'Active'),
         ('maintenance', 'In Maintenance'),
         ('out_of_service', 'Out of Service'),
     ]
     
+    FUEL_TYPE_CHOICES = [
+        ('diesel', 'Diesel'),
+        ('petrol', 'Petrol'),
+        ('electric', 'Electric'),
+        ('hybrid', 'Hybrid'),
+    ]
+    
     vehicle_id = models.CharField(max_length=20, unique=True, help_text="Unique vehicle identifier")
     registration_number = models.CharField(max_length=20, unique=True, help_text="License plate number")
     vehicle_type = models.CharField(max_length=20, choices=VEHICLE_TYPE_CHOICES)
-    make = models.CharField(max_length=50, help_text="Vehicle make/manufacturer")
+    make = models.CharField(max_length=50, choices=MAKE_CHOICES, help_text="Vehicle make/manufacturer")
     model = models.CharField(max_length=50, help_text="Vehicle model")
-    year = models.IntegerField(help_text="Manufacturing year")
-    capacity = models.CharField(max_length=50, help_text="Capacity (e.g., '5 tons', '15 passengers')")
+    year = models.IntegerField(choices=YEAR_CHOICES, help_text="Manufacturing year")
+    capacity_tonnes = models.CharField(max_length=10, choices=CAPACITY_TONNES_CHOICES, blank=True, null=True, help_text="Cargo capacity in tonnes")
+    capacity_passengers = models.CharField(max_length=10, choices=CAPACITY_PASSENGERS_CHOICES, blank=True, null=True, help_text="Passenger capacity")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     assigned_driver = models.ForeignKey(
         'Driver',
@@ -35,7 +90,7 @@ class Vehicle(models.Model):
         blank=True,
         related_name='assigned_vehicles'
     )
-    fuel_type = models.CharField(max_length=20, choices=[('diesel', 'Diesel'), ('petrol', 'Petrol'), ('electric', 'Electric')], default='diesel')
+    fuel_type = models.CharField(max_length=20, choices=FUEL_TYPE_CHOICES, default='diesel')
     mileage = models.IntegerField(default=0, help_text="Current mileage in km")
     last_service_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

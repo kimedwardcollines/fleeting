@@ -21,14 +21,14 @@ class Command(BaseCommand):
         
         # Create Vehicles
         vehicles_data = [
-            {'vehicle_id': 'VH-001', 'registration_number': 'UAJ 123A', 'vehicle_type': 'truck', 'make': 'Isuzu', 'model': 'NPR', 'year': 2022, 'capacity': '5 tons', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 45000},
-            {'vehicle_id': 'VH-002', 'registration_number': 'UAJ 124B', 'vehicle_type': 'truck', 'make': 'Hino', 'model': '300', 'year': 2021, 'capacity': '8 tons', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 62000},
-            {'vehicle_id': 'VH-003', 'registration_number': 'UAJ 125C', 'vehicle_type': 'van', 'make': 'Toyota', 'model': 'Hiace', 'year': 2023, 'capacity': '15 passengers', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 28000},
-            {'vehicle_id': 'VH-004', 'registration_number': 'UAJ 126D', 'vehicle_type': 'pickup', 'make': 'Ford', 'model': 'Ranger', 'year': 2022, 'capacity': '1 ton', 'status': 'maintenance', 'fuel_type': 'diesel', 'mileage': 38000},
-            {'vehicle_id': 'VH-005', 'registration_number': 'UAJ 127E', 'vehicle_type': 'truck', 'make': 'Mitsubishi', 'model': 'Fuso', 'year': 2020, 'capacity': '10 tons', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 85000},
-            {'vehicle_id': 'VH-006', 'registration_number': 'UAJ 128F', 'vehicle_type': 'bus', 'make': 'Yutong', 'model': 'ZK6105', 'year': 2021, 'capacity': '45 passengers', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 52000},
-            {'vehicle_id': 'VH-007', 'registration_number': 'UAJ 129G', 'vehicle_type': 'van', 'make': 'Mercedes', 'model': 'Sprinter', 'year': 2023, 'capacity': '12 passengers', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 15000},
-            {'vehicle_id': 'VH-008', 'registration_number': 'UAJ 130H', 'vehicle_type': 'pickup', 'make': 'Nissan', 'model': 'Navara', 'year': 2022, 'capacity': '1 ton', 'status': 'out_of_service', 'fuel_type': 'diesel', 'mileage': 72000},
+            {'vehicle_id': 'VH-001', 'registration_number': 'UAJ 123A', 'vehicle_type': 'truck', 'make': 'Isuzu', 'model': 'NPR', 'year': 2022, 'capacity_tonnes': '5', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 45000},
+            {'vehicle_id': 'VH-002', 'registration_number': 'UAJ 124B', 'vehicle_type': 'truck', 'make': 'Hino', 'model': '300', 'year': 2021, 'capacity_tonnes': '10', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 62000},
+            {'vehicle_id': 'VH-003', 'registration_number': 'UAJ 125C', 'vehicle_type': 'van', 'make': 'Toyota', 'model': 'Hiace', 'year': 2023, 'capacity_passengers': '12', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 28000},
+            {'vehicle_id': 'VH-004', 'registration_number': 'UAJ 126D', 'vehicle_type': 'pickup', 'make': 'Ford', 'model': 'Ranger', 'year': 2022, 'capacity_tonnes': '1', 'status': 'maintenance', 'fuel_type': 'diesel', 'mileage': 38000},
+            {'vehicle_id': 'VH-005', 'registration_number': 'UAJ 127E', 'vehicle_type': 'truck', 'make': 'Mitsubishi', 'model': 'Fuso', 'year': 2020, 'capacity_tonnes': '10', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 85000},
+            {'vehicle_id': 'VH-006', 'registration_number': 'UAJ 128F', 'vehicle_type': 'bus', 'make': 'Yutong', 'model': 'ZK6105', 'year': 2021, 'capacity_passengers': '40', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 52000},
+            {'vehicle_id': 'VH-007', 'registration_number': 'UAJ 129G', 'vehicle_type': 'van', 'make': 'Mercedes-Benz', 'model': 'Sprinter', 'year': 2023, 'capacity_passengers': '12', 'status': 'active', 'fuel_type': 'diesel', 'mileage': 15000},
+            {'vehicle_id': 'VH-008', 'registration_number': 'UAJ 130H', 'vehicle_type': 'pickup', 'make': 'Nissan', 'model': 'Navara', 'year': 2022, 'capacity_tonnes': '1', 'status': 'out_of_service', 'fuel_type': 'diesel', 'mileage': 72000},
         ]
         
         vehicles = []

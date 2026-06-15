@@ -7,10 +7,17 @@ class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicle
         fields = ['vehicle_id', 'registration_number', 'vehicle_type', 'make', 'model', 
-                  'year', 'capacity', 'status', 'assigned_driver', 'fuel_type', 'mileage', 'last_service_date']
+                  'year', 'capacity_tonnes', 'capacity_passengers', 'status', 'assigned_driver', 
+                  'fuel_type', 'mileage', 'last_service_date']
         widgets = {
             'last_service_date': forms.DateInput(attrs={'type': 'date'}),
-            'year': forms.NumberInput(attrs={'min': 1990, 'max': 2030}),
+            'year': forms.Select(),  # Uses choices from model
+            'make': forms.Select(),   # Uses choices from model
+            'vehicle_type': forms.Select(),  # Uses choices from model
+            'capacity_tonnes': forms.Select(),  # Uses choices from model
+            'capacity_passengers': forms.Select(),  # Uses choices from model
+            'status': forms.Select(),  # Uses choices from model
+            'fuel_type': forms.Select(),  # Uses choices from model
         }
 
 
