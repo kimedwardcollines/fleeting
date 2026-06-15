@@ -8,19 +8,47 @@
         --fleet-primary: #0A2463;
         --fleet-secondary: #1E5AA8;
         --fleet-accent: #FF6B35;
+        --fleet-gray-100: #f3f4f6;
+        --fleet-gray-200: #e5e7eb;
+        --fleet-gray-300: #d1d5db;
+        --fleet-gray-400: #9ca3af;
     }
     
-    .fleet-hero {
+    /* Page Header */
+    .fleet-page-header {
         background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
-        padding: 40px 0;
-        margin-bottom: 30px;
+        padding: 2.5rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 24px 24px;
+        position: relative;
+        overflow: hidden;
     }
+    .fleet-page-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    }
+    .fleet-page-header h1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    /* Card */
     .fleet-card {
         background: white;
         border-radius: 16px;
-        border: 1px solid #f3f4f6;
+        border: 1px solid var(--fleet-gray-100);
         box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        padding: 2rem;
     }
+    
+    /* Form Styles */
     .form-label {
         font-weight: 600;
         color: var(--fleet-primary);
@@ -31,7 +59,7 @@
     }
     .form-control, .form-select {
         border-radius: 10px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--fleet-gray-200);
         padding: 0.75rem 1rem;
         transition: all 0.2s ease;
     }
@@ -39,8 +67,11 @@
         border-color: var(--fleet-secondary);
         box-shadow: 0 0 0 3px rgba(30, 90, 168, 0.15);
     }
+    .help-text { font-size: 0.8rem; color: var(--fleet-gray-400); }
+    
+    /* Buttons */
     .btn-fleet-primary {
-        background: linear-gradient(135deg, var(--fleet-accent) 0%, #ff8a5c 100%);
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
         border: none;
         padding: 0.75rem 1.5rem;
         border-radius: 10px;
@@ -50,7 +81,7 @@
     }
     .btn-fleet-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+        box-shadow: 0 8px 25px rgba(10, 36, 99, 0.3);
         color: white;
     }
     .btn-outline-fleet {
@@ -65,46 +96,35 @@
         background: var(--fleet-primary);
         color: white;
     }
-    .help-text {
-        font-size: 0.8rem;
-        color: #9ca3af;
-    }
     
     @media (max-width: 768px) {
-        .fleet-hero {
-            padding: 25px 0;
-        }
-        .fleet-card {
-            border-radius: 12px;
-        }
+        .fleet-page-header { padding: 1.5rem 0; border-radius: 0; }
+        .fleet-card { padding: 1.5rem; border-radius: 12px; }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<section class="fleet-hero">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-2">
-                        <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'fleet:vehicle_list' %}" class="text-white-50">Vehicles</a></li>
-                        <li class="breadcrumb-item text-white" aria-current="page">{% if form.instance.pk %}Edit{% else %}Add{% endif %}</li>
-                    </ol>
-                </nav>
-                <h1 class="text-white fw-bold mb-0">
-                    <i class="bi bi-truck me-2"></i>{% if form.instance.pk %}Edit Vehicle{% else %}Add Vehicle{% endif %}
-                </h1>
-            </div>
-        </div>
+<!-- Page Header -->
+<section class="fleet-page-header">
+    <div class="container position-relative" style="z-index: 1;">
+        <nav aria-label="breadcrumb" style="font-size: 0.875rem;">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="{% url 'fleet:dashboard' %}" class="text-white-50">Fleet</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'fleet:vehicle_list' %}" class="text-white-50">Vehicles</a></li>
+                <li class="breadcrumb-item text-white" aria-current="page">{% if form.instance.pk %}Edit{% else %}Add{% endif %}</li>
+            </ol>
+        </nav>
+        <h1 class="text-white d-flex align-items-center gap-2">
+            <i class="bi bi-truck"></i>{% if form.instance.pk %}Edit Vehicle{% else %}Add Vehicle{% endif %}
+        </h1>
     </div>
 </section>
 
-<div class="container">
+<div class="container pb-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <div class="fleet-card p-4">
+            <div class="fleet-card">
                 <form method="post" class="needs-validation" novalidate>
                     {% csrf_token %}
                     
@@ -138,7 +158,6 @@
                         <div class="col-md-4">
                             <label for="{{ form.make.id_for_label }}" class="form-label">Make *</label>
                             {{ form.make }}
-                            <small class="help-text">{{ form.make.help_text }}</small>
                             {% if form.make.errors %}
                             <div class="text-danger small mt-1">{{ form.make.errors.0 }}</div>
                             {% endif %}
@@ -147,7 +166,6 @@
                         <div class="col-md-4">
                             <label for="{{ form.model.id_for_label }}" class="form-label">Model *</label>
                             {{ form.model }}
-                            <small class="help-text">{{ form.model.help_text }}</small>
                             {% if form.model.errors %}
                             <div class="text-danger small mt-1">{{ form.model.errors.0 }}</div>
                             {% endif %}
@@ -164,7 +182,6 @@
                         <div class="col-md-4">
                             <label for="{{ form.capacity.id_for_label }}" class="form-label">Capacity *</label>
                             {{ form.capacity }}
-                            <small class="help-text">{{ form.capacity.help_text }}</small>
                             {% if form.capacity.errors %}
                             <div class="text-danger small mt-1">{{ form.capacity.errors.0 }}</div>
                             {% endif %}
@@ -197,7 +214,6 @@
                         <div class="col-md-6">
                             <label for="{{ form.mileage.id_for_label }}" class="form-label">Mileage (km)</label>
                             {{ form.mileage }}
-                            <small class="help-text">{{ form.mileage.help_text }}</small>
                             {% if form.mileage.errors %}
                             <div class="text-danger small mt-1">{{ form.mileage.errors.0 }}</div>
                             {% endif %}
