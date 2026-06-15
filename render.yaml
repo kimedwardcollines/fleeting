@@ -5,10 +5,11 @@ services:
       python -m pip install -r requirements.txt
       python manage.py migrate --no-input
       python manage.py collectstatic --no-input
+      python scripts/create_admin_auto.py
     startCommand: gunicorn logistics_project.wsgi:application --bind 0.0.0.0:$PORT --log-level info
     envVars:
       - key: DATABASE_URL
-        value: "postgres://default:mbIjZTsEtRvnm569hArA2CSW0WN5TjGE@dpg-d85jd6gg4nts7382nnm0-a/fleeting"
+        value: "postgresql://fleeting_database_user:A5aaaCtGAXNhjmYbPzRTUKP8gZBE4Nn1@dpg-d8o37lhkh4rs73eaf8t0-a/fleeting_database"
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DEBUG
