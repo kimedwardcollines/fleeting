@@ -148,10 +148,15 @@ def booking(request):
         
         service = "quote" if request.POST.get('service_type') == 'cargo' else "ride"
         
+        # Set success message immediately (before any potential errors)
+        messages.success(request, f'Thank you, {booking.name}! Your {service} has been submitted. We will contact you soon.')
+        
+        # Try to send emails (silently fail if not configured)
         try:
-            send_mail(
-                subject=f'Booking Confirmed - {booking.name}',
-                message=f'''Dear {booking.name},
+            if settings.EMAIL_HOST_USER and settings.EMAIL_HOST_PASSWORD:
+                send_mail(
+                    subject=f'Booking Confirmed - {booking.name}',
+                    message=f'''Dear {booking.name},
 
 Thank you for booking with Fleeting Logistics Company Limited!
 
@@ -172,15 +177,15 @@ We will contact you at {booking.phone} to confirm your booking.
 Best regards,
 Fleeting Logistics Team
 ''',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[booking.email],
-                fail_silently=False,
-            )
-            
-            # Send notification to admin
-            send_mail(
-                subject=f'New Booking: {booking.get_service_type_display()} from {booking.name}',
-                message=f'''NEW BOOKING RECEIVED!
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[booking.email],
+                    fail_silently=True,
+                )
+                
+                # Send notification to admin
+                send_mail(
+                    subject=f'New Booking: {booking.get_service_type_display()} from {booking.name}',
+                    message=f'''NEW BOOKING RECEIVED!
 
 Customer: {booking.name}
 Phone: {booking.phone}
@@ -196,15 +201,12 @@ Tracking: {booking.tracking_number}
 
 Message: {booking.message}
 ''',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.ADMIN_EMAIL],
-                fail_silently=False,
-            )
-            
-            messages.success(request, f'Thank you, {booking.name}! Your {service} has been submitted. Confirmation sent to {booking.email}')
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.ADMIN_EMAIL],
+                    fail_silently=True,
+                )
         except Exception as e:
             logger.error(f'Email sending failed for booking {booking.tracking_number}: {str(e)}')
-            messages.success(request, f'Thank you, {booking.name}! Your {service} request has been submitted. Estimated price: {price_display}. We will contact you soon.')
         
         return redirect('booking')
     
@@ -226,11 +228,15 @@ def contact(request):
             return redirect('contact')
         
         # Send confirmation to user and notification to admin
+        # Set success message immediately
+        messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you at {email} soon.')
+        
         try:
-            # Confirmation to customer
-            send_mail(
-                subject=f'We received your message - {subject}',
-                message=f'''Dear {name},
+            if settings.EMAIL_HOST_USER and settings.EMAIL_HOST_PASSWORD:
+                # Confirmation to customer
+                send_mail(
+                    subject=f'We received your message - {subject}',
+                    message=f'''Dear {name},
 
 Thank you for contacting Fleeting Logistics Company Limited!
 
@@ -242,15 +248,15 @@ Your Message:
 Best regards,
 Fleeting Logistics Team
 ''',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[email],
-                fail_silently=False,
-            )
-            
-            # Notification to admin
-            send_mail(
-                subject=f'Contact Form: {subject} from {name}',
-                message=f'''NEW CONTACT FORM SUBMISSION!
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=True,
+                )
+                
+                # Notification to admin
+                send_mail(
+                    subject=f'Contact Form: {subject} from {name}',
+                    message=f'''NEW CONTACT FORM SUBMISSION!
 
 Name: {name}
 Email: {email}
@@ -259,15 +265,12 @@ Subject: {subject}
 Message:
 {message_text}
 ''',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.ADMIN_EMAIL],
-                fail_silently=False,
-            )
-            messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you at {email} soon.')
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.ADMIN_EMAIL],
+                    fail_silently=True,
+                )
         except Exception as e:
             logger.error(f'Contact email sending failed: {str(e)}')
-            # Still show success to user even if email fails
-            messages.success(request, f'Thank you, {name}! Your message has been sent. We will get back to you soon.')
         
         return redirect('contact')
     
