@@ -63,7 +63,19 @@ def fleet_dashboard(request):
     # Recent trips
     recent_trips = Trip.objects.all()[:5]
     
-    # Upcoming maintenance
+    # Vehicles needing maintenance (based on time/mileage intervals)
+    vehicles_needing_maintenance = []
+    for vehicle in Vehicle.objects.filter(status='active'):
+        if vehicle.is_maintenance_due():
+            vehicles_needing_maintenance.append({
+                'vehicle': vehicle,
+                'service_type': vehicle.get_recommended_service(),
+                'description': vehicle.get_service_description(),
+                'days_overdue': vehicle.get_days_since_last_service() - vehicle.service_interval_days if vehicle.get_days_since_last_service() else None,
+                'next_service_date': vehicle.get_next_service_date(),
+            })
+    
+    # Upcoming maintenance (scheduled in the system)
     upcoming_maintenance = Maintenance.objects.filter(
         service_date__gte=datetime.now().date(),
         status='scheduled'
@@ -84,6 +96,7 @@ def fleet_dashboard(request):
         'monthly_fuel': monthly_fuel,
         'recent_trips': recent_trips,
         'upcoming_maintenance': upcoming_maintenance,
+        'vehicles_needing_maintenance': vehicles_needing_maintenance,
     }
     return render(request, 'fleet/dashboard.html', context)
 
@@ -289,8 +302,22 @@ def maintenance_list(request):
 @login_required
 def maintenance_add(request):
     """Add maintenance record"""
+    from .forms import MaintenanceForm
+    
+    # Handle pre-filled data from dashboard
+    initial_data = {}
+    if request.GET.get('vehicle'):
+        try:
+            vehicle = Vehicle.objects.get(pk=request.GET.get('vehicle'))
+            initial_data['vehicle'] = vehicle
+            # Auto-recommend service type based on vehicle usage
+            if request.GET.get('service_type'):
+                initial_data['service_type'] = request.GET.get('service_type')
+            initial_data['description'] = vehicle.get_service_description()
+        except Vehicle.DoesNotExist:
+            pass
+    
     if request.method == 'POST':
-        from .forms import MaintenanceForm
         form = MaintenanceForm(request.POST)
         if form.is_valid():
             record = form.save()
@@ -303,8 +330,7 @@ def maintenance_add(request):
             messages.success(request, 'Maintenance record added successfully!')
             return redirect('fleet:maintenance_list')
     else:
-        from .forms import MaintenanceForm
-        form = MaintenanceForm()
+        form = MaintenanceForm(initial=initial_data)
     return render(request, 'fleet/maintenance/form.html', {'form': form, 'action': 'Add'})
 
 

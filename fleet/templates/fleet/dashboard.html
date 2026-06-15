@@ -617,7 +617,7 @@
         <div class="col-lg-6">
             <div class="table-container">
                 <div class="table-header">
-                    <h5><i class="bi bi-calendar-event text-warning me-2"></i>Upcoming Maintenance</h5>
+                    <h5><i class="bi bi-exclamation-triangle text-danger me-2"></i>Maintenance Due</h5>
                     <a href="{% url 'fleet:maintenance_list' %}" class="btn btn-sm btn-outline-primary">
                         View All <i class="bi bi-arrow-right ms-1"></i>
                     </a>
@@ -627,23 +627,40 @@
                         <thead>
                             <tr>
                                 <th>Vehicle</th>
-                                <th>Service</th>
-                                <th>Date</th>
+                                <th>Recommended Service</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for record in upcoming_maintenance %}
+                            {% for item in vehicles_needing_maintenance %}
                             <tr>
-                                <td class="fw-semibold">{{ record.vehicle.registration_number }}</td>
-                                <td>{{ record.get_service_type_display }}</td>
-                                <td>{{ record.service_date|date:"M d, Y" }}</td>
+                                <td class="fw-semibold">{{ item.vehicle.registration_number }}</td>
+                                <td>
+                                    <span class="text-capitalize">{{ item.get_service_type_display|default:item.service_type }}</span>
+                                    {% if item.days_overdue and item.days_overdue > 0 %}
+                                    <br><small class="text-danger">{{ item.days_overdue }} days overdue</small>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.days_overdue and item.days_overdue > 0 %}
+                                    <span class="status-badge status-out_of_service">Overdue</span>
+                                    {% else %}
+                                    <span class="status-badge status-maintenance">Due</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'fleet:maintenance_add' %}?vehicle={{ item.vehicle.pk }}&service_type={{ item.service_type }}" class="btn btn-sm btn-fleet-primary">
+                                        <i class="bi bi-plus"></i> Schedule
+                                    </a>
+                                </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="3">
+                                <td colspan="4">
                                     <div class="empty-state">
-                                        <i class="bi bi-wrench"></i>
-                                        <p>No upcoming maintenance</p>
+                                        <i class="bi bi-check-circle" style="color: #10b981;"></i>
+                                        <p>All vehicles are up to date with maintenance!</p>
                                     </div>
                                 </td>
                             </tr>

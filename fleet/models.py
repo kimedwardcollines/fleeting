@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from decimal import Decimal
+from datetime import date, timedelta
 
 
 class Vehicle(models.Model):
@@ -93,6 +94,9 @@ class Vehicle(models.Model):
     fuel_type = models.CharField(max_length=20, choices=FUEL_TYPE_CHOICES, default='diesel')
     mileage = models.IntegerField(default=0, help_text="Current mileage in km")
     last_service_date = models.DateField(null=True, blank=True)
+    next_service_due = models.DateField(null=True, blank=True, help_text="Next scheduled service date")
+    service_interval_days = models.IntegerField(default=90, help_text="Service interval in days")
+    mileage_interval = models.IntegerField(default=5000, help_text="Service interval in km")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -102,6 +106,89 @@ class Vehicle(models.Model):
     
     def __str__(self):
         return f"{self.vehicle_id} - {self.registration_number}"
+    
+    def get_days_since_last_service(self):
+        """Returns days since last service"""
+        if not self.last_service_date:
+            return None
+        return (date.today() - self.last_service_date).days
+    
+    def get_kms_since_last_service(self):
+        """Returns km since last service (approximate based on mileage)"""
+        if not self.last_service_date:
+            return self.mileage
+        # Estimate average 200km per day
+        days = self.get_days_since_last_service()
+        if days:
+            estimated_mileage_at_service = self.mileage - (days * 200)
+            return max(0, self.mileage - max(0, estimated_mileage_at_service))
+        return 0
+    
+    def is_maintenance_due(self):
+        """Check if maintenance is due based on time or mileage"""
+        if not self.last_service_date:
+            return True
+        
+        days_since_service = self.get_days_since_last_service()
+        kms_since_service = self.get_kms_since_last_service()
+        
+        # Check if either time interval OR mileage interval exceeded
+        if days_since_service and days_since_service >= self.service_interval_days:
+            return True
+        if kms_since_service and kms_since_service >= self.mileage_interval:
+            return True
+        return False
+    
+    def get_recommended_service(self):
+        """Returns the recommended service type based on usage"""
+        if not self.last_service_date:
+            return 'inspection'
+        
+        days_since_service = self.get_days_since_last_service() or 0
+        kms_since_service = self.get_kms_since_last_service() or 0
+        
+        # Heavy usage (>10000km or >60 days): Full service
+        if kms_since_service > 10000 or days_since_service > 60:
+            return 'engine_repair'
+        
+        # Medium usage (>5000km or >45 days): Intermediate service
+        if kms_since_service > 5000 or days_since_service > 45:
+            return 'oil_change'
+        
+        # Light overdue: Basic check
+        if self.is_maintenance_due():
+            return 'inspection'
+        
+        # Regular maintenance
+        return 'oil_change'
+    
+    def get_service_description(self):
+        """Returns a description of what service is needed"""
+        service_type = self.get_recommended_service()
+        descriptions = {
+            'oil_change': f'Oil change and filter replacement. Vehicle {self.registration_number} has traveled approximately {self.get_kms_since_last_service():,} km since last service.',
+            'tire_rotation': f'Tire rotation and pressure check for {self.registration_number}.',
+            'brake_service': f'Brake inspection and service for {self.registration_number}.',
+            'engine_repair': f'Comprehensive engine service for {self.registration_number}. Heavy usage detected.',
+            'transmission': f'Transmission check for {self.registration_number}.',
+            'electrical': f'Electrical system inspection for {self.registration_number}.',
+            'body_work': f'Body work assessment for {self.registration_number}.',
+            'inspection': f'General inspection for {self.registration_number}. Service is overdue.',
+            'other': f'Service maintenance for {self.registration_number}.',
+        }
+        return descriptions.get(service_type, f'Service for {self.registration_number}.')
+    
+    def get_next_service_date(self):
+        """Calculate the next service date based on last service"""
+        if self.last_service_date:
+            return self.last_service_date + timedelta(days=self.service_interval_days)
+        return date.today()
+    
+    def save(self, *args, **kwargs):
+        # Auto-calculate next service due date
+        if self.last_service_date:
+            self.next_service_due = self.last_service_date + timedelta(days=self.service_interval_days)
+        super().save(*args, **kwargs)
 
 
 class Driver(models.Model):
