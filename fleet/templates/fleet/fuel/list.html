@@ -4,45 +4,94 @@
 
 {% block extra_css %}
 <style>
+    :root {
+        --fleet-primary: #0A2463;
+        --fleet-secondary: #1E5AA8;
+        --fleet-accent: #FF6B35;
+    }
+    
     .fleet-hero {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
         padding: 40px 0;
         margin-bottom: 30px;
     }
     .stat-card {
         background: white;
-        border-radius: 12px;
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         padding: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         text-align: center;
     }
     .stat-value {
         font-size: 28px;
         font-weight: 700;
-        color: #0A2463;
+        color: var(--fleet-primary);
     }
     .stat-label {
         color: #6b7280;
-        font-size: 14px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .fleet-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        overflow: hidden;
     }
     .table-responsive {
-        border-radius: 12px;
+        border-radius: 16px;
         overflow: hidden;
     }
     .table thead th {
-        background: #0A2463;
+        background: var(--fleet-primary);
         color: white;
         border: none;
         font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+    }
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
     }
     .action-btn {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         padding: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border-radius: 8px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    .action-btn:hover {
+        transform: scale(1.1);
+    }
+    .btn-fleet-primary {
+        background: linear-gradient(135deg, var(--fleet-accent) 0%, #ff8a5c 100%);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .btn-fleet-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .fleet-hero { padding: 25px 0; }
+        .stat-card { border-radius: 12px; }
+        .table thead th { font-size: 0.65rem; padding: 0.75rem 0.5rem; }
+        .table tbody td { padding: 0.75rem 0.5rem; font-size: 0.85rem; }
     }
 </style>
 {% endblock %}
@@ -92,7 +141,7 @@
     </div>
     
     <!-- Fuel Records List -->
-    <div class="card border-0 shadow-sm">
+    <div class="fleet-card">
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover mb-0">

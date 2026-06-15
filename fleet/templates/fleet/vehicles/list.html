@@ -4,38 +4,76 @@
 
 {% block extra_css %}
 <style>
-    .fleet-hero {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
-        padding: 40px 0;
-        margin-bottom: 30px;
+    :root {
+        --fleet-primary: #0A2463;
+        --fleet-secondary: #1E5AA8;
+        --fleet-accent: #FF6B35;
+        --fleet-gray-100: #f3f4f6;
+        --fleet-gray-200: #e5e7eb;
+        --fleet-gray-300: #d1d5db;
+        --fleet-gray-400: #9ca3af;
+        --fleet-gray-500: #6b7280;
     }
-    .table-responsive {
-        border-radius: 12px;
+    .page-header {
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+    .fleet-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid var(--fleet-gray-100);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         overflow: hidden;
     }
+    .table { margin-bottom: 0; font-size: 0.9rem; }
     .table thead th {
-        background: #0A2463;
+        background: var(--fleet-primary);
         color: white;
         border: none;
         font-weight: 600;
+        padding: 1rem 1.25rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
+    .table tbody td {
+        padding: 1rem 1.25rem;
+        vertical-align: middle;
+        border-color: var(--fleet-gray-100);
+    }
+    .table tbody tr:hover { background: #f8fafc; }
     .status-badge {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     .status-active { background: #dcfce7; color: #166534; }
     .status-maintenance { background: #fef9c3; color: #854d0e; }
     .status-out_of_service { background: #fee2e2; color: #dc2626; }
-    .action-btn {
-        width: 32px;
-        height: 32px;
-        padding: 0;
+    .btn-action {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border-radius: 8px;
+        padding: 0;
+        transition: all 0.2s ease;
+        border: 1px solid var(--fleet-gray-200);
+        background: white;
+        color: var(--fleet-gray-500);
+    }
+    .btn-action:hover { transform: scale(1.1); }
+    .btn-action.edit:hover { background: #dbeafe; color: #1e40af; border-color: #1e40af; }
+    .btn-action.delete:hover { background: #fee2e2; color: #dc2626; border-color: #dc2626; }
+    @media (max-width: 768px) {
+        .page-header { padding: 1.5rem 0; }
+        .table { font-size: 0.8rem; }
+        .table thead th, .table tbody td { padding: 0.75rem; }
     }
 </style>
 {% endblock %}

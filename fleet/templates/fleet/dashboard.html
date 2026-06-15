@@ -5,112 +5,433 @@
 
 {% block extra_css %}
 <style>
+    :root {
+        --fleet-primary: #0A2463;
+        --fleet-secondary: #1E5AA8;
+        --fleet-accent: #FF6B35;
+        --fleet-success: #10b981;
+        --fleet-warning: #f59e0b;
+        --fleet-danger: #ef4444;
+        --fleet-info: #3b82f6;
+        --fleet-gray-50: #f9fafb;
+        --fleet-gray-100: #f3f4f6;
+        --fleet-gray-200: #e5e7eb;
+        --fleet-gray-300: #d1d5db;
+        --fleet-gray-400: #9ca3af;
+        --fleet-gray-500: #6b7280;
+        --fleet-gray-600: #4b5563;
+        --fleet-gray-700: #374151;
+        --fleet-gray-800: #1f2937;
+        --fleet-gray-900: #111827;
+    }
+
+    /* Fleet Hero Section */
     .fleet-hero {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
-        padding: 40px 0;
-        margin-bottom: 30px;
-    }
-    .stat-card {
-        background: white;
-        border-radius: 12px;
-        padding: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        transition: transform 0.3s ease;
-        height: 100%;
-    }
-    .stat-card:hover {
-        transform: translateY(-5px);
-    }
-    .stat-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-    }
-    .stat-value {
-        font-size: 28px;
-        font-weight: 700;
-        color: #0A2463;
-    }
-    .stat-label {
-        color: #6b7280;
-        font-size: 14px;
-    }
-    .chart-container {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        margin-bottom: 20px;
-    }
-    .menu-card {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        text-align: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        text-decoration: none;
-        color: inherit;
-    }
-    .menu-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        color: #FF6B35;
-    }
-    .menu-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 15px;
-        color: white;
-        font-size: 24px;
-    }
-    .table-responsive {
-        border-radius: 12px;
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
+        padding: 2.5rem 0;
+        margin-bottom: 2rem;
+        position: relative;
         overflow: hidden;
     }
+    .fleet-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 600px;
+        height: 600px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+    }
+    .fleet-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: rgba(255,255,255,0.03);
+        border-radius: 50%;
+    }
+
+    /* Stat Cards */
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        border: 1px solid var(--fleet-gray-100);
+        position: relative;
+        overflow: hidden;
+    }
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--fleet-primary);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+    .stat-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--fleet-gray-900);
+        line-height: 1.2;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    .stat-label {
+        color: var(--fleet-gray-500);
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 0.25rem;
+    }
+    .stat-trend {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 4px 8px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .stat-trend.up { background: #dcfce7; color: #166534; }
+    .stat-trend.down { background: #fee2e2; color: #dc2626; }
+
+    /* Quick Access Cards */
+    .menu-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.75rem 1rem;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        text-decoration: none;
+        color: var(--fleet-gray-700);
+        border: 1px solid var(--fleet-gray-100);
+        position: relative;
+        overflow: hidden;
+    }
+    .menu-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        color: var(--fleet-accent);
+        border-color: var(--fleet-accent);
+    }
+    .menu-card:hover .menu-icon {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    }
+    .menu-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    .menu-card h6 {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+    .menu-card small {
+        color: var(--fleet-gray-400);
+        font-size: 0.8rem;
+    }
+
+    /* Chart Containers */
+    .chart-container {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        border: 1px solid var(--fleet-gray-100);
+        height: 100%;
+    }
+    .chart-container h5 {
+        font-weight: 700;
+        color: var(--fleet-gray-900);
+        font-family: 'Space Grotesk', sans-serif;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .chart-container h5 i {
+        color: var(--fleet-accent);
+    }
+
+    /* Tables */
+    .table-container {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        border: 1px solid var(--fleet-gray-100);
+    }
+    .table-header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--fleet-gray-100);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--fleet-gray-50);
+    }
+    .table-header h5 {
+        font-weight: 700;
+        color: var(--fleet-gray-900);
+        margin: 0;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    .table {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
     .table thead th {
-        background: #0A2463;
+        background: var(--fleet-primary);
         color: white;
         border: none;
         font-weight: 600;
+        padding: 1rem 1.25rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
+    .table tbody td {
+        padding: 1rem 1.25rem;
+        vertical-align: middle;
+        border-color: var(--fleet-gray-100);
+        color: var(--fleet-gray-700);
+    }
+    .table tbody tr:hover {
+        background: var(--fleet-gray-50);
+    }
+
+    /* Status Badges */
     .status-badge {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
-    .status-active { background: #dcfce7; color: #166534; }
-    .status-maintenance { background: #fef9c3; color: #854d0e; }
+    .status-badge::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+    .status-active, .status-completed { background: #dcfce7; color: #166534; }
+    .status-maintenance, .status-scheduled { background: #fef9c3; color: #854d0e; }
     .status-in_progress { background: #dbeafe; color: #1e40af; }
-    .status-completed { background: #dcfce7; color: #166534; }
-    .status-scheduled { background: #e0e7ff; color: #3730a3; }
     .status-on_trip { background: #fef3c7; color: #92400e; }
+    .status-out_of_service, .status-cancelled { background: #fee2e2; color: #dc2626; }
+    .status-available { background: #e0e7ff; color: #3730a3; }
+    .status-on_leave { background: #f3e8ff; color: #6b21a8; }
+    .status-suspended { background: #f9fafb; color: #6b7280; }
+
+    /* Action Buttons */
+    .btn-action {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: all 0.2s ease;
+        border: 1px solid var(--fleet-gray-200);
+        background: white;
+    }
+    .btn-action:hover {
+        transform: scale(1.1);
+    }
+    .btn-action.edit:hover { background: #dbeafe; color: #1e40af; border-color: #1e40af; }
+    .btn-action.delete:hover { background: #fee2e2; color: #dc2626; border-color: #dc2626; }
+    .btn-action.view:hover { background: #dcfce7; color: #166534; border-color: #166534; }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: var(--fleet-gray-400);
+    }
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .fleet-hero { padding: 1.5rem 0; }
+        .stat-value { font-size: 1.5rem; }
+        .stat-card { padding: 1rem; }
+        .stat-icon { width: 44px; height: 44px; font-size: 1.2rem; }
+        .table-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    }
+
+    /* Page Header */
+    .page-header {
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 24px 24px;
+    }
+    .page-header h1 {
+        color: white;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        margin: 0;
+    }
+    .page-header p {
+        color: rgba(255,255,255,0.8);
+        margin: 0.5rem 0 0;
+       }
+
+    /* Card Styles */
+    .fleet-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid var(--fleet-gray-100);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .fleet-card .card-header {
+        background: var(--fleet-gray-50);
+        border-bottom: 1px solid var(--fleet-gray-100);
+        padding: 1.25rem 1.5rem;
+        font-weight: 700;
+        color: var(--fleet-gray-900);
+    }
+    .fleet-card .card-body { padding: 1.5rem; }
+
+    /* Form Styles */
+    .form-control, .form-select {
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--fleet-gray-200);
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: var(--fleet-secondary);
+        box-shadow: 0 0 0 3px rgba(30, 90, 168, 0.1);
+    }
+    .form-label {
+        font-weight: 600;
+        color: var(--fleet-gray-700);
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    /* Button Styles */
+    .btn-fleet-primary {
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .btn-fleet-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(10, 36, 99, 0.3);
+        color: white;
+    }
+    .btn-fleet-accent {
+        background: linear-gradient(135deg, var(--fleet-accent) 0%, #e55a28 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .btn-fleet-accent:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        color: white;
+    }
+    .btn-outline-fleet {
+        border: 2px solid var(--fleet-primary);
+        color: var(--fleet-primary);
+        border-radius: 10px;
+        padding: 0.65rem 1.5rem;
+        font-weight: 600;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+    .btn-outline-fleet:hover {
+        background: var(--fleet-primary);
+        color: white;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-nav {
+        padding: 1rem 0;
+        font-size: 0.875rem;
+    }
+    .breadcrumb-nav a {
+        color: var(--fleet-secondary);
+        text-decoration: none;
+    }
+    .breadcrumb-nav a:hover { text-decoration: underline; }
+    .breadcrumb-nav span { color: var(--fleet-gray-400); margin: 0 0.5rem; }
 </style>
 {% endblock %}
 
 {% block content %}
 <!-- Fleet Management Hero -->
 <section class="fleet-hero">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center">
+    <div class="container position-relative" style="z-index: 1;">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
             <div>
-                <h1 class="text-white fw-bold mb-2"><i class="bi bi-truck me-2"></i>Fleet Management</h1>
-                <p class="text-white-50 mb-0">Manage your vehicles, drivers, and operations</p>
+                <h1 class="text-white fw-bold mb-2 d-flex align-items-center gap-2">
+                    <i class="bi bi-truck"></i>
+                    Fleet Management
+                </h1>
+                <p class="text-white-50 mb-0">Comprehensive vehicle & driver operations dashboard</p>
             </div>
-            <a href="{% url 'fleet:reports' %}" class="btn btn-light">
-                <i class="bi bi-graph-up me-2"></i>View Reports
-            </a>
+            <div class="d-flex gap-2">
+                <a href="{% url 'fleet:reports' %}" class="btn btn-light btn-lg">
+                    <i class="bi bi-graph-up me-2"></i>Reports
+                </a>
+            </div>
         </div>
     </div>
 </section>
@@ -118,67 +439,55 @@
 <div class="container">
     <!-- Statistics Cards -->
     <div class="row g-4 mb-4">
-        <div class="col-md-4 col-lg-2">
+        <div class="col-6 col-lg-2">
             <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="stat-icon" style="background: #dbeafe;">
-                        <i class="bi bi-truck" style="color: #1e40af;"></i>
-                    </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">
+                    <i class="bi bi-truck" style="color: #1e40af;"></i>
                 </div>
                 <div class="stat-value">{{ total_vehicles }}</div>
                 <div class="stat-label">Total Vehicles</div>
             </div>
         </div>
-        <div class="col-md-4 col-lg-2">
+        <div class="col-6 col-lg-2">
             <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="stat-icon" style="background: #dcfce7;">
-                        <i class="bi bi-check-circle" style="color: #166534;"></i>
-                    </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);">
+                    <i class="bi bi-check-circle-fill" style="color: #166534;"></i>
                 </div>
                 <div class="stat-value">{{ active_vehicles }}</div>
-                <div class="stat-label">Active Vehicles</div>
+                <div class="stat-label">Active</div>
             </div>
         </div>
-        <div class="col-md-4 col-lg-2">
+        <div class="col-6 col-lg-2">
             <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="stat-icon" style="background: #fef3c7;">
-                        <i class="bi bi-people" style="color: #92400e;"></i>
-                    </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+                    <i class="bi bi-people-fill" style="color: #92400e;"></i>
                 </div>
                 <div class="stat-value">{{ total_drivers }}</div>
-                <div class="stat-label">Total Drivers</div>
+                <div class="stat-label">Drivers</div>
             </div>
         </div>
-        <div class="col-md-4 col-lg-2">
+        <div class="col-6 col-lg-2">
             <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="stat-icon" style="background: #fce7f3;">
-                        <i class="bi bi-geo-alt" style="color: #be185d;"></i>
-                    </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);">
+                    <i class="bi bi-geo-alt-fill" style="color: #be185d;"></i>
                 </div>
                 <div class="stat-value">{{ active_trips }}</div>
                 <div class="stat-label">Active Trips</div>
             </div>
         </div>
-        <div class="col-md-4 col-lg-2">
+        <div class="col-6 col-lg-2">
             <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="stat-icon" style="background: #fef9c3;">
-                        <i class="bi bi-wrench" style="color: #854d0e;"></i>
-                    </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);">
+                    <i class="bi bi-wrench-adjustable" style="color: #854d0e;"></i>
                 </div>
                 <div class="stat-value">{{ maintenance_vehicles }}</div>
-                <div class="stat-label">In Maintenance</div>
+                <div class="stat-label">Maintenance</div>
             </div>
         </div>
-        <div class="col-md-4 col-lg-2">
+        <div class="col-6 col-lg-2">
             <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="stat-icon" style="background: #fee2e2;">
-                        <i class="bi bi-fuel" style="color: #dc2626;"></i>
-                    </div>
+                <div class="stat-icon" style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);">
+                    <i class="bi bi-fuel" style="color: #dc2626;"></i>
                 </div>
                 <div class="stat-value">${{ monthly_fuel_cost|floatformat:0 }}</div>
                 <div class="stat-label">Monthly Fuel</div>
@@ -187,77 +496,81 @@
     </div>
 
     <!-- Quick Access Menu -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-2 col-6">
+    <div class="row g-3 mb-5">
+        <div class="col-6 col-md-4 col-lg-2">
             <a href="{% url 'fleet:vehicle_list' %}" class="menu-card">
                 <div class="menu-icon"><i class="bi bi-truck"></i></div>
-                <h6 class="mb-1">Vehicles</h6>
-                <small class="text-muted">Manage fleet</small>
+                <h6>Vehicles</h6>
+                <small>Manage fleet</small>
             </a>
         </div>
-        <div class="col-md-2 col-6">
+        <div class="col-6 col-md-4 col-lg-2">
             <a href="{% url 'fleet:driver_list' %}" class="menu-card">
                 <div class="menu-icon"><i class="bi bi-person-badge"></i></div>
-                <h6 class="mb-1">Drivers</h6>
-                <small class="text-muted">Staff management</small>
+                <h6>Drivers</h6>
+                <small>Staff mgmt</small>
             </a>
         </div>
-        <div class="col-md-2 col-6">
+        <div class="col-6 col-md-4 col-lg-2">
             <a href="{% url 'fleet:trip_list' %}" class="menu-card">
                 <div class="menu-icon"><i class="bi bi-geo-alt"></i></div>
-                <h6 class="mb-1">Trips</h6>
-                <small class="text-muted">Trip tracking</small>
+                <h6>Trips</h6>
+                <small>Trip tracking</small>
             </a>
         </div>
-        <div class="col-md-2 col-6">
+        <div class="col-6 col-md-4 col-lg-2">
             <a href="{% url 'fleet:maintenance_list' %}" class="menu-card">
                 <div class="menu-icon"><i class="bi bi-wrench"></i></div>
-                <h6 class="mb-1">Maintenance</h6>
-                <small class="text-muted">Service records</small>
+                <h6>Maintenance</h6>
+                <small>Service records</small>
             </a>
         </div>
-        <div class="col-md-2 col-6">
+        <div class="col-6 col-md-4 col-lg-2">
             <a href="{% url 'fleet:fuel_list' %}" class="menu-card">
-                <div class="menu-icon"><i class="bi bi-fuel"></i></div>
-                <h6 class="mb-1">Fuel</h6>
-                <small class="text-muted">Consumption</small>
+                <div class="menu-icon"><i class="bi bi-droplet-half"></i></div>
+                <h6>Fuel</h6>
+                <small>Consumption</small>
             </a>
         </div>
-        <div class="col-md-2 col-6">
+        <div class="col-6 col-md-4 col-lg-2">
             <a href="{% url 'fleet:reports' %}" class="menu-card">
                 <div class="menu-icon"><i class="bi bi-bar-chart"></i></div>
-                <h6 class="mb-1">Reports</h6>
-                <small class="text-muted">Analytics</small>
+                <h6>Reports</h6>
+                <small>Analytics</small>
             </a>
         </div>
     </div>
 
     <!-- Charts Row -->
-    <div class="row g-4">
+    <div class="row g-4 mb-4">
         <div class="col-lg-4">
             <div class="chart-container">
-                <h5 class="fw-bold mb-3">Vehicle Status</h5>
-                <canvas id="vehicleStatusChart"></canvas>
+                <h5><i class="bi bi-pie-chart"></i> Vehicle Status</h5>
+                <div class="d-flex justify-content-center">
+                    <canvas id="vehicleStatusChart" style="max-height: 250px;"></canvas>
+                </div>
             </div>
         </div>
         <div class="col-lg-8">
             <div class="chart-container">
-                <h5 class="fw-bold mb-3">Monthly Fuel Cost</h5>
-                <canvas id="fuelCostChart"></canvas>
+                <h5><i class="bi bi-graph-up"></i> Monthly Fuel Cost Trend</h5>
+                <canvas id="fuelCostChart" style="max-height: 280px;"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Recent Trips & Upcoming Maintenance -->
-    <div class="row g-4 mt-2">
+    <!-- Tables Row -->
+    <div class="row g-4">
         <div class="col-lg-6">
-            <div class="chart-container">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold mb-0">Recent Trips</h5>
-                    <a href="{% url 'fleet:trip_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+            <div class="table-container">
+                <div class="table-header">
+                    <h5><i class="bi bi-clock-history text-primary me-2"></i>Recent Trips</h5>
+                    <a href="{% url 'fleet:trip_list' %}" class="btn btn-sm btn-outline-primary">
+                        View All <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table mb-0">
                         <thead>
                             <tr>
                                 <th>Trip ID</th>
@@ -268,23 +581,26 @@
                         <tbody>
                             {% for trip in recent_trips %}
                             <tr>
-                                <td><a href="{% url 'fleet:trip_detail' trip.pk %}">{{ trip.trip_id }}</a></td>
-                                <td>{{ trip.origin }} → {{ trip.destination }}</td>
                                 <td>
-                                    {% if trip.status == 'completed' %}
-                                    <span class="status-badge status-completed">{{ trip.get_status_display }}</span>
-                                    {% elif trip.status == 'in_progress' %}
-                                    <span class="status-badge status-in_progress">{{ trip.get_status_display }}</span>
-                                    {% elif trip.status == 'scheduled' %}
-                                    <span class="status-badge status-scheduled">{{ trip.get_status_display }}</span>
-                                    {% else %}
-                                    <span class="status-badge" style="background:#fee2e2;color:#dc2626;">{{ trip.get_status_display }}</span>
-                                    {% endif %}
+                                    <a href="{% url 'fleet:trip_detail' trip.pk %}" class="text-primary fw-semibold">
+                                        {{ trip.trip_id }}
+                                    </a>
+                                </td>
+                                <td>{{ trip.origin }} <i class="bi bi-arrow-right text-muted mx-1"></i> {{ trip.destination }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ trip.status }}">
+                                        {{ trip.get_status_display }}
+                                    </span>
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="3" class="text-center text-muted">No trips found</td>
+                                <td colspan="3">
+                                    <div class="empty-state">
+                                        <i class="bi bi-truck"></i>
+                                        <p>No trips recorded yet</p>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -293,13 +609,15 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="chart-container">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold mb-0">Upcoming Maintenance</h5>
-                    <a href="{% url 'fleet:maintenance_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+            <div class="table-container">
+                <div class="table-header">
+                    <h5><i class="bi bi-calendar-event text-warning me-2"></i>Upcoming Maintenance</h5>
+                    <a href="{% url 'fleet:maintenance_list' %}" class="btn btn-sm btn-outline-primary">
+                        View All <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table mb-0">
                         <thead>
                             <tr>
                                 <th>Vehicle</th>
@@ -310,13 +628,18 @@
                         <tbody>
                             {% for record in upcoming_maintenance %}
                             <tr>
-                                <td>{{ record.vehicle.registration_number }}</td>
+                                <td class="fw-semibold">{{ record.vehicle.registration_number }}</td>
                                 <td>{{ record.get_service_type_display }}</td>
-                                <td>{{ record.service_date }}</td>
+                                <td>{{ record.service_date|date:"M d, Y" }}</td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="3" class="text-center text-muted">No upcoming maintenance</td>
+                                <td colspan="3">
+                                    <div class="empty-state">
+                                        <i class="bi bi-wrench"></i>
+                                        <p>No upcoming maintenance</p>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -331,7 +654,7 @@
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-    // Vehicle Status Pie Chart
+    // Vehicle Status Doughnut Chart
     const vehicleCtx = document.getElementById('vehicleStatusChart').getContext('2d');
     new Chart(vehicleCtx, {
         type: 'doughnut',
@@ -344,14 +667,21 @@
                     {{ vehicle_status.out_of_service }}
                 ],
                 backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-                borderWidth: 0
+                borderWidth: 0,
+                hoverOffset: 8
             }]
         },
         options: {
             responsive: true,
+            cutout: '65%',
             plugins: {
                 legend: {
-                    position: 'bottom'
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        usePointStyle: true,
+                        font: { size: 12, weight: '500' }
+                    }
                 }
             }
         }
@@ -364,26 +694,41 @@
         data: {
             labels: [{% for m in monthly_fuel %}'{{ m.month }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
             datasets: [{
-                label: 'Fuel Cost ($)',
+                label: 'Fuel Cost',
                 data: [{% for m in monthly_fuel %}{{ m.cost }}{% if not forloop.last %}, {% endif %}{% endfor %}],
-                backgroundColor: '#FF6B35',
-                borderRadius: 8
+                backgroundColor: 'rgba(255, 107, 53, 0.85)',
+                borderColor: '#FF6B35',
+                borderWidth: 2,
+                borderRadius: 8,
+                borderSkipped: false,
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    display: false
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1f2937',
+                    titleFont: { weight: '600' },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: ctx => '$' + ctx.raw.toFixed(2)
+                    }
                 }
             },
             scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { weight: '500' } }
+                },
                 y: {
                     beginAtZero: true,
+                    grid: { color: '#f3f4f6' },
                     ticks: {
-                        callback: function(value) {
-                            return '$' + value;
-                        }
+                        callback: value => '$' + value,
+                        font: { weight: '500' }
                     }
                 }
             }

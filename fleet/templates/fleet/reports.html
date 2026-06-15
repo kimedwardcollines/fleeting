@@ -4,21 +4,29 @@
 
 {% block extra_css %}
 <style>
+    :root {
+        --fleet-primary: #0A2463;
+        --fleet-secondary: #1E5AA8;
+        --fleet-accent: #FF6B35;
+    }
+    
     .fleet-hero {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
         padding: 40px 0;
         margin-bottom: 30px;
     }
     .stat-card {
         background: white;
-        border-radius: 12px;
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         padding: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
     .utilization-card {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
         color: white;
         text-align: center;
+        border-radius: 16px;
     }
     .utilization-value {
         font-size: 48px;
@@ -27,22 +35,41 @@
     .utilization-label {
         font-size: 16px;
         opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     .section-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #0A2463;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--fleet-primary);
         margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .fleet-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        overflow: hidden;
     }
     .table-responsive {
-        border-radius: 12px;
+        border-radius: 16px;
         overflow: hidden;
     }
     .table thead th {
-        background: #0A2463;
+        background: var(--fleet-primary);
         color: white;
         border: none;
         font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+    }
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
     }
     .rank-badge {
         width: 28px;
@@ -51,16 +78,45 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 12px;
     }
-    .rank-1 { background: #ffd700; color: #1a1a2e; }
-    .rank-2 { background: #c0c0c0; color: #1a1a2e; }
-    .rank-3 { background: #cd7f32; color: white; }
-    .rank-default { background: #e5e7eb; color: #6b7280; }
+    .rank-1 { background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%); color: #1a1a2e; }
+    .rank-2 { background: linear-gradient(135deg, #c0c0c0 0%, #d4d4d4 100%); color: #1a1a2e; }
+    .rank-3 { background: linear-gradient(135deg, #cd7f32 0%, #da9058 100%); color: white; }
+    .rank-default { background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%); color: #6b7280; }
     .rating-stars { color: #f59e0b; }
-    .progress-bar {
-        background: linear-gradient(90deg, #FF6B35, #FF8A5C);
+    .stat-box {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #f3f4f6;
+    }
+    .total-cost-card {
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
+        color: white;
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+    }
+    .total-cost-card .label {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .total-cost-card .value {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    
+    @media (max-width: 768px) {
+        .fleet-hero { padding: 25px 0; }
+        .stat-card, .utilization-card { border-radius: 12px; }
+        .utilization-value { font-size: 36px; }
+        .table thead th { font-size: 0.65rem; padding: 0.75rem 0.5rem; }
+        .table tbody td { padding: 0.75rem 0.5rem; font-size: 0.85rem; }
     }
 </style>
 {% endblock %}
@@ -101,13 +157,13 @@
         <div class="col-lg-8">
             <!-- Monthly Comparison Chart -->
             <div class="stat-card">
-                <h5 class="section-title mb-3"><i class="bi bi-bar-chart me-2"></i>Monthly Comparison</h5>
+                <h5 class="section-title"><i class="bi bi-bar-chart me-2"></i>Monthly Comparison</h5>
                 <div class="row text-center">
                     {% for month in monthly_comparison %}
                     <div class="col-4 col-md-2 mb-3">
-                        <div class="p-2 bg-light rounded-3">
+                        <div class="stat-box">
                             <div class="text-muted small">{{ month.month }}</div>
-                            <div class="fw-bold text-primary">{{ month.trips }} trips</div>
+                            <div class="fw-bold" style="color: var(--fleet-primary);">{{ month.trips }} trips</div>
                             <div class="small text-muted">{{ month.distance }} km</div>
                         </div>
                     </div>
@@ -125,7 +181,7 @@
     <div class="row g-4">
         <!-- Driver Performance Table -->
         <div class="col-lg-6">
-            <div class="stat-card">
+            <div class="fleet-card">
                 <h5 class="section-title"><i class="bi bi-trophy me-2"></i>Top 10 Drivers by Distance</h5>
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
@@ -176,7 +232,7 @@
         
         <!-- Fuel Consumption by Vehicle -->
         <div class="col-lg-6">
-            <div class="stat-card">
+            <div class="fleet-card">
                 <h5 class="section-title"><i class="bi bi-fuel me-2"></i>Fuel Consumption by Vehicle</h5>
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
@@ -218,15 +274,15 @@
                 <h5 class="section-title"><i class="bi bi-wrench me-2"></i>Maintenance Cost Summary</h5>
                 <div class="row g-3">
                     <div class="col-6">
-                        <div class="p-3 bg-light rounded-3 text-center">
+                        <div class="stat-box">
                             <div class="text-muted small">Total Maintenance</div>
-                            <div class="fw-bold fs-4 text-primary">${{ total_maintenance_cost|floatformat:2 }}</div>
+                            <div class="fw-bold fs-4" style="color: var(--fleet-primary);">${{ total_maintenance_cost|floatformat:2 }}</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="p-3 bg-light rounded-3 text-center">
+                        <div class="stat-box">
                             <div class="text-muted small">Total Records</div>
-                            <div class="fw-bold fs-4 text-primary">{{ maintenance_count }}</div>
+                            <div class="fw-bold fs-4" style="color: var(--fleet-primary);">{{ maintenance_count }}</div>
                         </div>
                     </div>
                     <div class="col-12">
@@ -264,33 +320,33 @@
                 <h5 class="section-title"><i class="bi bi-cash-stack me-2"></i>Cost Summary</h5>
                 <div class="row g-3">
                     <div class="col-6">
-                        <div class="p-3 bg-light rounded-3 text-center">
+                        <div class="stat-box">
                             <div class="text-muted small">Total Fuel Cost</div>
-                            <div class="fw-bold fs-4" style="color: #FF6B35;">${{ total_fuel_cost|floatformat:2 }}</div>
+                            <div class="fw-bold fs-4" style="color: var(--fleet-accent);">${{ total_fuel_cost|floatformat:2 }}</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="p-3 bg-light rounded-3 text-center">
+                        <div class="stat-box">
                             <div class="text-muted small">Total Maintenance</div>
-                            <div class="fw-bold fs-4" style="color: #0A2463;">${{ total_maintenance_cost|floatformat:2 }}</div>
+                            <div class="fw-bold fs-4" style="color: var(--fleet-primary);">${{ total_maintenance_cost|floatformat:2 }}</div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="p-3 bg-primary rounded-3 text-center text-white">
-                            <div class="text-white-50 small">Total Operating Cost</div>
-                            <div class="fw-bold fs-3">${{ total_operating_cost|floatformat:2 }}</div>
+                        <div class="total-cost-card">
+                            <div class="label">Total Operating Cost</div>
+                            <div class="value">${{ total_operating_cost|floatformat:2 }}</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="p-3 bg-light rounded-3 text-center">
+                        <div class="stat-box">
                             <div class="text-muted small">Avg Cost per Trip</div>
-                            <div class="fw-bold fs-4 text-primary">${{ avg_cost_per_trip|floatformat:2 }}</div>
+                            <div class="fw-bold fs-4" style="color: var(--fleet-primary);">${{ avg_cost_per_trip|floatformat:2 }}</div>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="p-3 bg-light rounded-3 text-center">
+                        <div class="stat-box">
                             <div class="text-muted small">Total Trips</div>
-                            <div class="fw-bold fs-4 text-primary">{{ total_trips }}</div>
+                            <div class="fw-bold fs-4" style="color: var(--fleet-primary);">{{ total_trips }}</div>
                         </div>
                     </div>
                 </div>

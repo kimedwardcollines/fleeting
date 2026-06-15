@@ -4,45 +4,94 @@
 
 {% block extra_css %}
 <style>
+    :root {
+        --fleet-primary: #0A2463;
+        --fleet-secondary: #1E5AA8;
+        --fleet-accent: #FF6B35;
+    }
+    
     .fleet-hero {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
         padding: 40px 0;
         margin-bottom: 30px;
     }
     .section-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #0A2463;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--fleet-primary);
         margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .fleet-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        overflow: hidden;
     }
     .table-responsive {
-        border-radius: 12px;
+        border-radius: 16px;
         overflow: hidden;
     }
     .table thead th {
-        background: #0A2463;
+        background: var(--fleet-primary);
         color: white;
         border: none;
         font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+    }
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
     }
     .status-badge {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
+        border-radius: 50px;
+        padding: 6px 14px;
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
     }
-    .status-scheduled { background: #e0e7ff; color: #3730a3; }
-    .status-in_progress { background: #dbeafe; color: #1e40af; }
-    .status-completed { background: #dcfce7; color: #166534; }
-    .status-cancelled { background: #fee2e2; color: #dc2626; }
+    .status-scheduled { background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #3730a3; }
+    .status-in_progress { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e40af; }
+    .status-completed { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #166534; }
+    .status-cancelled { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #dc2626; }
     .action-btn {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         padding: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border-radius: 8px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    .action-btn:hover {
+        transform: scale(1.1);
+    }
+    .btn-fleet-primary {
+        background: linear-gradient(135deg, var(--fleet-accent) 0%, #ff8a5c 100%);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .btn-fleet-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .fleet-hero { padding: 25px 0; }
+        .table thead th { font-size: 0.65rem; padding: 0.75rem 0.5rem; }
+        .table tbody td { padding: 0.75rem 0.5rem; font-size: 0.85rem; }
     }
 </style>
 {% endblock %}
@@ -70,7 +119,7 @@
 
 <div class="container">
     <!-- Upcoming Maintenance -->
-    <div class="card border-0 shadow-sm mb-4">
+    <div class="fleet-card mb-4">
         <div class="card-body">
             <h5 class="section-title"><i class="bi bi-calendar-event me-2"></i>Upcoming Maintenance</h5>
             <div class="table-responsive">
@@ -119,7 +168,7 @@
     </div>
     
     <!-- Maintenance History -->
-    <div class="card border-0 shadow-sm">
+    <div class="fleet-card">
         <div class="card-body">
             <h5 class="section-title"><i class="bi bi-clock-history me-2"></i>Maintenance History</h5>
             <div class="table-responsive">

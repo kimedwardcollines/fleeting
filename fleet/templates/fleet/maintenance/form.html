@@ -4,46 +4,75 @@
 
 {% block extra_css %}
 <style>
+    :root {
+        --fleet-primary: #0A2463;
+        --fleet-secondary: #1E5AA8;
+        --fleet-accent: #FF6B35;
+    }
+    
     .fleet-hero {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
         padding: 40px 0;
         margin-bottom: 30px;
     }
-    .form-card {
+    .fleet-card {
         background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     }
     .form-label {
-        font-weight: 500;
-        color: #0A2463;
+        font-weight: 600;
+        color: var(--fleet-primary);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
     }
     .form-control, .form-select {
-        border-radius: 8px;
+        border-radius: 10px;
         border: 1px solid #e5e7eb;
-        padding: 10px 15px;
+        padding: 0.75rem 1rem;
+        transition: all 0.2s ease;
     }
     .form-control:focus, .form-select:focus {
-        border-color: #1E5AA8;
-        box-shadow: 0 0 0 3px rgba(30, 90, 168, 0.1);
+        border-color: var(--fleet-secondary);
+        box-shadow: 0 0 0 3px rgba(30, 90, 168, 0.15);
     }
-    .btn-primary {
-        background: #FF6B35;
-        border-color: #FF6B35;
-        padding: 10px 25px;
-        border-radius: 8px;
+    .btn-fleet-primary {
+        background: linear-gradient(135deg, var(--fleet-accent) 0%, #ff8a5c 100%);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
     }
-    .btn-primary:hover {
-        background: #e55a28;
-        border-color: #e55a28;
+    .btn-fleet-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+        color: white;
     }
-    .btn-outline-secondary {
-        padding: 10px 25px;
-        border-radius: 8px;
+    .btn-outline-fleet {
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        border: 2px solid var(--fleet-primary);
+        color: var(--fleet-primary);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .btn-outline-fleet:hover {
+        background: var(--fleet-primary);
+        color: white;
     }
     .help-text {
-        font-size: 0.85rem;
-        color: #6b7280;
+        font-size: 0.8rem;
+        color: #9ca3af;
+    }
+    
+    @media (max-width: 768px) {
+        .fleet-hero { padding: 25px 0; }
+        .fleet-card { border-radius: 12px; }
     }
 </style>
 {% endblock %}
@@ -71,7 +100,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <div class="form-card p-4">
+            <div class="fleet-card p-4">
                 <form method="post" class="needs-validation" novalidate>
                     {% csrf_token %}
                     
@@ -161,8 +190,8 @@
                     <hr class="my-4">
                     
                     <div class="d-flex justify-content-end gap-2">
-                        <a href="{% url 'fleet:maintenance_list' %}" class="btn btn-outline-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">
+                        <a href="{% url 'fleet:maintenance_list' %}" class="btn btn-outline-fleet">Cancel</a>
+                        <button type="submit" class="btn btn-fleet-primary">
                             <i class="bi bi-check-circle me-2"></i>Add Record
                         </button>
                     </div>

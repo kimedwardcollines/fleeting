@@ -4,23 +4,30 @@
 
 {% block extra_css %}
 <style>
+    :root {
+        --fleet-primary: #0A2463;
+        --fleet-secondary: #1E5AA8;
+        --fleet-accent: #FF6B35;
+    }
+    
     .fleet-hero {
-        background: linear-gradient(135deg, #0A2463 0%, #1E5AA8 100%);
+        background: linear-gradient(135deg, var(--fleet-primary) 0%, var(--fleet-secondary) 100%);
         padding: 40px 0;
         margin-bottom: 30px;
     }
     .delete-card {
         background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        max-width: 600px;
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        max-width: 550px;
         margin: 0 auto;
     }
     .warning-icon {
         width: 80px;
         height: 80px;
         border-radius: 50%;
-        background: #fee2e2;
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -29,6 +36,46 @@
     .warning-icon i {
         font-size: 36px;
         color: #dc2626;
+    }
+    .btn-danger-fleet {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .btn-danger-fleet:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
+        color: white;
+    }
+    .btn-outline-fleet {
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        border: 2px solid var(--fleet-primary);
+        color: var(--fleet-primary);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .btn-outline-fleet:hover {
+        background: var(--fleet-primary);
+        color: white;
+    }
+    .vehicle-info-card {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 12px;
+        padding: 1.25rem;
+    }
+    
+    @media (max-width: 768px) {
+        .fleet-hero {
+            padding: 25px 0;
+        }
+        .delete-card {
+            border-radius: 12px;
+        }
     }
 </style>
 {% endblock %}
@@ -64,34 +111,34 @@
             ({{ vehicle.registration_number }})? This action cannot be undone.
         </p>
         
-        <div class="bg-light rounded-3 p-3 mb-4">
+        <div class="vehicle-info-card mb-4">
             <div class="row text-start">
                 <div class="col-6">
-                    <small class="text-muted">Type</small>
-                    <p class="mb-0 fw-semibold text-capitalize">{{ vehicle.vehicle_type }}</p>
+                    <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Type</small>
+                    <p class="mb-0 fw-bold text-capitalize" style="color: var(--fleet-primary);">{{ vehicle.vehicle_type }}</p>
                 </div>
                 <div class="col-6">
-                    <small class="text-muted">Make/Model</small>
-                    <p class="mb-0 fw-semibold">{{ vehicle.make }} {{ vehicle.model }}</p>
+                    <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Make/Model</small>
+                    <p class="mb-0 fw-bold">{{ vehicle.make }} {{ vehicle.model }}</p>
                 </div>
-                <div class="col-6 mt-2">
-                    <small class="text-muted">Status</small>
-                    <p class="mb-0 fw-semibold">{{ vehicle.get_status_display }}</p>
+                <div class="col-6 mt-3">
+                    <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Status</small>
+                    <p class="mb-0 fw-bold">{{ vehicle.get_status_display }}</p>
                 </div>
-                <div class="col-6 mt-2">
-                    <small class="text-muted">Mileage</small>
-                    <p class="mb-0 fw-semibold">{{ vehicle.mileage }} km</p>
+                <div class="col-6 mt-3">
+                    <small class="text-muted text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">Mileage</small>
+                    <p class="mb-0 fw-bold">{{ vehicle.mileage }} km</p>
                 </div>
             </div>
         </div>
         
         <form method="post">
             {% csrf_token %}
-            <div class="d-flex justify-content-center gap-2">
-                <a href="{% url 'fleet:vehicle_list' %}" class="btn btn-outline-secondary px-4">
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'fleet:vehicle_list' %}" class="btn btn-outline-fleet px-4">
                     <i class="bi bi-x-circle me-2"></i>Cancel
                 </a>
-                <button type="submit" class="btn btn-danger px-4">
+                <button type="submit" class="btn btn-danger-fleet px-4">
                     <i class="bi bi-trash me-2"></i>Delete Vehicle
                 </button>
             </div>
