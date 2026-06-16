@@ -243,18 +243,22 @@ class Trip(models.Model):
     trip_id = models.CharField(max_length=20, unique=True, help_text="Unique trip identifier")
     driver = models.ForeignKey(
         Driver,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='trips'
     )
     vehicle = models.ForeignKey(
         Vehicle,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='trips'
     )
     origin = models.CharField(max_length=200)
     destination = models.CharField(max_length=200)
-    distance = models.IntegerField(help_text="Distance in km")
-    departure_date = models.DateTimeField()
+    distance = models.IntegerField(default=0, help_text="Distance in km")
+    departure_date = models.DateTimeField(null=True, blank=True)
     arrival_date = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
     cargo_type = models.CharField(max_length=100, blank=True)
@@ -266,9 +270,10 @@ class Trip(models.Model):
     
     class Meta:
         verbose_name_plural = "Trips"
-        ordering = ['-departure_date']
+        ordering = ['-created_at']
     
     def save(self, *args, **kwargs):
+        # Auto-generate trip_id if not provided (for regular trips)
         if not self.trip_id:
             import uuid
             year = 2026
