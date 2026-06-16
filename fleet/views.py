@@ -294,9 +294,9 @@ def maintenance_list(request):
     if status_filter:
         records = records.filter(status=status_filter)
     # Separate upcoming and history
-    upcoming = records.filter(service_date__gte=datetime.now().date())
-    history = records.filter(service_date__lt=datetime.now().date())
-    return render(request, 'fleet/maintenance/list.html', {'upcoming': upcoming, 'history': history})
+    upcoming_maintenance = records.filter(service_date__gte=datetime.now().date())
+    maintenance_history = records.filter(service_date__lt=datetime.now().date())
+    return render(request, 'fleet/maintenance/list.html', {'upcoming_maintenance': upcoming_maintenance, 'maintenance_history': maintenance_history})
 
 
 @login_required
