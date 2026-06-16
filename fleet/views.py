@@ -291,12 +291,35 @@ def maintenance_list(request):
     """List all maintenance records"""
     records = Maintenance.objects.all()
     status_filter = request.GET.get('status')
+    upcoming_status = request.GET.get('upcoming_status')
+    history_status = request.GET.get('history_status')
+    
+    # Apply general status filter if provided
     if status_filter:
         records = records.filter(status=status_filter)
+    
     # Separate upcoming and history
-    upcoming_maintenance = records.filter(service_date__gte=datetime.now().date())
-    maintenance_history = records.filter(service_date__lt=datetime.now().date())
-    return render(request, 'fleet/maintenance/list.html', {'upcoming_maintenance': upcoming_maintenance, 'maintenance_history': maintenance_history})
+    all_upcoming = records.filter(service_date__gte=datetime.now().date())
+    all_history = records.filter(service_date__lt=datetime.now().date())
+    
+    # Apply individual section filters
+    if upcoming_status:
+        upcoming_maintenance = all_upcoming.filter(status=upcoming_status)
+    else:
+        upcoming_maintenance = all_upcoming
+    
+    if history_status:
+        maintenance_history = all_history.filter(status=history_status)
+    else:
+        maintenance_history = all_history
+    
+    return render(request, 'fleet/maintenance/list.html', {
+        'upcoming_maintenance': upcoming_maintenance.order_by('service_date'),
+        'maintenance_history': maintenance_history.order_by('-service_date'),
+        'status_filter': status_filter,
+        'upcoming_status': upcoming_status,
+        'history_status': history_status,
+    })
 
 
 @login_required
