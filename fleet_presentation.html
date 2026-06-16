@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleeting Logistics - Fleet Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A2463;
+            --secondary: #1E5AA8;
+            --accent: #FF6B35;
+            --light: #F8F9FA;
+            --dark: #212529;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --card-bg: #ffffff;
+            --slide-bg: linear-gradient(135deg, #0A2463 0%, #1E5AA8 50%, #0A2463 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: translateX(50px);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        /* Title Slide */
+        .slide-title {
+            background: var(--slide-bg);
+            text-align: center;
+        }
+
+        .slide-title h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .slide-title .subtitle {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 40px;
+        }
+
+        .slide-title .tagline {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+        }
+
+        .logo-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--accent);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            font-size: 60px;
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Content Slides */
+        .slide-content {
+            background: linear-gradient(180deg, #0d1b3e 0%, #162347 100%);
+        }
+
+        .slide-content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 50px;
+            color: var(--accent);
+            position: relative;
+        }
+
+        .slide-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .cards-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
+            transition: transform 0.3s ease, background 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 107, 53, 0.05));
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Dashboard Preview */
+        .dashboard-preview {
+            width: 100%;
+            max-width: 1100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-header {
+            background: var(--primary);
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dashboard-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dashboard-dots span:nth-child(1) { background: #EF4444; }
+        .dashboard-dots span:nth-child(2) { background: #F59E0B; }
+        .dashboard-dots span:nth-child(3) { background: #10B981; }
+
+        .dashboard-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .dashboard-body {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .dash-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .dash-card-title {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dash-card-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .dash-card-value.success { color: var(--success); }
+        .dash-card-value.warning { color: var(--warning); }
+        .dash-card-value.danger { color: var(--danger); }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* List Slides */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px 30px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .feature-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 60px;
+        }
+
+        .feature-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--light);
+        }
+
+        .feature-content p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 50px;
+            left: 40px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            opacity: 0.6;
+        }
+
+        /* Progress Bar */
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* Vehicle Types Visual */
+        .vehicle-types {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .vehicle-type {
+            text-align: center;
+            padding: 30px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            min-width: 180px;
+        }
+
+        .vehicle-type-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+
+        .vehicle-type-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .vehicle-type-count {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: -15px;
+            width: 30px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-phase {
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .timeline-items {
+            list-style: none;
+        }
+
+        .timeline-items li {
+            padding: 8px 0;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .timeline-items li::before {
+            content: '✓';
+            color: var(--success);
+            margin-right: 10px;
+        }
+
+        /* CTA Slide */
+        .slide-cta {
+            background: var(--slide-bg);
+            text-align: center;
+        }
+
+        .cta-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 24px;
+            padding: 60px 80px;
+            max-width: 800px;
+        }
+
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .cta-btn {
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .cta-btn.primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide.active .card,
+        .slide.active .stat-card,
+        .slide.active .feature-item,
+        .slide.active .timeline-item {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .slide.active .card:nth-child(1),
+        .slide.active .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .slide.active .card:nth-child(2),
+        .slide.active .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .slide.active .card:nth-child(3),
+        .slide.active .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .slide.active .card:nth-child(4),
+        .slide.active .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .slide.active .feature-item:nth-child(1) { animation-delay: 0.1s; }
+        .slide.active .feature-item:nth-child(2) { animation-delay: 0.2s; }
+        .slide.active .feature-item:nth-child(3) { animation-delay: 0.3s; }
+        .slide.active .feature-item:nth-child(4) { animation-delay: 0.4s; }
+        .slide.active .feature-item:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="progress" id="progress"></div>
+    
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active" data-slide="1">
+            <div class="logo-icon">🚚</div>
+            <h1>Fleeting Logistics</h1>
+            <div class="subtitle">Fleet Management System</div>
+            <p class="tagline">A comprehensive, real-time fleet management solution designed for efficiency, reliability, and operational excellence.</p>
+        </div>
+
+        <!-- Slide 2: System Overview -->
+        <div class="slide slide-content" data-slide="2">
+            <h2>System Overview</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🚗</div>
+                    <h3>Vehicle Management</h3>
+                    <p>Track all fleet vehicles with real-time status, maintenance schedules, mileage tracking, and service history.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👨‍✈️</div>
+                    <h3>Driver Management</h3>
+                    <p>Manage driver profiles, licenses, performance ratings, trip history, and availability status.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛣️</div>
+                    <h3>Trip Management</h3>
+                    <p>Plan, schedule, and track trips with origin-destination mapping, cargo tracking, and status updates.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔧</div>
+                    <h3>Maintenance Tracking</h3>
+                    <p>Automated service reminders, maintenance scheduling, and cost tracking for preventive care.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⛽</div>
+                    <h3>Fuel Management</h3>
+                    <p>Monitor fuel consumption, track expenses, and optimize fuel efficiency across the fleet.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Analytics & Reports</h3>
+                    <p>Comprehensive reporting on fleet utilization, costs, driver performance, and operational insights.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Key Statistics -->
+        <div class="slide slide-content" data-slide="3">
+            <h2>Key Metrics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Total Vehicles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Active Drivers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Trips Tracked</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Fleet Utilization</div>
+                </div>
+            </div>
+            <div class="cards-grid cards-grid-2">
+                <div class="card">
+                    <h3>Vehicle Status Distribution</h3>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Active</span>
+                            <span style="color: var(--success);">85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%; background: var(--success);"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>In Maintenance</span>
+                            <span style="color: var(--warning);">10%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 10%; background: var(--warning);"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Out of Service</span>
+                            <span style="color: var(--danger);">5%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 5%; background: var(--danger);"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Trip Status Distribution</h3>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Completed</span>
+                            <span style="color: var(--success);">33%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 33%; background: var(--success);"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>In Progress</span>
+                            <span style="color: var(--secondary);">33%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 33%; background: var(--secondary);"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Scheduled</span>
+                            <span style="color: var(--warning);">34%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 34%; background: var(--warning);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Dashboard Preview -->
+        <div class="slide slide-content" data-slide="4">
+            <h2>Dashboard Overview</h2>
+            <div class="dashboard-preview">
+                <div class="dashboard-header">
+                    <div class="dashboard-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="dashboard-title">Fleet Management Dashboard</div>
+                </div>
+                <div class="dashboard-body">
+                    <div class="dash-card">
+                        <div class="dash-card-title">Active Vehicles</div>
+                        <div class="dash-card-value success">25</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-title">Drivers Available</div>
+                        <div class="dash-card-value">28</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-title">Trips This Month</div>
+                        <div class="dash-card-value">47</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-title">Fuel Cost (Month)</div>
+                        <div class="dash-card-value warning">$12,450</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-title">Maintenance Due</div>
+                        <div class="dash-card-value danger">4</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-title">Utilization Rate</div>
+                        <div class="dash-card-value success">95%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Vehicle Types -->
+        <div class="slide slide-content" data-slide="5">
+            <h2>Fleet Composition</h2>
+            <div class="vehicle-types">
+                <div class="vehicle-type">
+                    <div class="vehicle-type-icon">🚛</div>
+                    <div class="vehicle-type-count">10</div>
+                    <div class="vehicle-type-name">Trucks</div>
+                    <p style="opacity: 0.6; font-size: 0.85rem;">1-30 Ton Capacity</p>
+                </div>
+                <div class="vehicle-type">
+                    <div class="vehicle-type-icon">🚐</div>
+                    <div class="vehicle-type-count">5</div>
+                    <div class="vehicle-type-name">Vans</div>
+                    <p style="opacity: 0.6; font-size: 0.85rem;">7-14 Passengers</p>
+                </div>
+                <div class="vehicle-type">
+                    <div class="vehicle-type-icon">🛻</div>
+                    <div class="vehicle-type-count">5</div>
+                    <div class="vehicle-type-name">Pickups</div>
+                    <p style="opacity: 0.6; font-size: 0.85rem;">1 Ton Capacity</p>
+                </div>
+                <div class="vehicle-type">
+                    <div class="vehicle-type-icon">🚌</div>
+                    <div class="vehicle-type-count">5</div>
+                    <div class="vehicle-type-name">Buses</div>
+                    <p style="opacity: 0.6; font-size: 0.85rem;">25-60 Passengers</p>
+                </div>
+                <div class="vehicle-type">
+                    <div class="vehicle-type-icon">🚗</div>
+                    <div class="vehicle-type-count">5</div>
+                    <div class="vehicle-type-name">Sedans</div>
+                    <p style="opacity: 0.6; font-size: 0.85rem;">Executive Travel</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Features - Vehicles -->
+        <div class="slide slide-content" data-slide="6">
+            <h2>Vehicle Management Features</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-number">01</div>
+                    <div class="feature-content">
+                        <h4>Real-time Status Tracking</h4>
+                        <p>Track vehicle status: Active, In Maintenance, or Out of Service with instant updates.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">02</div>
+                    <div class="feature-content">
+                        <h4>Automated Maintenance Alerts</h4>
+                        <p>Smart notifications when vehicles approach service intervals based on time or mileage.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">03</div>
+                    <div class="feature-content">
+                        <h4>Fuel Efficiency Monitoring</h4>
+                        <p>Track fuel consumption patterns and identify opportunities for cost optimization.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">04</div>
+                    <div class="feature-content">
+                        <h4>Complete Service History</h4>
+                        <p>Full maintenance records including service type, cost, mechanic, and mileage at service.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Features - Drivers -->
+        <div class="slide slide-content" data-slide="7">
+            <h2>Driver Management Features</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-number">01</div>
+                    <div class="feature-content">
+                        <h4>Driver Profiles & Licensing</h4>
+                        <p>Complete profiles with license tracking, expiry alerts, and contact information.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">02</div>
+                    <div class="feature-content">
+                        <h4>Performance Ratings</h4>
+                        <p>Track driver ratings based on trip completion, fuel efficiency, and safety records.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">03</div>
+                    <div class="feature-content">
+                        <h4>Trip History & Statistics</h4>
+                        <p>Complete trip history with distance traveled, cargo handled, and time on road.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">04</div>
+                    <div class="feature-content">
+                        <h4>Availability Management</h4>
+                        <p>Status tracking: Available, On Trip, On Leave, or Suspended with automatic updates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Features - Trips -->
+        <div class="slide slide-content" data-slide="8">
+            <h2>Trip Management Features</h2>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-number">01</div>
+                    <div class="feature-content">
+                        <h4>Trip Planning & Scheduling</h4>
+                        <p>Create trips with origin, destination, distance calculation, and scheduled departure times.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">02</div>
+                    <div class="feature-content">
+                        <h4>Cargo Tracking</h4>
+                        <p>Record cargo type, weight, and special handling requirements for each trip.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">03</div>
+                    <div class="feature-content">
+                        <h4>Real-time Status Updates</h4>
+                        <p>Track trips through: Scheduled → In Progress → Completed (or Cancelled).</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">04</div>
+                    <div class="feature-content">
+                        <h4>Fuel & Cost Recording</h4>
+                        <p>Automatic fuel consumption tracking linked to trips for accurate cost analysis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Technology Stack -->
+        <div class="slide slide-content" data-slide="9">
+            <h2>Technology Stack</h2>
+            <div class="cards-grid cards-grid-2">
+                <div class="card">
+                    <div class="card-icon">🐍</div>
+                    <h3>Django 4.x Backend</h3>
+                    <p>Robust Python framework providing secure authentication, admin interface, and ORM for data management.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>Bootstrap 5.3 Frontend</h3>
+                    <p>Modern, responsive UI with clean design, mobile-first approach, and cross-browser compatibility.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🗄️</div>
+                    <h3>SQLite/PostgreSQL</h3>
+                    <p>Reliable database with seamless migration support for scalable deployment options.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">☁️</div>
+                    <h3>Cloud Ready</h3>
+                    <p>Deployable on Render, Heroku, or any cloud platform with proper environment configuration.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Roadmap -->
+        <div class="slide slide-content" data-slide="10">
+            <h2>Development Roadmap</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 1</div>
+                    <div class="timeline-title">Core System</div>
+                    <ul class="timeline-items">
+                        <li>Vehicle Management</li>
+                        <li>Driver Management</li>
+                        <li>Trip Tracking</li>
+                        <li>Basic Dashboard</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 2</div>
+                    <div class="timeline-title">Operations</div>
+                    <ul class="timeline-items">
+                        <li>Maintenance Tracking</li>
+                        <li>Fuel Management</li>
+                        <li>Reports & Analytics</li>
+                        <li>Notifications</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 3</div>
+                    <div class="timeline-title">Enhancements</div>
+                    <ul class="timeline-items">
+                        <li>Real-time GPS Tracking</li>
+                        <li>Mobile App</li>
+                        <li>API Integration</li>
+                        <li>Advanced Analytics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: CTA -->
+        <div class="slide slide-cta" data-slide="11">
+            <div class="cta-box">
+                <div class="logo-icon" style="margin: 0 auto 30px;">🚚</div>
+                <div class="cta-title">Partner With Us</div>
+                <p class="cta-text">Join the future of logistics management. Our system delivers efficiency, transparency, and cost savings.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="cta-btn primary">Schedule Demo</a>
+                    <a href="#" class="cta-btn secondary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">11</span>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">←</button>
+        <button class="nav-btn" onclick="nextSlide()">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 1;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            if (n < 1) n = 1;
+            if (n > totalSlides) n = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = n;
+            document.getElementById('progress').style.width = (n / totalSlides * 100) + '%';
+            
+            currentSlide = n;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        });
+
+        // Initialize
+        showSlide(1);
+    </script>
+</body>
+</html>
