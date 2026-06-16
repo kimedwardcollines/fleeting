@@ -397,60 +397,78 @@ def fuel_add(request):
 
 @login_required
 def reports(request):
-    """Reports dashboard"""
-    # Fleet Utilization
+    """Reports dashboard with automatic calculations"""
+    
+    # === FLEET UTILIZATION ===
     total_vehicles = Vehicle.objects.count()
     active_vehicles = Vehicle.objects.filter(status='active').count()
-    utilization_rate = (active_vehicles / total_vehicles * 100) if total_vehicles > 0 else 0
+    fleet_utilization = round((active_vehicles / total_vehicles * 100), 1) if total_vehicles > 0 else 0
     
-    # Driver Performance
-    driver_stats = Driver.objects.annotate(
-        trip_count=Count('trips'),
+    # === TOP DRIVERS (Auto-selected by total distance) ===
+    top_drivers = Driver.objects.annotate(
+        completed_trips=Count('trips', filter=Q(trips__status='completed')),
         total_dist=Sum('trips__distance', filter=Q(trips__status='completed'))
-    ).order_by('-total_dist')[:10]
+    ).filter(completed_trips__gt=0).order_by('-total_dist')[:10]
     
-    # Fuel Consumption by vehicle
-    fuel_by_vehicle = FuelRecord.objects.values('vehicle__registration_number').annotate(
+    # === FUEL BY VEHICLE ===
+    fuel_by_vehicle = FuelRecord.objects.values(
+        'vehicle__registration_number', 'vehicle__make', 'vehicle__model'
+    ).annotate(
         total_liters=Sum('liters'),
-        total_cost=Sum('total_cost')
+        total_cost=Sum('total_cost'),
+        trip_count=Count('id')
     ).order_by('-total_cost')[:10]
     
-    # Maintenance costs
-    maintenance_costs = Maintenance.objects.filter(status='completed').aggregate(
-        total=Sum('cost'),
-        avg=Avg('cost')
-    )
+    # === MAINTENANCE CALCULATIONS ===
+    completed_maintenance = Maintenance.objects.filter(status='completed')
+    total_maintenance_cost = completed_maintenance.aggregate(total=Sum('cost'))['total'] or 0
+    maintenance_count = completed_maintenance.count()
     
-    # Monthly breakdown
-    monthly_data = []
+    maintenance_by_type = Maintenance.objects.filter(status='completed').values('service_type').annotate(
+        count=Count('id'),
+        total_cost=Sum('cost')
+    ).order_by('-total_cost')
+    
+    # === COST SUMMARY ===
+    total_fuel_cost = FuelRecord.objects.aggregate(total=Sum('total_cost'))['total'] or 0
+    total_operating_cost = float(total_fuel_cost) + float(total_maintenance_cost)
+    
+    # === TRIP STATS ===
+    total_trips = Trip.objects.filter(status='completed').count()
+    avg_cost_per_trip = (total_operating_cost / total_trips) if total_trips > 0 else 0
+    
+    # === MONTHLY COMPARISON (Last 6 months) ===
+    monthly_comparison = []
     for i in range(5, -1, -1):
         month = datetime.now().replace(day=1) - timedelta(days=i * 30)
         month_end = (month + timedelta(days=32)).replace(day=1)
-        trips = Trip.objects.filter(
+        
+        month_trips = Trip.objects.filter(
             departure_date__gte=month,
             departure_date__lt=month_end,
             status='completed'
-        ).count()
-        fuel = FuelRecord.objects.filter(
-            date__gte=month.date(),
-            date__lt=month_end.date()
-        ).aggregate(total=Sum('total_cost'))['total'] or 0
-        maint = Maintenance.objects.filter(
-            completion_date__gte=month.date(),
-            completion_date__lt=month_end.date(),
-            status='completed'
-        ).aggregate(total=Sum('cost'))['total'] or 0
-        monthly_data.append({
-            'month': month.strftime('%b %Y'),
-            'trips': trips,
-            'fuel': float(fuel),
-            'maintenance': float(maint)
+        )
+        trip_count = month_trips.count()
+        total_distance = month_trips.aggregate(total=Sum('distance'))['total'] or 0
+        
+        monthly_comparison.append({
+            'month': month.strftime('%b'),
+            'trips': trip_count,
+            'distance': total_distance
         })
     
     return render(request, 'fleet/reports.html', {
-        'utilization_rate': utilization_rate,
-        'driver_stats': driver_stats,
+        'fleet_utilization': fleet_utilization,
+        'active_vehicles': active_vehicles,
+        'total_vehicles': total_vehicles,
+        'top_drivers': top_drivers,
         'fuel_by_vehicle': fuel_by_vehicle,
-        'maintenance_costs': maintenance_costs,
-        'monthly_data': monthly_data,
+        'total_maintenance_cost': total_maintenance_cost,
+        'maintenance_count': maintenance_count,
+        'maintenance_by_type': maintenance_by_type,
+        'total_fuel_cost': total_fuel_cost,
+        'total_operating_cost': total_operating_cost,
+        'avg_cost_per_trip': avg_cost_per_trip,
+        'total_trips': total_trips,
+        'monthly_comparison': monthly_comparison,
     })
